@@ -1,11 +1,14 @@
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Pricing from './components/pricing/pricing'; // Import your Pricing component
 
 function App() {
   return (
-    <>
-      <h1>Hi guys tomorrow we will start development of XpenseFlow </h1>
-      <h2>Venu forked Repository</h2>
-    </>
+    <Router>
+      <Routes>
+        {/* <Route path="/pricing" element={<Pricing/>} /> */}
+        </Routes>
+    </Router>
   );
 }
 
