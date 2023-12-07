@@ -1,11 +1,12 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   return (
-    <>
-      <h1>Hi guys tomorrow we will start development of XpenseFlow </h1>
-      <h2>Venu forked Repository</h2>
-    </>
+    <Routes>
+      <Route path="/about" element={<AboutUs />} />
+    </Routes>
   );
 }
 
