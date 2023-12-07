@@ -1,12 +1,17 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import AboutUs from "./components/AboutUs";
+
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Pricing from './components/pricing/pricing'; // Import your Pricing component
 
 function App() {
   return (
-    <Routes>
-      <Route path="/about" element={<AboutUs />} />
-    </Routes>
+    <Router>
+      <Routes>
+//     <Route path="/about" element={<AboutUs />} />
+        {/* <Route path="/pricing" element={<Pricing/>} /> */}
+        </Routes>
+    </Router>
   );
 }
 
