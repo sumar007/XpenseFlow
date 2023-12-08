@@ -1,10 +1,16 @@
 import "./App.css";
-
+import Home from "./components/Home/Home";
+import Terms from "./components/TermsAndConditions/Terms";
+import PrivacyPolicy from "./components/Privacy/Privacy";
+import { BrowserRouter } from "react-router-dom";
 function App() {
   return (
     <>
-      <h1>Hi guys tomorrow we will start development of XpenseFlow </h1>
-      <h2>Venu forked Repository</h2>
+      <BrowserRouter>
+        {/* <Home />
+        <Terms /> */}
+        <PrivacyPolicy />
+      </BrowserRouter>
     </>
   );
 }
