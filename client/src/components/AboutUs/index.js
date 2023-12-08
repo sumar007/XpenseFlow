@@ -3,7 +3,8 @@ import { ImCheckboxChecked } from "react-icons/im";
 import { PiLightbulb, PiUsers } from "react-icons/pi";
 import { CgNotes } from "react-icons/cg";
 import { LuUserPlus2 } from "react-icons/lu";
-
+import Header from "../Home/Header";
+import Footer from "../Home/Footer";
 import "./index.css";
 
 const Promises = [
@@ -63,6 +64,7 @@ const iconsList = [
 const AboutUs = () => {
   return (
     <>
+    <Header />
       <div className="about-first-container">
         <div className="about-heading-container">
           <h1 className="main-heading">We move your business forward</h1>
@@ -113,6 +115,7 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

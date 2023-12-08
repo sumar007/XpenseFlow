@@ -3,7 +3,8 @@ import { PiLightbulb, PiChatsBold, PiGitBranch } from "react-icons/pi";
 import { TbDeviceComputerCamera } from "react-icons/tb";
 import { LuBookOpen } from "react-icons/lu";
 import "./support.css";
-
+import Header from "../Home/Header";
+import Footer from "../Home/Footer";
 const cardList = [
   {
     id: 0,
@@ -39,6 +40,7 @@ const cardList = [
 const Support = () => {
   return (
     <>
+    <Header />
       <div className="support-first-container">
         <div className="support-heading-container">
           <h1 className="support-main-heading">We’re here to help</h1>
@@ -75,6 +77,7 @@ const Support = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
