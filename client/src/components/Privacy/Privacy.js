@@ -1,8 +1,11 @@
 
 import "./Privacy.css"
-
+import Footer from "../Home/Footer";
+import Header from "../Home/Header";
 const PrivacyPolicy = () => {
   return (
+    <>
+    <Header />
     <div className="privacy-policy-main-container">
       <h1>Privacy Policy</h1>
       <p>
@@ -158,6 +161,8 @@ is the data controller of the personal data processed through the Site</p>
 
 <p>If you have questions regarding this Policy or about the security practices of BigTime, please contact us by email at legal@bigtime.net.</p>
     </div>
+    <Footer />
+    </>
   );
 };
 

@@ -6,7 +6,7 @@ import { FiLogOut } from "react-icons/fi";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import "./Header.css";
-
+import logo from "../Images/logo xf.png"
 const Header = (props) => {
   const onClickLogout = () => {
     const { history } = props;
@@ -19,12 +19,11 @@ const Header = (props) => {
       <div className="nav-content">
         <div className="nav-bar-mobile-logo-container">
           <Link to="/">
-            {/* <img
+             <img
               className="website-logo"
-              src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
+              src={logo}
               alt="website logo"
-            /> */}
-            <h1>Xpense Flow</h1>
+            /> 
           </Link>
           <ul className="nav-bar-mobile-icons-container">
             <li>
@@ -50,27 +49,26 @@ const Header = (props) => {
         </div>
         <div className="nav-bar-large-container">
           <Link to="/">
-            {/* <img
+           <img
               className="website-logo"
-              src="https://assets.ccbp.in/frontend/react-js/logo-img.png"
+              src={logo}
               alt="website logo"
-            /> */}
-            <h1>Xpense Flow</h1>
+            /> 
           </Link>
           <ul className="nav-menu">
             <li className="nav-menu-item">
-              <Link to="/" className="nav-link">
+              <Link to="/aboutus" className="nav-link">
                 Why Xpense Flow
               </Link>
             </li>
             <li className="nav-menu-item">
-              <Link to="/jobs" className="nav-link">
+              <Link to="/pricing" className="nav-link">
                 Pricing
               </Link>
             </li>
             <li className="nav-menu-item">
-              <Link to="/jobs" className="nav-link">
-                Contact Us
+              <Link to="/support" className="nav-link">
+                Support
               </Link>
             </li>
           </ul>
