@@ -8,6 +8,7 @@ import Support from "./components/Support/support";
 import Terms from "./components/TermsAndConditions/Terms";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
+import Verify from "./components/Verify/verify.js";
 function App() {
   return (
     <Routes>
@@ -18,6 +19,7 @@ function App() {
       <Route path="/Terms-and-conditions" element={<Terms />} />
       <Route path="/Privacy-Policy" element={<PrivacyPolicy />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/verify" element={<Verify />} />
       <Route path="/signup" element={<Signup />} />
     </Routes>
   );
