@@ -57,7 +57,7 @@ const Signup = () => {
     };
     console.log(formData);
     // Send the POST request using the fetch API
-    fetch("http://localhost:3009/api/v1/registration", requestOptions)
+    fetch("http://localhost:4000/registration", requestOptions)
       .then((response) => {
         if (response.status === 201) {
           response.json().then((data) => {
