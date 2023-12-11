@@ -16,7 +16,7 @@ router.use(express.urlencoded({ extended: false }));
 
 router.post("/registration", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(req.body, "body")
+  console.log(req.body, "body");
   const username = name;
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -52,6 +52,7 @@ router.post("/registration", async (req, res) => {
 
 router.post("/verify", async (req, res) => {
   const { email, verificationCode } = req.body;
+  console.log(req.body);
   console.log("Request to /verify:", req.body);
   try {
     const user = await User.findOne({ email });
@@ -59,12 +60,14 @@ router.post("/verify", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    console.log(user,"user")
 
     if (user.verificationCode === verificationCode) {
       user.isVerified = true;
       await user.save();
-      return res.status(200).json({ message: "Email verification successful" });
       console.log("Verification successful");
+      return res.status(200).json({ message: "Email verification successful" });
+      
     } else {
       return res.status(401).json({ message: "Incorrect verification code" });
     }
@@ -103,17 +106,17 @@ function sendVerificationEmail(email, code) {
 router.post("/login", async (req, res) => {
   // Retrieve login credentials from the request body
   const { email, password } = req.body;
-
+  console.log(req.body);
   try {
     // Find the user in the database
     const user = await User.findOne({ email });
-
+    console.log(user);
     if (!email) {
       return res.status(404).json({ message: "email not found" });
     }
     // Check if the user is verified before attempting to compare passwords
     if (!user.isVerified) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: "User not verified. Check your email for verification.",
       });
     }
@@ -122,14 +125,13 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) {
       // Password doesn't match
-      return res.status(401).json({ message: "Incorrect password" });
+      return res.status(400).json({ message: "Incorrect password" });
     }
-
     // Password matches, login successful
     return res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("Login error:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(400).json({ message: "Login error" });
   }
 });
 
