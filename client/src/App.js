@@ -6,6 +6,8 @@ import Pricing from "./components/pricing/pricing"; // Import your Pricing compo
 import AboutUs from "./components/AboutUs";
 import Support from "./components/Support/support";
 import Terms from "./components/TermsAndConditions/Terms";
+import Login from "./components/Login/Login";
+import Signup from "./components/Signup/Signup";
 function App() {
   return (
     <Routes>
@@ -15,6 +17,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/Terms-and-conditions" element={<Terms />} />
       <Route path="/Privacy-Policy" element={<PrivacyPolicy />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
     </Routes>
   );
 }
