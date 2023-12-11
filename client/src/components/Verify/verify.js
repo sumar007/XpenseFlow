@@ -1,27 +1,44 @@
 import React, { useState, useEffect } from "react";
 import "./verify.css";
+import Toast from "../utlis/toast";
 
+import { useNavigate } from "react-router-dom";
 const Verify = () => {
   const [email, setEmail] = useState("");
   const [code, setVerifyCode] = useState("");
+  const navigate = useNavigate();
+  const verifyUser = async (e) => {
+    e.preventDefault()
+    const jsonData = {
+      email: email,
+      verificationCode: code,
+    };
 
-  const verifyUser = async () => {
     try {
       const response = await fetch("http://localhost:3009/api/v1/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(email, code),
+        body: JSON.stringify(jsonData), // pass an object with properties email and verificationCode
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok.");
       }
+      if (response.status===200) {
+        console.log(response);
+        const data = await response.json();
+        setEmail("");
+        setVerifyCode("");
+        Toast.fire({
+          icon: "success",
+          title: data.message,
+        });
 
-      const data = await response.json();
-      setEmail("");
-      setVerifyCode("");
+        console.log("Navigating to /login");
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error:", error);
     }

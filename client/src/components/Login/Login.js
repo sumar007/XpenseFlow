@@ -30,7 +30,7 @@ const Login = () => {
     setError(""); // Clear any previous error messages
 
     // Define the URL of your server's login endpoint
-    const url = ``;
+    const url = `http://localhost:3009/api/v1/login`;
 
     // Create a JSON object with the form data
     const jsonData = {
@@ -55,23 +55,23 @@ const Login = () => {
               title: data.message,
             });
 
-            sessionStorage.setItem("token", data.token);
-            localStorage.setItem("role", data.role);
-            sessionStorage.setItem("role", data.role);
-            sessionStorage.setItem("sname", data.name);
-            setTimeout(() => {
-              navigate("/customernavbar");
+            // sessionStorage.setItem("token", data.token);
+            // localStorage.setItem("role", data.role);
+            // sessionStorage.setItem("role", data.role);
+            // sessionStorage.setItem("sname", data.name);
+            // setTimeout(() => {
+            //   navigate("/customernavbar");
 
-              if (data.role === "Admin") {
-                navigate("/admin");
-              } else if (data.role === "Label") {
-                navigate("/labelOrders");
-              } else if (data.role === "Dimension") {
-                navigate("/dimensionorders");
-              } else if (data.role === "Accountant") {
-                navigate("/accountOrders");
-              }
-            }, 100);
+            //   if (data.role === "Admin") {
+            //     navigate("/admin");
+            //   } else if (data.role === "Label") {
+            //     navigate("/labelOrders");
+            //   } else if (data.role === "Dimension") {
+            //     navigate("/dimensionorders");
+            //   } else if (data.role === "Accountant") {
+            //     navigate("/accountOrders");
+            //   }
+            // }, 100);
           });
         } else if (response.status === 400) {
           // Password required or incorrect
