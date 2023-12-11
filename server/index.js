@@ -6,7 +6,7 @@ const { User } = require("./models/usermodel");
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3009;
 
 app.use(cors());
 app.use(express.json());
