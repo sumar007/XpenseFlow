@@ -1,17 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import Cookies from "js-cookie";
 
 import { FiLogOut } from "react-icons/fi";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillBriefcaseFill } from "react-icons/bs";
 import "./Header.css";
+import { Navigate } from "react-router-dom";
 import logo from "../Images/logo xf.png"
 const Header = (props) => {
-  const onClickLogout = () => {
-    const { history } = props;
-    Cookies.remove("jwt_token");
-    history.replace("/login");
+  const navigate= useNavigate()
+  const onClickLogin = () => {
+    navigate("/login")
   };
 
   return (
@@ -40,7 +39,7 @@ const Header = (props) => {
               <button
                 type="button"
                 className="nav-mobile-btn"
-                onClick={onClickLogout}
+                onClick={onClickLogin}
               >
                 <FiLogOut />
               </button>
@@ -75,14 +74,14 @@ const Header = (props) => {
           <button
             type="button"
             className="logout-desktop-btn"
-            onClick={onClickLogout}
+            onClick={onClickLogin}
           >
             Try For Free
           </button>
           <button
             type="button"
             className="logout-desktop-btn"
-            onClick={onClickLogout}
+            onClick={onClickLogin}
           >
             Login
           </button>
