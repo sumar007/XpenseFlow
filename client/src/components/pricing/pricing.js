@@ -1,8 +1,8 @@
 import React from "react";
 import "./pricing.css"; // Make sure to adjust the CSS file name
 import image from "./x2.png";
-import Header from "../Home/Header";
-import Footer from "../Home/Footer";
+import Header from "../Home/Header.js";
+import Footer from "../Home/Footer.js";
 console.log(image);
 function Pricing() {
   return (

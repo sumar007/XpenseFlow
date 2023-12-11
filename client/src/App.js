@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./components/Home/Home";
+import Home from "./components/Home/Home.js";
 import { Route, Routes } from "react-router-dom";
 import PrivacyPolicy from "./components/Privacy/Privacy";
 import Pricing from "./components/pricing/pricing"; // Import your Pricing component
