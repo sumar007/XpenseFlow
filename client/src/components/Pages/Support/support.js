@@ -3,8 +3,8 @@ import { PiLightbulb, PiChatsBold, PiGitBranch } from "react-icons/pi";
 import { TbDeviceComputerCamera } from "react-icons/tb";
 import { LuBookOpen } from "react-icons/lu";
 import "./support.css";
-import Header from "../Home/Header";
-import Footer from "../Home/Footer";
+import Header from "../../Home/Header";
+import Footer from "../../Home/Footer";
 const cardList = [
   {
     id: 0,

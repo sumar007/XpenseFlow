@@ -1,18 +1,20 @@
 import React from "react";
 import Home from "./components/Home/Home.js";
 import { Route, Routes } from "react-router-dom";
-import PrivacyPolicy from "./components/Privacy/Privacy";
-import Pricing from "./components/pricing/pricing"; // Import your Pricing component
-import AboutUs from "./components/AboutUs";
-import Support from "./components/Support/support";
-import Terms from "./components/TermsAndConditions/Terms";
+import PrivacyPolicy from "./components/Pages/Privacy/Privacy";
+import AboutUs from "./components/Pages/AboutUs";
+import Support from "./components/Pages/Support/support";
+import Terms from "./components/Pages/TermsAndConditions/Terms";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Verify from "./components/Verify/verify.js";
+import Pricing from "./components/Pages/pricing/pricing.js";
+import SubscriptionForm from "./SuperAdmin/Subscription/index.js";
 function App() {
   return (
     <Routes>
-      <Route  path="/aboutus" element={<AboutUs />} />
+      <Route path="/SubscriptionForm" element={<SubscriptionForm />} />
+      <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/Support" element={<Support />} />
       <Route path="/" element={<Home />} />
