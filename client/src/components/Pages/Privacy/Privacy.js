@@ -1,7 +1,7 @@
 
 import "./Privacy.css"
-import Footer from "../Home/Footer";
-import Header from "../Home/Header";
+import Header from "../../Home/Header";
+import Footer from "../../Home/Footer";
 const PrivacyPolicy = () => {
   return (
     <>
