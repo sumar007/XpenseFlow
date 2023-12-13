@@ -54,6 +54,7 @@ const Login = () => {
               icon: "success",
               title: data.message,
             });
+            navigate("/")
 
             // sessionStorage.setItem("token", data.token);
             // localStorage.setItem("role", data.role);
