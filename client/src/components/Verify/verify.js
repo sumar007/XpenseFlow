@@ -15,7 +15,7 @@ const Verify = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3009/api/v1/verify", {
+      const response = await fetch("http://localhost:3009/api/v1/superadminverify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
