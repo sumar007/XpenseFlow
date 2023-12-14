@@ -140,54 +140,121 @@ export const SuperAdminLogin = async (req, res) => {
   }
 };
 
-
 export const subscriptionAddPlan = async (req, res, next) => {
-    try {
-      const {
-        subscriptionType,
-        originalprice,
-        mrpprice,
-        userCount,
-        validTime,
-        timeUnit,
-        features,
-      } = req.body;
-  
-      const convertToDays = (unit, time) => {
-        if (unit === "months") {
-          return time * 30;
-        } else if (unit === "years") {
-          return time * 365;
-        } else {
-          return time;
-        }
-      };
-  
-      const convertedValidTime = convertToDays(timeUnit, validTime);
-  
-      const newSubscription = new Subscription({
+  try {
+    const {
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      validTime,
+      timeUnit,
+      // features,
+    } = req.body;
+
+    const convertToDays = (unit, time) => {
+      if (unit === "months") {
+        return time * 30;
+      } else if (unit === "years") {
+        return time * 365;
+      } else {
+        return time;
+      }
+    };
+
+    const convertedValidTime = convertToDays(timeUnit, validTime);
+
+    const newSubscription = new Subscription({
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      convertedValidTime,
+      // features,
+    });
+
+    await newSubscription.save();
+    res.status(201).json({ message: "Subscription plan added successfully" });
+  } catch (error) {
+    console.error("Error adding subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getSubscriptionList = async (req, res, next) => {
+  try {
+    const subscriptions = await Subscription.find();
+    res.status(200).json({ subscriptionList: subscriptions });
+  } catch (error) {
+    console.error("Error fetching subscription data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getSpecificSubscriptionDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id)
+    const subscription = await Subscription.findById(id);
+
+    if (subscription) {
+      res.json({ data: subscription });
+    } else {
+      res.status(404).json({ error: "Subscription plan not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const updateSubscriptionPlan = async (req, res) => {
+  try {
+    const { id } = req.params; // Get the subscription ID from the request parameters
+    const {
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      validTime,
+      timeUnit,
+      // features,
+    } = req.body;
+
+    const convertToDays = (unit, time) => {
+      if (unit === "months") {
+        return time * 30;
+      } else if (unit === "years") {
+        return time * 365;
+      } else {
+        return time;
+      }
+    };
+
+    const convertedValidTime = convertToDays(timeUnit, validTime);
+
+    // Find the subscription plan by ID and update its properties
+    const updatedSubscription = await Subscription.findByIdAndUpdate(
+      id,
+      {
         subscriptionType,
         originalprice,
         mrpprice,
         userCount,
         convertedValidTime,
-        features,
-      });
-  
-      await newSubscription.save();
-      res.status(201).json({ message: "Subscription plan added successfully" });
-    } catch (error) {
-      console.error("Error adding subscription plan:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        // features,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (updatedSubscription) {
+      res.json({ message: "Subscription plan updated successfully" });
+    } else {
+      res.status(404).json({ error: "Subscription plan not found" });
     }
-  };
-  
-  export const getSubscriptionList = async (req, res, next) => {
-    try {
-      const subscriptions = await Subscription.find();
-      res.status(200).json({ subscriptionList: subscriptions });
-    } catch (error) {
-      console.error("Error fetching subscription data:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
+  } catch (error) {
+    console.error("Error updating subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

@@ -1,11 +1,13 @@
 import express from "express";
-import {subscriptionAddPlan, getSubscriptionList, SuperAdminRegistration, SuperAdminVerifyEmail, SuperAdminLogin} from "../controllers/SuperAdminControllers.js";
+import {subscriptionAddPlan, getSubscriptionList, SuperAdminRegistration, SuperAdminVerifyEmail, SuperAdminLogin, getSpecificSubscriptionDetails, updateSubscriptionPlan} from "../controllers/SuperAdminControllers.js";
 
 const adminRouter = express.Router();
-adminRouter.post("/superadminregister", SuperAdminRegistration);
+adminRouter.post("/superadminsignup", SuperAdminRegistration);
 adminRouter.post("/superadminverify", SuperAdminVerifyEmail)
 adminRouter.post("/superadminlogin", SuperAdminLogin)
 adminRouter.post("/subscription-plans-add", subscriptionAddPlan);
 adminRouter.get("/subscriptionlist", getSubscriptionList)
+adminRouter.get("/subscription-plans/:id", getSpecificSubscriptionDetails)
+adminRouter.put("/subscription-plans/:id", updateSubscriptionPlan)
 
 export default adminRouter
