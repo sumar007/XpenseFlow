@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema({
     profilePicture: String,
     role: {
       type: String,
-      enum: ['Employee', 'Manager', 'Admin'], // Example roles (modify as needed)
-      default: 'Employee',
+      default: 'superAdmin' // Example default value for the role
     },
   });
  
