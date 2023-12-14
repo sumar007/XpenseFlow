@@ -1,40 +1,40 @@
-.customer-signin-div-container {
+.super-admin-signin-div-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
-.customer-signin-form-main-container {
+.super-admin-signin-form-main-container {
   width: 30%;
   margin: 70px;
   padding: 10px;
   border: 2px solid #4b4f58;
   border-radius: 5px;
 }
-.customer-signin-form-heading-container {
+.super-admin-signin-form-heading-container {
   font-size: 32px;
   font-weight: 600;
   color: #212d45;
 }
-.customer-singin-form-container {
+.super-admin-singin-form-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.customer-signin-form-group-container {
+.super-admin-signin-form-group-container {
   margin-bottom: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.customer-singnin-form-lable-container {
+.super-admin-singnin-form-lable-container {
   font-weight: bold;
   margin-bottom: 5px;
 }
-.customer-signin-input-container {
+.super-admin-signin-input-container {
   width: 90%;
   padding: 8px;
   font-size: 16px;
@@ -42,7 +42,7 @@
   border-radius: 7px;
 }
 
-.customer-signin-form-button-container {
+.super-admin-signin-form-button-container {
   background-color: #ffc03d;
   color: #212d45;
   padding: 10px 20px;
@@ -52,7 +52,7 @@
   font-size: 18px;
   transition: background-color 0.3s;
 }
-.customer-signin-form-button-container:hover {
+.super-admin-signin-form-button-container:hover {
   border: 1px solid #212d45;
   color: #212d45;
   background-color: #fff;
@@ -64,23 +64,23 @@
   color: #ff0000;
 }
 @media (min-width: 512px) and (max-width: 768px) {
-  .customer-signin-form-main-container {
+  .super-admin-signin-form-main-container {
     width: 60%;
   }
 }
 @media (max-width: 512px) {
-  .customer-signin-form-main-container {
+  .super-admin-signin-form-main-container {
     width: 100%;
   }
 }
 @media (max-width: 768px) {
-  .customer-signin-form-heading-container {
+  .super-admin-signin-form-heading-container {
     font-size: 24px;
   }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .customer-signin-form-main-container {
+  .super-admin-signin-form-main-container {
     width: 40%;
   }
 }

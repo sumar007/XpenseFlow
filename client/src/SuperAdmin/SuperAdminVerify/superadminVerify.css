@@ -1,0 +1,9 @@
+.super-admin-verify-main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.super-admin-verify-form-container {
+}
