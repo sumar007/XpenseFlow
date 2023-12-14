@@ -28,6 +28,6 @@ organizationRouter.post(
   upload.single("companyLogo"),
   addOrganization
 );
-organizationRouter.get("/organization-list", getOrganizationList);
+organizationRouter.get("/organizationlist", getOrganizationList);
 
 export default organizationRouter;

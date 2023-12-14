@@ -22,10 +22,10 @@ const subscriptionSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-    features: {
-      type: [String], // Array of features
-      default: [],
-    },
+    // features: {
+    //   type: [String], // Array of features
+    //   default: [],
+    // },
   });
   
   export const Subscription = mongoose.model("Subscription", subscriptionSchema);
