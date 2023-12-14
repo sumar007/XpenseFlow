@@ -36,7 +36,9 @@ const Home = () => {
             </p>
             <button className="home-page-container1-button">Learn More</button>
           </div>
-          <img className="home-page-container1-image" alt="kk" src={image1} />
+          <div className="home-page-container1-image-container">
+            <img className="home-page-container1-image" alt="kk" src={image1} />
+          </div>
         </div>
         <div className="home-page-container3">
           <h1 className="home-page-container3-heading">
@@ -83,11 +85,13 @@ const Home = () => {
               Revolutionize your productivity with our paperless time tracker.
             </p>
           </div>
-          <img
-            src={image2}
-            className="home-page-container4-image"
-            alt="image1"
-          />
+          <div className="home-page-image-container-4">
+            <img
+              src={image2}
+              className="home-page-container4-image"
+              alt="image1"
+            />
+          </div>
         </div>
       </div>
       <Footer />
