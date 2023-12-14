@@ -1,16 +1,12 @@
-require('dotenv').config();
-const bcrypt = require('bcrypt');
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
-// db.js
-require('dotenv').config();
-const mongoose = require("mongoose");
-//connection to mongodb 
-
+dotenv.config();
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    
 })
     .then(() => {
         console.log('Connected to the database');
@@ -18,6 +14,7 @@ mongoose.connect(process.env.MONGODB_URI, {
     .catch((error) => {
         console.error('Error connecting to the database:', error);
     });
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -50,4 +47,4 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;
