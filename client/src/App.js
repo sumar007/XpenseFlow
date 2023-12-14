@@ -10,9 +10,15 @@ import Signup from "./components/Signup/Signup";
 import Verify from "./components/Verify/verify.js";
 import Pricing from "./components/Pages/pricing/pricing.js";
 import SubscriptionForm from "./SuperAdmin/Subscription/index.js";
+import SubscriptionList from "./SuperAdmin/SubscriptionList/index.js";
+import OrganizationForm from "./SuperAdmin/OrganizationRegistration/index.js";
+import OrganizationList from "./SuperAdmin/OrganizationList/index.js";
 function App() {
   return (
     <Routes>
+      <Route path="/organizationList" element={<OrganizationList />} />
+      <Route path="/organizationRegistration" element={<OrganizationForm />} />
+      <Route path="/subscriptionlist" element={<SubscriptionList />} />
       <Route path="/SubscriptionForm" element={<SubscriptionForm />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
