@@ -10,9 +10,17 @@ import Signup from "./components/Signup/Signup";
 import Verify from "./components/Verify/verify.js";
 import Pricing from "./components/Pages/pricing/pricing.js";
 import SubscriptionForm from "./SuperAdmin/Subscription/index.js";
+import SuperadminSignup from "./SuperAdmin/SuperAdminSignUp/superadminSignup.js";
+import SuperadminLogin from "./SuperAdmin/SuperAdminLogin/superadminLogin.js";
+import SuperadminVerify from "./SuperAdmin/SuperAdminVerify/superadminVerify.js";
+
 function App() {
   return (
     <Routes>
+      <Route path="/superSignup" element={<SuperadminSignup />} />
+      <Route path="/superlogin" element={<SuperadminLogin />} />
+      <Route path="/superadminverify" element={<SuperadminVerify />} />
+
       <Route path="/SubscriptionForm" element={<SubscriptionForm />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
