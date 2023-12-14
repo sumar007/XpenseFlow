@@ -66,8 +66,8 @@ const Signup = () => {
               icon: "success",
               title: data.message,
             });
+            navigate("/verify")
           });
-          navigate("/verify")
         } else {
           response.json().then((data) => {
             Toast.fire({

@@ -40,7 +40,7 @@ const cardList = [
 const Support = () => {
   return (
     <>
-    <Header />
+      <Header />
       <div className="support-first-container">
         <div className="support-heading-container">
           <h1 className="support-main-heading">We’re here to help</h1>
@@ -72,7 +72,7 @@ const Support = () => {
               Our award-winning sipport team is here
             </p>
           </div>
-          <div className="support-banner-button">
+          <div>
             <button className="support-banner-button">Contact Us</button>
           </div>
         </div>
