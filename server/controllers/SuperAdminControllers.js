@@ -74,7 +74,7 @@ export const SuperAdminVerifyEmail = async (req, res) => {
   try {
     const { email, verificationCode } = req.body;
 
-    const user = await Admin.findOne({ email });
+    const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -97,7 +97,7 @@ export const SuperAdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await Admin.findOne({ email });
+    const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
