@@ -4,12 +4,20 @@ import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from 'uuid';
-
+import multer from 'multer';
 import dotenv from "dotenv";
 import { AdminModel } from "../models/superAdminModel.js";
 
 import { Subscription } from "../models/subscription.js";
-
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads'); // Directory to store profile pictures
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Rename file to avoid duplication
+  }
+});
+const upload = multer({ storage: storage });
 function sendVerificationEmail(email, code) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -63,7 +71,7 @@ function sendResetPasswordEmail(email, resetToken) {
   });
 }
 
-// Route for user registration
+// Route for super admin registration
 export const SuperAdminRegistration = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -121,7 +129,7 @@ export const SuperAdminVerifyEmail = async (req, res) => {
   }
 };
 
-// Route for user login
+// Route for super-admin login
 export const SuperAdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -174,7 +182,7 @@ export const requestPasswordReset = async (req, res) => {
   try {
     const { email } = req.body;
     const user = await AdminModel.findOne({ email });
-console.log(email)
+    console.log(email)
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -185,11 +193,14 @@ console.log(email)
     user.resetPasswordExpires = Date.now() + 3600000; // Token expiration time (e.g., 1 hour)
     await user.save();
 
-   
+
 
     // Send the reset link to the user's email using nodemailer
     sendResetPasswordEmail(email, resetToken);
-    res.status(200).json({ message: 'Password reset link sent to your email' });
+    res.status(200).json({
+       message: 'Password reset link sent to your email',
+      resetToken
+      });
   } catch (error) {
     console.error('Password reset request error:', error);
     res.status(500).json({ error: 'Failed to initiate password reset' });
@@ -216,14 +227,74 @@ export const resetPassword = async (req, res) => {
     user.resetPasswordExpires = undefined;
     await user.save();
 
-    res.status(200).json({ message: 'Password reset successful',
- 
-  });
+    res.status(200).json({
+      message: 'Password reset successful',
+
+    });
   } catch (error) {
     console.error('Password reset error:', error);
     res.status(500).json({ error: 'Failed to reset password' });
   }
 };
+
+
+
+//update profile of super admin
+export const updateAdminProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, currentPassword, newPassword } = req.body;
+    
+    const superAdmin = await AdminModel.findById(id);
+  
+    if (!superAdmin) {
+      return res.status(404).json({ error: 'SuperAdmin not found' });
+    }
+
+    // Update name if provided
+    if (name) {
+      superAdmin.username = name;
+    }
+
+    // Update password if provided
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, superAdmin.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Current password is incorrect' });
+      }
+      superAdmin.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    // Update profile picture if uploaded
+    if (req.file) {
+      superAdmin.profilePicture = req.file.path; // Save the file path in the database
+    }
+
+    await superAdmin.save();
+
+    res.json({ message: 'SuperAdmin profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update SuperAdmin profile' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export const subscriptionAddPlan = async (req, res, next) => {
