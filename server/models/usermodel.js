@@ -32,11 +32,16 @@ const userSchema = new mongoose.Schema({
     },
     verificationCode: String,
     isVerified: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
-});
-
+    profilePicture: String,
+    role: {
+      type: String,
+      enum: ['Admin', 'Manager', 'User'],
+      default: 'User' // Example default value for the role
+    },
+  });
 userSchema.methods.comparePassword = async function (candidatePassword) {
     try {
         return await bcrypt.compare(candidatePassword, this.password);
