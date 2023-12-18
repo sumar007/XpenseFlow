@@ -186,8 +186,6 @@ export const requestPasswordReset = async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // Token expiration time (e.g., 1 hour)
     await user.save();
 
-
-
     // Send the reset link to the user's email using nodemailer
     sendResetPasswordEmail(email, resetToken);
     res.status(200).json({

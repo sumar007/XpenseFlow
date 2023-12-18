@@ -20,6 +20,7 @@ import OrganizationList from "./SuperAdmin/OrganizationList/index.js";
 import SuperAdminHome from "./SuperAdmin/SuperAdminHome/SuperAdminHome.js";
 
 import SubscriptionDetailView from "./SuperAdmin/SubscriptionViewDetail/index.js";
+import OrganizationViewDetail from "./SuperAdmin/OrganizationViewDetail/index.js";
 function App() {
   return (
     <Routes>
@@ -37,6 +38,12 @@ function App() {
         path="/subscriptionViewDetail/:id"
         element={<SubscriptionDetailView />}
       />
+
+      <Route
+        path="/organizationViewDetail/:id"
+        element={<OrganizationViewDetail />}
+      />
+
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/Support" element={<Support />} />
