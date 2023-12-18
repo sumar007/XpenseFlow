@@ -1,0 +1,15 @@
+.sidebar-icons-container {
+  margin-top: 26px;
+}
+
+.sidebar-container {
+  opacity: 1;
+  color: #fff;
+}
+.hamburger-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px 10px 10px 0px;
+  cursor: pointer;
+}

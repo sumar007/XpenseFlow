@@ -1,62 +1,90 @@
-.super-admin-signin-div-container {
+.super-admin-signup-div-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
-.super-admin-signin-form-main-container {
-  width: 30%;
-  margin: 70px;
-  padding: 10px;
-  border: 2px solid #4b4f58;
-  border-radius: 5px;
-}
-.super-admin-signin-form-heading-container {
-  font-size: 32px;
-  font-weight: 600;
-  color: #212d45;
-}
-.super-admin-singin-form-container {
-  width: 100%;
+.super-admin-signup-form-main-container {
+  width: 45%;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-.super-admin-signin-form-group-container {
+.super-admin-signup-form-heading-container {
+  font-size: 32px;
+  font-weight: 600;
+  color: #212d45;
+}
+.super-admin-signup-form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+}
+.super-admin-signup-form-sub-container {
+  width: 60%;
+  box-shadow: 20px 20px 60px #00000041, inset -20px -20px 60px #ffffff40;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.super-admin-signup-image {
+  height: 90%;
+  width: 90%;
+}
+
+.super-admin-signup-form-group-container {
   margin-bottom: 20px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.super-admin-singnin-form-lable-container {
+.super-admin-signup-form-lable-container {
   font-weight: bold;
   margin-bottom: 5px;
 }
-.super-admin-signin-input-container {
-  width: 90%;
+.super-admin-signup-input-container {
+  width: 100%;
   padding: 8px;
   font-size: 16px;
   border: 2px solid#212d45;
   border-radius: 7px;
 }
 
-.super-admin-signin-form-button-container {
-  background-color: #ffc03d;
-  color: #212d45;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
+.super-admin-signup-form-button {
+  width: 100%;
+  background-color: transparent;
+  color: black;
+  padding: 8px 20px;
+  border: 3px #4f46e5 solid;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s;
+  font-weight: bold;
 }
-.super-admin-signin-form-button-container:hover {
-  border: 1px solid #212d45;
-  color: #212d45;
-  background-color: #fff;
+.super-admin-signup-form-button:hover {
+  border: 3px #4f46e5 solid;
+  color: white;
+  background-color: #4f46e5;
   transition: 0.3s ease-in-out;
+}
+
+.super-admin-signup-image-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+}
+
+.super-admin-signup-account {
+  font-size: 15px;
+  color: #387ef7e3;
+  margin-top: 5px;
 }
 
 .error-message {
@@ -64,23 +92,47 @@
   color: #ff0000;
 }
 @media (min-width: 512px) and (max-width: 768px) {
-  .super-admin-signin-form-main-container {
+  .super-admin-signup-form-main-container {
     width: 60%;
   }
 }
 @media (max-width: 512px) {
-  .super-admin-signin-form-main-container {
+  .super-admin-signup-form-main-container {
     width: 100%;
   }
 }
-@media (max-width: 768px) {
-  .super-admin-signin-form-heading-container {
+@media (max-width: 812px) {
+  .super-admin-signup-form-heading-container {
     font-size: 24px;
+  }
+  .super-admin-signup-form-sub-container {
+    width: 100%;
+  }
+  .super-admin-signup-form-container {
+    width: 95%;
+  }
+  .super-admin-signup-div-container {
+    width: 100%;
+  }
+  .super-admin-signup-image-container {
+    display: none;
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
-  .super-admin-signin-form-main-container {
-    width: 40%;
+@media screen and (min-width: 813px) and (max-width: 1250px) {
+  .super-admin-signup-div-container {
+    width: 100%;
+  }
+  .super-admin-signup-image-container {
+    width: 45%;
+  }
+  .super-admin-signup-form-main-container {
+    width: 45%;
+  }
+  .super-admin-signup-form-container {
+    width: 100%;
+  }
+  .super-admin-signup-form-sub-container {
+    width: 85%;
   }
 }

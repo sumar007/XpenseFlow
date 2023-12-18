@@ -131,8 +131,6 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">City</label>
               <input
@@ -144,6 +142,8 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">State</label>
               <input
@@ -155,8 +155,6 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Country</label>
               <input
@@ -205,8 +203,6 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Email
@@ -220,6 +216,8 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Website</label>
               <input
@@ -231,8 +229,6 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Create Password
@@ -245,6 +241,26 @@ const OrganizationForm = () => {
                 placeholder="Enter Password"
                 onChange={handleInputChange}
               />
+            </div>
+            <div className="organization-form-input-container">
+              <label className="organization-form-label-name">
+                Subscription Plan
+              </label>
+              <select
+                className="organization-form-input-text"
+                value={formData.packageId}
+                name="packageId"
+                onChange={handleSelectChange}
+              >
+                {packageList.map((eachPackage, index) => {
+                  console.log(eachPackage._id);
+                  return (
+                    <option key={index} value={eachPackage._id}>
+                      {eachPackage.subscriptionType}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
             {/* <div className="organization-form-input-container">
             <label className="organization-form-label-name">Website</label>
@@ -285,8 +301,6 @@ const OrganizationForm = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Logo
@@ -299,26 +313,6 @@ const OrganizationForm = () => {
                 onChange={handleFileChange}
               />
             </div>
-            <div className="organization-form-input-container">
-              <label className="organization-form-label-name">
-                Subscription Plan
-              </label>
-              <select
-                className="organization-form-input-text"
-                value={formData.packageId}
-                name="packageId"
-                onChange={handleSelectChange}
-              >
-                {packageList.map((eachPackage, index) => {
-                  console.log(eachPackage._id);
-                  return (
-                    <option key={index} value={eachPackage._id}>
-                      {eachPackage.subscriptionType}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
           </div>
           <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
@@ -328,13 +322,15 @@ const OrganizationForm = () => {
               <textarea
                 placeholder="Enter the description about the company"
                 onChange={handleInputChange}
+                cols={16}
+                rows={3}
                 name="description"
               />
             </div>
           </div>
           <div className="organization-form-submit-button-container">
             <button type="submit" className="organization-form-submit-button">
-              Submit
+              SUBMIT
             </button>
           </div>
         </form>
