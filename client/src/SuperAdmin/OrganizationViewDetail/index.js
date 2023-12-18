@@ -4,7 +4,8 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { json } from "react-router-dom";
 
-const OrganizationForm = () => {
+const OrganizationViewDetail = () => {
+  const organizationId = "657a8f4a7ae4ca39a7a0e16a";
   const [formData, setFormData] = useState({
     organizationName: "",
     description: "",
@@ -22,9 +23,34 @@ const OrganizationForm = () => {
     companyRegistrationNumber: "",
     packageId: "",
   });
+
   const [companyLogo, setCompanyLogo] = useState("");
   const [packageList, setPackageList] = useState([]);
-console.log(packageList)
+
+  const fetchOrganizationDetails = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3009/api/v1/getorganization/${organizationId}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFormData(data); // Assuming your state structure matches the organization details
+      } else {
+        console.error(
+          "Error fetching organization details:",
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching organization details:", error);
+    }
+  };
+
+  useEffect(() => {
+   
+    fetchOrganizationDetails();
+  }, [organizationId]);
+
   useEffect(() => {
     const fetchPackages = async () => {
       try {
@@ -60,40 +86,33 @@ console.log(packageList)
     setCompanyLogo(file); // Update the state with the selected file
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const token = Cookies.get("_a_p_k");
-    const form = new FormData();
-
-    Object.entries(formData).forEach(([key, value]) => {
-      form.append(key, value);
-    });
-    form.append("companyLogo", companyLogo);
-    console.log(companyLogo);
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    // const token = Cookies.get("_a_p_k");
     const options = {
-      method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      body: form,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
     };
-
+  
     try {
-      console.log(formData);
       const response = await fetch(
-        "http://localhost:3009/api/v1/addorganization",
+        `http://localhost:3009/api/v1/updateorganization/${organizationId}`,
         options
       );
-
+  
       if (response.ok) {
-        const data = await response.json();
-        console.log("Response from server:", data);
+        const updatedData = await response.json();
+        console.log("Organization updated:", updatedData);
+        fetchOrganizationDetails()
       } else {
-        console.error("Error sending data to server:", response.statusText);
+        console.error("Error updating organization:", response.statusText);
       }
     } catch (error) {
-      console.error("Error sending data:", error);
+      console.error("Error updating organization:", error);
     }
   };
 
@@ -103,7 +122,7 @@ console.log(packageList)
       <div className="organization-form-main-container">
         <form
           className="organization-form-sub-container"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleUpdate}
         >
           <h1 className="organization-form-main-heading">Organization Form</h1>
           <div className="organization-form-input-flex-container">
@@ -233,7 +252,7 @@ console.log(packageList)
             </div>
           </div>
           <div className="organization-form-input-flex-container">
-            <div className="organization-form-input-container">
+            {/* <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Create Password
               </label>
@@ -245,7 +264,7 @@ console.log(packageList)
                 placeholder="Enter Password"
                 onChange={handleInputChange}
               />
-            </div>
+            </div> */}
             {/* <div className="organization-form-input-container">
             <label className="organization-form-label-name">Website</label>
             <input
@@ -343,4 +362,4 @@ console.log(packageList)
   );
 };
 
-export default OrganizationForm;
+export default OrganizationViewDetail;

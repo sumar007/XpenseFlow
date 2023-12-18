@@ -89,7 +89,7 @@ function SubscriptionDetailView() {
       const response = await fetch(
         `http://localhost:3009/api/v1/subscription-plans/${id}`,
         {
-          method: "PUT", // Use PUT method for updating
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

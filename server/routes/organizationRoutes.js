@@ -2,6 +2,8 @@ import express from "express";
 import {
   addOrganization,
   getOrganizationList,
+  getSpecificOrganization,
+  updateSpecificOrganization,
 } from "../controllers/organizationControllers.js";
 import multer from "multer";
 import path from "path";
@@ -29,5 +31,8 @@ organizationRouter.post(
   addOrganization
 );
 organizationRouter.get("/organizationlist", getOrganizationList);
+organizationRouter.get("/getorganization/:id", getSpecificOrganization);
+organizationRouter.put("/updateorganization/:id", updateSpecificOrganization)
 
 export default organizationRouter;
+
