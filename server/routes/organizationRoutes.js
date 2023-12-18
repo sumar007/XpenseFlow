@@ -8,7 +8,7 @@ import path from "path";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log("hai");
+    
     cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
