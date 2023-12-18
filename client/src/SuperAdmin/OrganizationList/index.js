@@ -80,9 +80,7 @@ function OrganizationList() {
         }
 
         const data = await response.json();
-        console.log(data);
-        console.log("Data from the server:", data);
-        setOrganizations(data.data);
+        setOrganizations(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -91,6 +89,7 @@ function OrganizationList() {
     fetchData();
   }, []);
   const PDF_URL = process.env.REACT_APP_PDF_URL;
+  console.log(organizations)
 
   return (
     <div style={{ display: "flex" }}>

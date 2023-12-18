@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
 
-function SubscriptionForm() {
+function SubscriptionDetailView() {
+  const { subscriptionId } = useParams(); // Get subscriptionId from URL params
+  console.log(subscriptionId);
+  const id = "657984446240dc50abb3c620";
   const [formData, setFormData] = useState({
     subscriptionType: "",
     originalprice: "",
@@ -13,19 +17,19 @@ function SubscriptionForm() {
     // features: "",
   });
 
-  // const [feature, setFeature] = useState("");
+//   const [feature, setFeature] = useState("");
 
-  // const handleFeature = (e) => {
-  //   setFeature(e.target.value);
-  // };
+//   const handleFeature = (e) => {
+//     setFeature(e.target.value);
+//   };
 
-  // const AddingFeature = () => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     features: [...prevData.features, feature],
-  //   }));
-  //   setFeature("");
-  // };
+//   const AddingFeature = () => {
+//     setFormData((prevData) => ({
+//       ...prevData,
+//       features: [...prevData.features, feature],
+//     }));
+//     setFeature("");
+//   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +38,48 @@ function SubscriptionForm() {
       [name]: value,
     }));
   };
-
+  useEffect(() => {
+    const fetchSubscriptionDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3009/api/v1/subscription-plans/${id}`,
+          {
+            method: "GET",
+          }
+        );
+  
+        if (response.ok) {
+          const { data } = await response.json();
+          // Destructure and assign form data
+          const {
+            subscriptionType,
+            originalprice,
+            mrpprice,
+            userCount,
+            convertedValidTime, // Assuming this is the correct property name
+            // features,
+          } = data;
+  
+          // Update the state with the fetched subscription details
+          setFormData({
+            subscriptionType,
+            originalprice,
+            mrpprice,
+            userCount,
+            validTime: convertedValidTime, // Assuming this is the correct property name
+            timeUnit: "days", // You might want to update this based on your data
+            // features,
+          });
+        } else {
+          console.error("Failed to fetch subscription details");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchSubscriptionDetails();
+  }, [id]);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,9 +87,9 @@ function SubscriptionForm() {
     const token = Cookies.get("_a_p_k");
     try {
       const response = await fetch(
-        "http://localhost:3009/api/v1/subscription-plans-add",
+        `http://localhost:3009/api/v1/subscription-plans/${id}`,
         {
-          method: "POST",
+          method: "PUT", // Use PUT method for updating
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -62,7 +107,6 @@ function SubscriptionForm() {
       console.error("Error:", error);
     }
   };
-  console.log(formData.features);
   return (
     <div style={{ display: "flex" }}>
       {/* <SideBar /> */}
@@ -165,4 +209,4 @@ function SubscriptionForm() {
   );
 }
 
-export default SubscriptionForm;
+export default SubscriptionDetailView;

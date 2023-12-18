@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 
 // User Schema
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     username: {
       type: String,
       required: true,
@@ -28,12 +28,17 @@ const userSchema = new mongoose.Schema({
     profilePicture: String,
     role: {
       type: String,
-      enum: ['Employee', 'Manager', 'Admin'], // Example roles (modify as needed)
-      default: 'Employee',
+      default: 'superAdmin' // Example default value for the role
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
     },
   });
  
-userSchema.methods.comparePassword = async function (candidatePassword) {
+  adminSchema.methods.comparePassword = async function (candidatePassword) {
     try {
         return await bcrypt.compare(candidatePassword, this.password);
     } catch (error) {
@@ -41,4 +46,4 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
     }
 };
  
- export const AdminModel = mongoose.model('Admin', userSchema);
+ export const AdminModel = mongoose.model('Admin',adminSchema);

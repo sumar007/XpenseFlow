@@ -3,12 +3,21 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
+import { v4 as uuidv4 } from 'uuid';
+import multer from 'multer';
 import dotenv from "dotenv";
 import { AdminModel } from "../models/superAdminModel.js";
 
 import { Subscription } from "../models/subscription.js";
-
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads'); // Directory to store profile pictures
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Rename file to avoid duplication
+  }
+});
+const upload = multer({ storage: storage });
 function sendVerificationEmail(email, code) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -33,8 +42,36 @@ function sendVerificationEmail(email, code) {
     }
   });
 }
+function sendResetPasswordEmail(email, resetToken) {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
 
-// Route for user registration
+  // const resetLink = `http://localhost:3009/reset-password/${resetToken}`;
+
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Password Reset",
+    text: `To reset your password, click on the following link: ${resetToken}`,
+    html: `<p>To reset your password, this is your reset token:${resetToken}</p>`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Email sending error:", error);
+    } else {
+      console.log("Email sent:", info.response);
+    }
+  });
+}
+
+// Route for super admin registration
 export const SuperAdminRegistration = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -74,7 +111,7 @@ export const SuperAdminVerifyEmail = async (req, res) => {
   try {
     const { email, verificationCode } = req.body;
 
-    const user = await Admin.findOne({ email });
+    const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -92,12 +129,12 @@ export const SuperAdminVerifyEmail = async (req, res) => {
   }
 };
 
-// Route for user login
+// Route for super-admin login
 export const SuperAdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await Admin.findOne({ email });
+    const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -140,54 +177,241 @@ export const SuperAdminLogin = async (req, res) => {
   }
 };
 
+// Generate and store reset token for the SuperAdmin
+export const requestPasswordReset = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await AdminModel.findOne({ email });
+    console.log(email)
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Generate and save a reset token for the user
+    const resetToken = uuidv4(); // Generate a unique token
+    user.resetPasswordToken = resetToken; // Save the token in the user document
+    user.resetPasswordExpires = Date.now() + 3600000; // Token expiration time (e.g., 1 hour)
+    await user.save();
+
+
+
+    // Send the reset link to the user's email using nodemailer
+    sendResetPasswordEmail(email, resetToken);
+    res.status(200).json({
+       message: 'Password reset link sent to your email',
+      resetToken
+      });
+  } catch (error) {
+    console.error('Password reset request error:', error);
+    res.status(500).json({ error: 'Failed to initiate password reset' });
+  }
+};
+
+// Reset password using the reset token
+export const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+
+    const user = await AdminModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }, // Check if the token is not expired
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+
+    // Update the user's password and remove/reset the resetToken and expiry fields
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      message: 'Password reset successful',
+
+    });
+  } catch (error) {
+    console.error('Password reset error:', error);
+    res.status(500).json({ error: 'Failed to reset password' });
+  }
+};
+
+
+
+//update profile of super admin
+export const updateAdminProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, currentPassword, newPassword } = req.body;
+    
+    const superAdmin = await AdminModel.findById(id);
+  
+    if (!superAdmin) {
+      return res.status(404).json({ error: 'SuperAdmin not found' });
+    }
+
+    // Update name if provided
+    if (name) {
+      superAdmin.username = name;
+    }
+
+    // Update password if provided
+    if (currentPassword && newPassword) {
+      const isMatch = await bcrypt.compare(currentPassword, superAdmin.password);
+      if (!isMatch) {
+        return res.status(400).json({ error: 'Current password is incorrect' });
+      }
+      superAdmin.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    // Update profile picture if uploaded
+    if (req.file) {
+      superAdmin.profilePicture = req.file.path; // Save the file path in the database
+    }
+
+    await superAdmin.save();
+
+    res.json({ message: 'SuperAdmin profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Failed to update SuperAdmin profile' });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const subscriptionAddPlan = async (req, res, next) => {
-    try {
-      const {
-        subscriptionType,
-        originalprice,
-        mrpprice,
-        userCount,
-        validTime,
-        timeUnit,
-        features,
-      } = req.body;
-  
-      const convertToDays = (unit, time) => {
-        if (unit === "months") {
-          return time * 30;
-        } else if (unit === "years") {
-          return time * 365;
-        } else {
-          return time;
-        }
-      };
-  
-      const convertedValidTime = convertToDays(timeUnit, validTime);
-  
-      const newSubscription = new Subscription({
+  try {
+    const {
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      validTime,
+      timeUnit,
+      // features,
+    } = req.body;
+
+    const convertToDays = (unit, time) => {
+      if (unit === "months") {
+        return time * 30;
+      } else if (unit === "years") {
+        return time * 365;
+      } else {
+        return time;
+      }
+    };
+
+    const convertedValidTime = convertToDays(timeUnit, validTime);
+
+    const newSubscription = new Subscription({
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      convertedValidTime,
+      // features,
+    });
+
+    await newSubscription.save();
+    res.status(201).json({ message: "Subscription plan added successfully" });
+  } catch (error) {
+    console.error("Error adding subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getSubscriptionList = async (req, res, next) => {
+  try {
+    const subscriptions = await Subscription.find();
+    res.status(200).json({ subscriptionList: subscriptions });
+  } catch (error) {
+    console.error("Error fetching subscription data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getSpecificSubscriptionDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id)
+    const subscription = await Subscription.findById(id);
+
+    if (subscription) {
+      res.json({ data: subscription });
+    } else {
+      res.status(404).json({ error: "Subscription plan not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const updateSubscriptionPlan = async (req, res) => {
+  try {
+    const { id } = req.params; // Get the subscription ID from the request parameters
+    const {
+      subscriptionType,
+      originalprice,
+      mrpprice,
+      userCount,
+      validTime,
+      timeUnit,
+      // features,
+    } = req.body;
+
+    const convertToDays = (unit, time) => {
+      if (unit === "months") {
+        return time * 30;
+      } else if (unit === "years") {
+        return time * 365;
+      } else {
+        return time;
+      }
+    };
+
+    const convertedValidTime = convertToDays(timeUnit, validTime);
+
+    // Find the subscription plan by ID and update its properties
+    const updatedSubscription = await Subscription.findByIdAndUpdate(
+      id,
+      {
         subscriptionType,
         originalprice,
         mrpprice,
         userCount,
         convertedValidTime,
-        features,
-      });
-  
-      await newSubscription.save();
-      res.status(201).json({ message: "Subscription plan added successfully" });
-    } catch (error) {
-      console.error("Error adding subscription plan:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+        // features,
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (updatedSubscription) {
+      res.json({ message: "Subscription plan updated successfully" });
+    } else {
+      res.status(404).json({ error: "Subscription plan not found" });
     }
-  };
-  
-  export const getSubscriptionList = async (req, res, next) => {
-    try {
-      const subscriptions = await Subscription.find();
-      res.status(200).json({ subscriptionList: subscriptions });
-    } catch (error) {
-      console.error("Error fetching subscription data:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  };
+  } catch (error) {
+    console.error("Error updating subscription plan:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

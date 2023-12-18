@@ -19,6 +19,7 @@ import OrganizationForm from "./SuperAdmin/OrganizationRegistration/index.js";
 import OrganizationList from "./SuperAdmin/OrganizationList/index.js";
 import SuperAdminHome from "./SuperAdmin/SuperAdminHome/SuperAdminHome.js";
 
+import SubscriptionDetailView from "./SuperAdmin/SubscriptionViewDetail/index.js";
 function App() {
   return (
     <Routes>
@@ -31,6 +32,11 @@ function App() {
       <Route path="/superhome" element={<SuperAdminHome />} />
 
       <Route path="/SubscriptionForm" element={<SubscriptionForm />} />
+      <Route path="/subscriptionForm" element={<SubscriptionForm />} />
+      <Route
+        path="/subscriptionViewDetail/:id"
+        element={<SubscriptionDetailView />}
+      />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/Support" element={<Support />} />
