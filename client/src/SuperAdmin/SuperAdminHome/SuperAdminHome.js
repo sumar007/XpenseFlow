@@ -14,10 +14,17 @@ import SubscriptionForm from "../Subscription";
 import SubscriptionList from "../SubscriptionList";
 
 import "./SuperAdminHome.css";
+import SubscriptionDetailView from "../SubscriptionViewDetail";
 
 function UserPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [active, setActive] = useState("alltasks");
+  const [activeId, setId] = useState("");
+
+  const setSubscriptionDetail = (id) => {
+    setId(id);
+    setActive("detail");
+  };
 
   return (
     <div style={{ display: "flex", height: "100vh", width: "100%" }}>
@@ -53,6 +60,7 @@ function UserPanel() {
           >
             Create Tasks
           </MenuItem> */}
+
           <MenuItem
             icon={<FaTasks />}
             onClick={() => setActive("organizations")}
@@ -90,7 +98,13 @@ function UserPanel() {
         {active === "subform" && <SubscriptionForm />}
         {active === "organizations" && <OrganizationList />}
         {active === "orgform" && <OrganizationForm />}
-        {active === "sublist" && <SubscriptionList />}
+        {active === "sublist" && (
+          <SubscriptionList setSubscriptionDetail={setSubscriptionDetail} />
+        )}
+
+        {active === "detail" && (
+          <SubscriptionDetailView subscriptionId={activeId} />
+        )}
       </div>
     </div>
   );

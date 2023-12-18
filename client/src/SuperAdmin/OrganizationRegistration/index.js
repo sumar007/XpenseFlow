@@ -24,6 +24,7 @@ const OrganizationForm = () => {
   });
   const [companyLogo, setCompanyLogo] = useState("");
   const [packageList, setPackageList] = useState([]);
+  console.log(formData.packageId, "venu");
 
   useEffect(() => {
     const fetchPackages = async () => {
@@ -34,7 +35,8 @@ const OrganizationForm = () => {
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          setPackageList(data.subscriptionList); // Assuming the backend returns an array of packages
+          setPackageList(data.subscriptionList);
+          setFormData({ ...formData, packageId: data.subscriptionList[0]._id }); // Assuming the backend returns an array of packages
         } else {
           console.error("Error fetching packages:", response.statusText);
         }
@@ -45,9 +47,10 @@ const OrganizationForm = () => {
 
     fetchPackages();
   }, []);
+
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, "called");
+    console.log(value, "called sai");
     setFormData({ ...formData, [name]: value });
   };
   const handleInputChange = (e) => {
