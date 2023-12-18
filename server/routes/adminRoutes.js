@@ -14,6 +14,7 @@ import {
     resetPassword,
     updateAdminProfile
 } from "../controllers/SuperAdminControllers.js";
+import {protectSuperAdminRoute} from "../middleware/auth.js";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -38,12 +39,12 @@ const adminRouter = express.Router();
 adminRouter.post("/superadminsignup", SuperAdminRegistration);
 adminRouter.post("/superadminverify", SuperAdminVerifyEmail)
 adminRouter.post("/superadminlogin", SuperAdminLogin)
-adminRouter.post("/subscription-plans-add", subscriptionAddPlan);
-adminRouter.get("/subscriptionlist", getSubscriptionList)
-adminRouter.get("/subscription-plans/:id", getSpecificSubscriptionDetails)
-adminRouter.put("/subscription-plans/:id", updateSubscriptionPlan)
-adminRouter.post("/super-admin-password", requestPasswordReset);
-adminRouter.post('/reset-password', resetPassword);
-adminRouter.put('/superadmin/profile/:id', upload.single('profilePicture'), updateAdminProfile);
+adminRouter.post("/subscription-plans-add",protectSuperAdminRoute, subscriptionAddPlan);
+adminRouter.get("/subscriptionlist",protectSuperAdminRoute, getSubscriptionList)
+adminRouter.get("/subscription-plans/:id",protectSuperAdminRoute, getSpecificSubscriptionDetails)
+adminRouter.put("/subscription-plans/:id", protectSuperAdminRoute,updateSubscriptionPlan)
+adminRouter.post("/super-admin-password",protectSuperAdminRoute, requestPasswordReset);
+adminRouter.post('/reset-password',protectSuperAdminRoute, resetPassword);
+adminRouter.put('/superadmin/profile/:id',protectSuperAdminRoute, upload.single('profilePicture'), updateAdminProfile);
 
 export default adminRouter;

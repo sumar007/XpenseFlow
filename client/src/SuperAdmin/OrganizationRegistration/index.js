@@ -24,7 +24,11 @@ const OrganizationForm = () => {
   });
   const [companyLogo, setCompanyLogo] = useState("");
   const [packageList, setPackageList] = useState([]);
+
 console.log(packageList)
+
+ console.log(formData.packageId, "venu");
+
   useEffect(() => {
     const fetchPackages = async () => {
       try {
@@ -34,7 +38,8 @@ console.log(packageList)
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          setPackageList(data.subscriptionList); // Assuming the backend returns an array of packages
+          setPackageList(data.subscriptionList);
+          setFormData({ ...formData, packageId: data.subscriptionList[0]._id }); // Assuming the backend returns an array of packages
         } else {
           console.error("Error fetching packages:", response.statusText);
         }
@@ -45,9 +50,10 @@ console.log(packageList)
 
     fetchPackages();
   }, []);
+
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, "called");
+    console.log(value, "called sai");
     setFormData({ ...formData, [name]: value });
   };
   const handleInputChange = (e) => {
@@ -131,8 +137,6 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">City</label>
               <input
@@ -144,6 +148,8 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">State</label>
               <input
@@ -155,8 +161,6 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Country</label>
               <input
@@ -205,8 +209,6 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Email
@@ -220,6 +222,8 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Website</label>
               <input
@@ -231,8 +235,6 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Create Password
@@ -245,6 +247,26 @@ console.log(packageList)
                 placeholder="Enter Password"
                 onChange={handleInputChange}
               />
+            </div>
+            <div className="organization-form-input-container">
+              <label className="organization-form-label-name">
+                Subscription Plan
+              </label>
+              <select
+                className="organization-form-input-text"
+                value={formData.packageId}
+                name="packageId"
+                onChange={handleSelectChange}
+              >
+                {packageList.map((eachPackage, index) => {
+                  console.log(eachPackage._id);
+                  return (
+                    <option key={index} value={eachPackage._id}>
+                      {eachPackage.subscriptionType}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
             {/* <div className="organization-form-input-container">
             <label className="organization-form-label-name">Website</label>
@@ -285,8 +307,6 @@ console.log(packageList)
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Logo
@@ -299,26 +319,6 @@ console.log(packageList)
                 onChange={handleFileChange}
               />
             </div>
-            <div className="organization-form-input-container">
-              <label className="organization-form-label-name">
-                Subscription Plan
-              </label>
-              <select
-                className="organization-form-input-text"
-                value={formData.packageId}
-                name="packageId"
-                onChange={handleSelectChange}
-              >
-                {packageList.map((eachPackage, index) => {
-                  console.log(eachPackage._id);
-                  return (
-                    <option key={index} value={eachPackage._id}>
-                      {eachPackage.subscriptionType}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
           </div>
           <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
@@ -328,13 +328,15 @@ console.log(packageList)
               <textarea
                 placeholder="Enter the description about the company"
                 onChange={handleInputChange}
+                cols={16}
+                rows={3}
                 name="description"
               />
             </div>
           </div>
           <div className="organization-form-submit-button-container">
             <button type="submit" className="organization-form-submit-button">
-              Submit
+              SUBMIT
             </button>
           </div>
         </form>

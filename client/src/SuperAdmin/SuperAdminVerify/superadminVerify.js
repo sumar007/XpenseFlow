@@ -51,27 +51,35 @@ const SuperadminVerify = () => {
   return (
     <div className="super-admin-verify-main-container">
       <form className="super-admin-verify-form-container" onSubmit={verifyUser}>
-        <div>
-          <label htmlFor="email">Enter Email</label>
+        <h3 style={{ textAlign: "center", fontWeight: "bold" }}>Verify Code</h3>
+        <div className="super-admin-verify-input-contaier">
+          <label className="super-admin-verify-label-text">Email:</label>
           <input
+            className="super-admin-verify-input"
             type="email"
-            id="email"
+            name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
         </div>
-        <div>
-          <label htmlFor="code">Enter Verification code</label>
+        <div className="super-admin-verify-input-contaier">
+          <label className="super-admin-verify-label-text">Code:</label>
           <input
             type="text"
-            id="code"
+            className="super-admin-verify-input"
+            name="code"
             value={code}
-            onChange={(e) => setVerifyCode(e.target.value)}
+            onChange={(e) => {
+              setVerifyCode(e.target.value);
+            }}
           />
         </div>
-        <div>
-          <button type="submit">verify</button>
-        </div>
+
+        <button type="submit" className="super-admin-verify-button">
+          SUBMIT
+        </button>
       </form>
     </div>
   );

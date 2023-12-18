@@ -4,6 +4,7 @@ import Toast from "../../components/utlis/toast";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Home/Header";
 import Footer from "../../components/Home/Footer";
+import signupImage from "../../images/superadminsignup.jpg";
 
 const SuperadminSignup = () => {
   const [formData, setFormData] = useState({
@@ -88,76 +89,77 @@ const SuperadminSignup = () => {
     <>
       <Header />
 
-      <div className="super-admin-signin-div-container">
-        <div className="login-image-container">
-          <img
-            src="https://www.ascarii.com/hubfs/Optimised-customer-Service-v4.png"
-            className="Login-image"
-            alt=""
-          />
+      <div className="super-admin-signup-div-container">
+        <div className="super-admin-signup-image-container">
+          <img src={signupImage} className="super-admin-signup-image" alt="" />
         </div>
-        <div className="super-admin-signin-form-main-container">
-          <center>
-            <h2 className="super-admin-signin-form-heading-container">
-              SuperAdmin Signup
-            </h2>
-          </center>
-          <form
-            onSubmit={handleSubmit}
-            className="super-admin-singin-form-container"
-          >
-            <div className="super-admin-signin-form-group-container">
-              <label className="super-admin-singnin-form-lable-container">
-                Name:
-              </label>
-              <input
-                type="text"
-                name="name"
-                className="super-admin-signin-input-container"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-              {errors.name && <p className="error-message">{errors.name}</p>}
-            </div>
-            <div className="super-admin-signin-form-group-container">
-              <label className="super-admin-singnin-form-lable-container">
-                Email:
-              </label>
-              <input
-                type="email"
-                name="email"
-                className="super-admin-signin-input-container"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-              {errors.email && <p className="error-message">{errors.email}</p>}
-            </div>
-            <div className="super-admin-signin-form-group-container">
-              <label className="super-admin-singnin-form-lable-container">
-                Password:
-              </label>
-              <input
-                type="password"
-                name="password"
-                className="super-admin-signin-input-container"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
-              {errors.password && (
-                <p className="error-message">{errors.password}</p>
-              )}
-            </div>
-            {backendError && <p className="error-message">{backendError}</p>}
-            <center>
-              <button
-                className="super-admin-signin-form-button-container"
-                type="submit"
-              >
-                Sign Up
+        <div className="super-admin-signup-form-main-container">
+          <div className="super-admin-signup-form-container">
+            <form
+              onSubmit={handleSubmit}
+              className="super-admin-signup-form-sub-container"
+            >
+              <div className="form-logo-container">
+                <img
+                  src="./logo xf.png"
+                  alt="login-img"
+                  className="super-admin-login-logo"
+                />
+                <h1 className="super-admin-login-first-heading">Sign Up</h1>
+              </div>
+              <div className="super-admin-signup-form-group-container">
+                <label className="super-admin-signup-form-lable-container">
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  className="super-admin-signup-input-container"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
+                {errors.name && <p className="error-message">{errors.name}</p>}
+              </div>
+              <div className="super-admin-signup-form-group-container">
+                <label className="super-admin-signup-form-lable-container">
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="super-admin-signup-input-container"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
+                {errors.email && (
+                  <p className="error-message">{errors.email}</p>
+                )}
+              </div>
+              <div className="super-admin-signup-form-group-container">
+                <label className="super-admin-signup-form-lable-container">
+                  Password:
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  className="super-admin-signup-input-container"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                {errors.password && (
+                  <p className="error-message">{errors.password}</p>
+                )}
+              </div>
+              {backendError && <p className="error-message">{backendError}</p>}
+
+              <button className="super-admin-signup-form-button" type="submit">
+                SIGN UP
               </button>
-            </center>
-          </form>
-          <p onClick={onClickButton}>Already have an account login</p>
+              <p onClick={onClickButton} className="super-admin-signup-account">
+                Already have an account login
+              </p>
+            </form>
+          </div>
         </div>
       </div>
       <Footer />

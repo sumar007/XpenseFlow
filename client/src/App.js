@@ -17,6 +17,8 @@ import SuperadminVerify from "./SuperAdmin/SuperAdminVerify/superadminVerify.js"
 import SubscriptionList from "./SuperAdmin/SubscriptionList/index.js";
 import OrganizationForm from "./SuperAdmin/OrganizationRegistration/index.js";
 import OrganizationList from "./SuperAdmin/OrganizationList/index.js";
+import SuperAdminHome from "./SuperAdmin/SuperAdminHome/SuperAdminHome.js";
+
 import SubscriptionDetailView from "./SuperAdmin/SubscriptionViewDetail/index.js";
 import OrganizationViewDetail from "./SuperAdmin/OrganizationViewDetail/index.js";
 function App() {
@@ -28,15 +30,20 @@ function App() {
       <Route path="/organizationList" element={<OrganizationList />} />
       <Route path="/organizationRegistration" element={<OrganizationForm />} />
       <Route path="/subscriptionlist" element={<SubscriptionList />} />
+      <Route path="/superhome" element={<SuperAdminHome />} />
+
+      <Route path="/SubscriptionForm" element={<SubscriptionForm />} />
       <Route path="/subscriptionForm" element={<SubscriptionForm />} />
       <Route
         path="/subscriptionViewDetail/:id"
         element={<SubscriptionDetailView />}
       />
+
       <Route
         path="/organizationViewDetail/:id"
         element={<OrganizationViewDetail />}
       />
+
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/Support" element={<Support />} />

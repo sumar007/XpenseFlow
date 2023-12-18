@@ -10,24 +10,39 @@
      */
 }
 .super-admin-login-form-main-container {
-  width: 24%;
+  width: 25%;
   margin: 70px;
-  padding: 50px 30px;
-  border: 2px solid #4b4f58;
-  border-radius: 5px;
-  box-shadow: 0 0 20px #282046(0, 0, 0, 0.1);
+  padding: 30px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 20px 20px 60px #00000041, inset -20px -20px 60px #ffffff40;
   background-color: #fff;
 }
 .super-admin-login-form-heading-container {
   font-size: 28px;
-  font-weight: 600;
-  color: #212d45;
+  font-weight: bold;
+  color: black;
+  text-align: center;
 }
 .singin-form-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.super-admin-login-logo {
+  width: 40px;
+  height: 40px;
+}
+.super-admin-login-first-heading {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.form-logo-container {
+  display: flex;
+  justify-content: center;
 }
 
 .super-admin-login-form-group-container {
@@ -38,85 +53,60 @@
   gap: 4px;
 }
 
-.singnin-form-lable-container {
+.super-admin-login-form-label-text {
   font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 17px;
 }
 
 .super-admin-login-input-text {
-  width: 90%;
+  width: 100%;
   padding: 8px;
   font-size: 16px;
   border: 2px solid #4b4f58;
   border-radius: 7px;
 }
 
-.super-admin-login-form-button-container {
-  background-color: #ffc03d;
-  color: #4b4f58;
+.super-admin-login-form-button {
+  width: 100%;
+  background-color: transparent;
+  color: black;
   padding: 8px 20px;
-  border: none;
-  border-radius: 20px;
+  border: 3px #4f46e5 solid;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-.super-admin-login-form-button-container:hover {
-  border: 1px solid #4b4f58;
-  color: #4b4f58;
-  background-color: #fff;
+.super-admin-login-form-button:hover {
+  border: 3px #4f46e5 solid;
+  color: white;
+  background-color: #4f46e5;
   transition: 0.3s ease-in-out;
 }
-.super-admin-login-staff-customer-button-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 4px;
-  width: 100%;
-}
-.super-admin-login-staff-button {
-  border: none;
-  width: 45%;
-  padding: 8px 10px;
-  background-color: #4b4f58;
-  border-radius: 4px;
-  font-size: 16px;
-  color: #fff;
+
+.super-admin-login-account {
+  color: #4278ed;
   cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  min-width: max-content;
+  margin-top: 10px;
 }
-.super-admin-login-customer-button {
-  border: none;
-  width: 45%;
-  padding: 8px 10px;
-  border: 1px solid #4b4f58;
-  border-radius: 4px;
-  font-size: 16px;
-  color: #000;
-  cursor: pointer;
-  background-color: #fff;
-  font-weight: 600;
-  min-width: max-content;
-  letter-spacing: 0.5px;
-}
+
 .login-image-container {
   width: 50%;
 }
 .Login-image {
   width: 100%;
 }
-@media (min-width: 769px) and (max-width: 1024px) {
-  .super-admin-login-form-main-container {
-    width: 50%;
-  }
-}
+
 @media (max-width: 1200px) {
   .super-admin-login-form-main-container {
-    width: 30%;
+    width: 35%;
+  }
+}
+@media (min-width: 769px) and (max-width: 1023px) {
+  .super-admin-login-form-main-container {
+    width: 60%;
   }
 }
 @media (min-width: 512px) and (max-width: 768px) {
@@ -134,11 +124,14 @@
   }
   .super-admin-login-form-heading-container {
     font-size: 24px;
+    text-align: center;
   }
 }
 @media (max-width: 512px) {
   .super-admin-login-form-main-container {
     width: 100%;
+    margin: 10px;
+    padding: 10px;
   }
   .login-image-container {
     display: none;

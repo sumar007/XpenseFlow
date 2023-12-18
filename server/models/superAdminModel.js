@@ -36,6 +36,7 @@ const adminSchema = new mongoose.Schema({
     resetPasswordExpires: {
       type: Date,
     },
+    managedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   });
  
   adminSchema.methods.comparePassword = async function (candidatePassword) {

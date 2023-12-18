@@ -9,15 +9,8 @@ import dotenv from "dotenv";
 import { AdminModel } from "../models/superAdminModel.js";
 
 import { Subscription } from "../models/subscription.js";
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads'); // Directory to store profile pictures
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Rename file to avoid duplication
-  }
-});
-const upload = multer({ storage: storage });
+
+
 function sendVerificationEmail(email, code) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -278,6 +271,39 @@ export const updateAdminProfile = async (req, res) => {
 };
 
 
+//notification is pending now after getting all users then only we will work on this
+
+//  const sendNotifications = async (message, selectedUsers) => {
+//   try {
+//     // Loop through selectedUsers and create a notification for each user
+//     for (const userId of selectedUsers) {
+//       const newNotification = new Notification({
+//         recipient: userId,
+//         message,
+//         // Additional fields if needed
+//       });
+      
+//       await newNotification.save(); // Save the notification for the user
+//     }
+
+//     return { success: true, message: 'Notifications sent successfully' };
+//   } catch (error) {
+//     console.error('Error sending notifications:', error);
+//     throw new Error('Failed to send notifications');
+//   }
+// };
+// export const sendNotificationRoute = async (req, res) => {
+//   try {
+//     const { message, selectedUsers } = req.body; // Assuming selectedUsers contains user IDs
+
+//     const result = await sendNotifications(message, selectedUsers);
+
+//     res.status(200).json(result);
+//   } catch (error) {
+//     console.error('Error handling notification request:', error);
+//     res.status(500).json({ error: 'Failed to handle notification request' });
+//   }
+// };
 
 
 

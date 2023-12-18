@@ -3,10 +3,7 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
 
-function SubscriptionDetailView() {
-  const { subscriptionId } = useParams(); // Get subscriptionId from URL params
-  console.log(subscriptionId);
-  const id = "657984446240dc50abb3c620";
+function SubscriptionDetailView(props) {
   const [formData, setFormData] = useState({
     subscriptionType: "",
     originalprice: "",
@@ -16,20 +13,21 @@ function SubscriptionDetailView() {
     timeUnit: "days",
     // features: "",
   });
+  const id = props.subscriptionId;
 
-//   const [feature, setFeature] = useState("");
+  //   const [feature, setFeature] = useState("");
 
-//   const handleFeature = (e) => {
-//     setFeature(e.target.value);
-//   };
+  //   const handleFeature = (e) => {
+  //     setFeature(e.target.value);
+  //   };
 
-//   const AddingFeature = () => {
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       features: [...prevData.features, feature],
-//     }));
-//     setFeature("");
-//   };
+  //   const AddingFeature = () => {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       features: [...prevData.features, feature],
+  //     }));
+  //     setFeature("");
+  //   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +36,10 @@ function SubscriptionDetailView() {
       [name]: value,
     }));
   };
+
   useEffect(() => {
+    const id = props.subscriptionId;
+
     const fetchSubscriptionDetails = async () => {
       try {
         const response = await fetch(
@@ -47,7 +48,7 @@ function SubscriptionDetailView() {
             method: "GET",
           }
         );
-  
+
         if (response.ok) {
           const { data } = await response.json();
           // Destructure and assign form data
@@ -59,7 +60,7 @@ function SubscriptionDetailView() {
             convertedValidTime, // Assuming this is the correct property name
             // features,
           } = data;
-  
+
           // Update the state with the fetched subscription details
           setFormData({
             subscriptionType,
@@ -77,7 +78,7 @@ function SubscriptionDetailView() {
         console.error("Error:", error);
       }
     };
-  
+
     fetchSubscriptionDetails();
   }, [id]);
   const handleSubmit = async (e) => {
