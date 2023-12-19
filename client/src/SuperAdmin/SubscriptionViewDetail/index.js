@@ -39,16 +39,21 @@ function SubscriptionDetailView(props) {
 
   useEffect(() => {
     const id = props.subscriptionId;
-
     const fetchSubscriptionDetails = async () => {
       try {
+        // Retrieve the token from session storage
+        const token = sessionStorage.getItem("token");
+    
         const response = await fetch(
           `http://localhost:3009/api/v1/subscription-plans/${id}`,
           {
             method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
-
+    
         if (response.ok) {
           const { data } = await response.json();
           // Destructure and assign form data
@@ -60,7 +65,7 @@ function SubscriptionDetailView(props) {
             convertedValidTime, // Assuming this is the correct property name
             // features,
           } = data;
-
+    
           // Update the state with the fetched subscription details
           setFormData({
             subscriptionType,
@@ -78,6 +83,7 @@ function SubscriptionDetailView(props) {
         console.error("Error:", error);
       }
     };
+    
 
     fetchSubscriptionDetails();
   }, [id]);
@@ -85,7 +91,7 @@ function SubscriptionDetailView(props) {
     e.preventDefault();
 
     console.log(formData);
-    const token = Cookies.get("_a_p_k");
+    const token = sessionStorage.getItem("token");
     try {
       const response = await fetch(
         `http://localhost:3009/api/v1/subscription-plans/${id}`,

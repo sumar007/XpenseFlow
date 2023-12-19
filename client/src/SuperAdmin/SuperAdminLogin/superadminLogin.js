@@ -58,9 +58,11 @@ const SuperadminLogin = () => {
               icon: "success",
               title: data.message,
             });
+            console.log(data.token);
+            sessionStorage.setItem("token", data.token);
+
             navigate("/superhome");
 
-            // sessionStorage.setItem("token", data.token);
             // localStorage.setItem("role", data.role);
             // sessionStorage.setItem("role", data.role);
             // sessionStorage.setItem("sname", data.name);
