@@ -39,7 +39,9 @@ function SubscriptionForm() {
     e.preventDefault();
 
     console.log(formData);
+
     const token = sessionStorage.getItem("token");
+
     try {
       const response = await fetch(
         "http://localhost:3009/api/v1/subscription-plans-add",
