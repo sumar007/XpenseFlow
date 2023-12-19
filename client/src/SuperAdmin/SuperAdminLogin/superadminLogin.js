@@ -41,7 +41,7 @@ const SuperadminLogin = () => {
       email: formData.email,
       password: formData.password,
     };
-
+    let response;
     // Make a POST request using the fetch API with JSON data
     fetch(url, {
       method: "POST",
@@ -54,6 +54,10 @@ const SuperadminLogin = () => {
         if (response.status === 200) {
           // Login successful
           response.json().then((data) => {
+            // Extract the token from the response
+        const receivedToken = data.token;
+        // Store the received token in local storage
+        localStorage.setItem("token", receivedToken);
             Toast.fire({
               icon: "success",
               title: data.message,
