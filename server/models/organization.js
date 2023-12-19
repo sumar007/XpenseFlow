@@ -48,11 +48,14 @@ const organizationSchema = new mongoose.Schema({
   },
   packageId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Subscription", // Assuming your Subscription model is named Subscription
+    ref: "Subscription",
   },
   companyLogo: {
-    type: String, // Assuming you store the file path or URL of the logo
+    type: String,
   },
+  status:{
+    type: Boolean,
+  }
 });
 
 export const Organization = mongoose.model("Organization", organizationSchema);

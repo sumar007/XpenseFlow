@@ -13,9 +13,10 @@ export const protectSuperAdminRoute = async (req, res, next) => {
       req.headers.authorization &&
       req.headers.authorization.startsWith('Bearer')
     ) {
+      console.log(req.headers)
       token = req.headers.authorization.split(' ')[1]; // Extract token from the header
     }
-
+    console.log(token)
     if (!token) {
       return res.status(401).json({ message: 'Authorization denied' });
     }
@@ -25,7 +26,7 @@ export const protectSuperAdminRoute = async (req, res, next) => {
 
     // Find Super Admin by ID from the decoded token
     const superAdmin = await AdminModel.findById(decoded.user.id);
-
+    console.log(superAdmin)
     if (!superAdmin || superAdmin.role !== 'superAdmin') {
       return res.status(403).json({ message: 'Unauthorized access' });
     }

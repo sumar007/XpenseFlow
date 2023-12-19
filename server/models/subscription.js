@@ -22,6 +22,9 @@ const subscriptionSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    status:{
+      type: Boolean,
+    }
     // features: {
     //   type: [String], // Array of features
     //   default: [],

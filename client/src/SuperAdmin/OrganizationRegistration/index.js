@@ -29,27 +29,34 @@ const OrganizationForm = () => {
 
   console.log(formData.packageId, "venu");
 
-  useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:3009/api/v1/subscriptionlist"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setPackageList(data.subscriptionList);
-          setFormData({ ...formData, packageId: data.subscriptionList[0]._id }); // Assuming the backend returns an array of packages
-        } else {
-          console.error("Error fetching packages:", response.statusText);
+ useEffect(() => {
+  const fetchPackages = async () => {
+    try {
+      const token = Cookies.get("token");
+      const response = await fetch(
+        "http://localhost:3009/api/v1/subscriptionlist",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (error) {
-        console.error("Error fetching packages:", error);
-      }
-    };
+      );
 
-    fetchPackages();
-  }, []);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.subscriptionList);
+        setPackageList(data.subscriptionList);
+        setFormData({ ...formData, packageId: data.subscriptionList[0]._id });
+      } else {
+        console.error("Error fetching packages:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching packages:", error);
+    }
+  };
+
+  fetchPackages();
+}, []);
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
