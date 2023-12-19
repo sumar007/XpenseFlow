@@ -70,12 +70,12 @@ function SubscriptionList({ setSubscriptionDetail }) {
   useEffect(() => {
     console.log("Fetching Data...");
     const fetchData = async () => {
-      // const token = Cookies.get("_a_p_k");
+      const token = sessionStorage.getItem("token");
       const options = {
         method: "GET",
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
+         headers: {
+           Authorization: `Bearer ${token}`,
+        },
       };
       const api = "http://localhost:3009/api/v1/subscriptionlist";
       try {

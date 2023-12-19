@@ -69,21 +69,19 @@ function OrganizationList() {
   useEffect(() => {
     console.log("Fetching Data...");
     const fetchData = async () => {
-      // const token = Cookies.get("_a_p_k");
-      const options = {
-        method: "GET",
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      };
-      const api = "http://localhost:3009/api/v1/organizationlist";
       try {
+        const token = Cookies.get("token");
+        const options = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const api = "http://localhost:3009/api/v1/organizationlist";
         const response = await fetch(api, options);
-
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
-
         const data = await response.json();
         console.log(data);
         setOrganizations(data);
@@ -91,10 +89,10 @@ function OrganizationList() {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, []);
-
+  
   const columns = [
     {
       field: "_id",

@@ -1,7 +1,7 @@
 import { Organization } from "../models/organization.js";
 import { OrganizationPackage } from "../models/organiztaionSubscription.js";
 import { Subscription } from "../models/subscription.js";
-import bcrypt from "bcrypt"; 
+import bcrypt from "bcrypt";
 
 export const addOrganization = async (req, res) => {
   try {
@@ -22,14 +22,10 @@ export const addOrganization = async (req, res) => {
       companyRegistrationNumber,
       packageId,
     } = req.body;
-
-    console.log(req.body.packageId);
-
     let companyLogo = "";
     if (req.file) {
       companyLogo = req.file.filename;
     }
-
     // Step 1: Save the new organization
     const newOrganization = new Organization({
       organizationName,
@@ -48,26 +44,22 @@ export const addOrganization = async (req, res) => {
       companyRegistrationNumber,
       packageId,
       companyLogo,
+      status: true,
     });
 
-    // Step 2: Hash the password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    
-    // Step 3: Replace plain password with hashed password
     newOrganization.password = hashedPassword;
 
-    // Step 4: Save the new organization with hashed password
     const savedOrganization = await newOrganization.save();
 
-    // Step 5: Fetch subscription details based on packageId
     const subscriptionDetails = await Subscription.findById(packageId);
 
-    // Step 6: Create and save the OrganizationPackage document
     const startDate = new Date();
     const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + subscriptionDetails.convertedValidTime);
-
+    endDate.setDate(
+      startDate.getDate() + subscriptionDetails.convertedValidTime
+    );
     const newOrganizationPackage = new OrganizationPackage({
       subscriptionId: packageId,
       organizationId: savedOrganization._id,
@@ -76,9 +68,7 @@ export const addOrganization = async (req, res) => {
       status: 1,
       noOfUsers: subscriptionDetails.userCount,
     });
-
     await newOrganizationPackage.save();
-
     res.status(201).json("Successfully added organization");
   } catch (error) {
     console.error("Error adding organization:", error);
@@ -99,7 +89,22 @@ export const getOrganizationList = async (req, res) => {
 export const getSpecificOrganization = async (req, res) => {
   try {
     const organization = await Organization.findById(req.params.id);
-    res.json(organization);
+    if (!organization) {
+      return res.status(404).json({ error: "Organization not found" });
+    }
+    // Get subscription details for the organization
+    const organizationPackage = await OrganizationPackage.findOne({
+      organizationId: organization._id,
+    });
+    // Assuming you want to include subscription details in the response
+    const organizationDetails = {
+      organization: organization.toObject(),
+      subscriptionDetails: organizationPackage
+        ? organizationPackage.toObject()
+        : null,
+    };
+    console.log(organizationDetails);
+    res.json(organizationDetails);
   } catch (error) {
     console.error("Error fetching organization details:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -107,16 +112,47 @@ export const getSpecificOrganization = async (req, res) => {
 };
 
 export const updateSpecificOrganization = async (req, res) => {
-  console.log(req.params.id);
   try {
+    const {
+      startDate,
+      endDate,
+      noOfUsers, // Make sure startDate and endDate are available in req.body
+    } = req.body;
+    // Update organization details
     const updatedOrganization = await Organization.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
-    );
-    res.json(updatedOrganization);
+    ); // Update organization package details
+    const updatedOrganizationPackage =
+      await OrganizationPackage.findOneAndUpdate(
+        { organizationId: req.params.id },
+        { $set: { startDate, endDate, noOfUsers } },
+        { new: true }
+      );
+    res.json({ updatedOrganization, updatedOrganizationPackage });
   } catch (error) {
     console.error("Error updating organization details:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+
+};
+
+export const updateStatusOfOrganization = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const organization = await Organization.findByIdAndUpdate(
+      id,
+      { $set: { status } },
+      { new: true }
+    );
+    if (!organization) {
+      return res.status(404).json({ message: "Organization not found" });
+    }
+    return res.json(organization);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
