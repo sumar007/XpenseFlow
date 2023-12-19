@@ -40,7 +40,7 @@ function App() {
       />
 
       <Route
-        path="/organizationViewDetail/:id"
+        path="/organizationViewDetail/658124601449baa84a477458"
         element={<OrganizationViewDetail />}
       />
 
