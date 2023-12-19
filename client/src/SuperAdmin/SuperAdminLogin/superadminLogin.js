@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import React Router
 import "./superlogin.css";
+import { IoCloseSharp } from "react-icons/io5";
 import Header from "../../components/Home/Header";
 import Footer from "../../components/Home/Footer";
 import Toast from "../../components/utlis/toast";
@@ -14,6 +15,7 @@ const SuperadminLogin = () => {
   });
 
   const [staff, setStaff] = useState(true);
+  const [email, setEmail] = useState("");
 
   const [error, setError] = useState(""); // State variable for error message
   const navigate = useNavigate(); // Get access to the navigation history
@@ -24,6 +26,15 @@ const SuperadminLogin = () => {
   };
 
   const FETCH_URL = process.env.REACT_APP_FETCH_URL;
+  const customStyles = {
+    content: {
+      width: "40%",
+      height: "50%",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
 
   const forgotPassword = () => {
     setIsOpen(true);
@@ -51,8 +62,8 @@ const SuperadminLogin = () => {
       body: JSON.stringify(jsonData), // Convert JSON object to string
     })
       .then((response) => {
-        if (response.status === 200) {
-          // Login successful
+        console.log(response.status, "status sai");
+        if (response.status === 201) {
           response.json().then((data) => {
             // Extract the token from the response
         const receivedToken = data.token;
@@ -105,6 +116,44 @@ const SuperadminLogin = () => {
   const onClickStaff = () => {
     navigate("/signup");
   };
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4MTNjZjcwMTJmMmRhODY3ZDM1YjBiIiwiZW1haWwiOiJ2ZW51b2ZmY2FtcHVzQGdtYWlsLmNvbSJ9LCJpYXQiOjE3MDI5Njk2ODUsImV4cCI6MTcwMjk3MzI4NX0.YZI__Sz2jGJMk7JyfJFSrlU_GepShZ9lirhgjj5yd_c token";
+
+  const submitForgotEmail = async (event) => {
+    event.preventDefault();
+    alert("token has been sent to your email");
+    try {
+      // Create a request body with token and newPassword
+      const requestBody = {
+        email: email,
+      };
+
+      // Perform the POST request using fetch
+      const response = await fetch(
+        "http://localhost:3009/api/v1/super-admin-password",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      // Check the response status
+      if (response.ok) {
+        // Handle success, maybe redirect the user to another page
+        navigate("/super-forgot");
+      } else {
+        // Handle error cases, you can display an error message to the user
+        console.error("Failed to reset password");
+      }
+    } catch (error) {
+      // Handle any unexpected errors
+      console.error("An error occurred:", error);
+    }
+  };
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -118,7 +167,7 @@ const SuperadminLogin = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="super-admin-login-div-container">
         <div className="super-admin-login-form-main-container">
           {/* <div className="super-admin-login-staff-customer-button-container">
@@ -185,9 +234,41 @@ const SuperadminLogin = () => {
               <p className="super-admin-login-account" onClick={forgotPassword}>
                 forgot password ?
               </p>
-              <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+              >
                 <div className="super-forgot-modal-button-container">
-                  <button onClick={closeModal}>close</button>
+                  <IoCloseSharp onClick={closeModal} className="close-button" />
+                </div>
+                <div className="super-forgot-modal-main-container">
+                  <form
+                    className="super-admin-forgot-form-container"
+                    onSubmit={submitForgotEmail}
+                  >
+                    <div className="super-admin-login-form-group-container">
+                      <label className="super-admin-login-form-label-text">
+                        Email:
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        className="super-admin-login-input-text"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="super-forgot-button-container">
+                      <button
+                        className="super-admin-login-form-button"
+                        type="submit"
+                      >
+                        SUBMIT
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </Modal>
             </>
