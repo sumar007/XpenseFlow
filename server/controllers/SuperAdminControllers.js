@@ -156,7 +156,7 @@ export const SuperAdminLogin = async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "1h" },
+      { expiresIn: "72h" },
       (err, token) => {
         if (err) {
           throw err;
@@ -336,6 +336,7 @@ export const subscriptionAddPlan = async (req, res, next) => {
       userCount,
       convertedValidTime,
       // features,
+      status: true,
     });
 
     await newSubscription.save();
@@ -348,7 +349,9 @@ export const subscriptionAddPlan = async (req, res, next) => {
 
 export const getSubscriptionList = async (req, res, next) => {
   try {
+    console.log("called subscripryin");
     const subscriptions = await Subscription.find();
+    console.log(subscriptions)
     res.status(200).json({ subscriptionList: subscriptions });
   } catch (error) {
     console.error("Error fetching subscription data:", error);
@@ -411,7 +414,6 @@ export const updateSubscriptionPlan = async (req, res) => {
       },
       { new: true } // Return the updated document
     );
-
     if (updatedSubscription) {
       res.json({ message: "Subscription plan updated successfully" });
     } else {
@@ -420,5 +422,25 @@ export const updateSubscriptionPlan = async (req, res) => {
   } catch (error) {
     console.error("Error updating subscription plan:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const updateStatusOfSubscription=  async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const subscription = await Subscription.findByIdAndUpdate(
+      id,
+      { $set: { status } },
+      { new: true }
+    );
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription not found" });
+    }
+    return res.json(subscription);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };

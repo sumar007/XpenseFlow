@@ -4,8 +4,10 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { json } from "react-router-dom";
 
+
 const OrganizationViewDetail = ({ orgActive }) => {
   const organizationId = orgActive;
+
   const [formData, setFormData] = useState({
     organizationName: "",
     description: "",
@@ -22,6 +24,9 @@ const OrganizationViewDetail = ({ orgActive }) => {
     responsiblePerson: "",
     companyRegistrationNumber: "",
     packageId: "",
+    startDate: "",
+    endDate: "",
+    noOfUsers:"",
   });
 
   const [companyLogo, setCompanyLogo] = useState("");
@@ -29,13 +34,35 @@ const OrganizationViewDetail = ({ orgActive }) => {
 
   const fetchOrganizationDetails = async () => {
     try {
+      const token = sessionStorage.getItem("token"); // Get the authorization token from cookies
       const response = await fetch(
-        `http://localhost:3009/api/v1/getorganization/${organizationId}`
+        `http://localhost:3009/api/v1/getorganization/${organizationId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       if (response.ok) {
         const data = await response.json();
-        setFormData(data); // Assuming your state structure matches the organization details
-        console.log(data);
+
+  
+        // Convert start date and end date to YYYY-MM-DD format
+        const formattedStartDate = new Date(data.subscriptionDetails.startDate)
+          .toISOString()
+          .split("T")[0];
+        const formattedEndDate = new Date(data.subscriptionDetails.endDate)
+          .toISOString()
+          .split("T")[0];
+  
+        setFormData({
+          ...data.organization,
+          noOfUsers: data.subscriptionDetails.noOfUsers,
+          startDate: formattedStartDate,
+          endDate: formattedEndDate,
+        });
+
       } else {
         console.error(
           "Error fetching organization details:",
@@ -54,9 +81,16 @@ const OrganizationViewDetail = ({ orgActive }) => {
   useEffect(() => {
     const fetchPackages = async () => {
       try {
+        const token = sessionStorage.getItem("token"); // Get the authorization token from cookies
         const response = await fetch(
-          "http://localhost:3009/api/v1/subscriptionlist"
+          "http://localhost:3009/api/v1/subscriptionlist",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
+
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -71,9 +105,9 @@ const OrganizationViewDetail = ({ orgActive }) => {
 
     fetchPackages();
   }, []);
+
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, "called");
     setFormData({ ...formData, [name]: value });
   };
   const handleInputChange = (e) => {
@@ -95,7 +129,11 @@ const OrganizationViewDetail = ({ orgActive }) => {
         "Content-Type": "application/json",
         // Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,
+        startDate: new Date(formData.startDate).toISOString(),
+        endDate: new Date(formData.endDate).toISOString(),
+      }),
     };
 
     try {
@@ -335,15 +373,47 @@ const OrganizationViewDetail = ({ orgActive }) => {
           </div>
           <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
+              <label className="organization-form-label-name">start date</label>
+              <input
+                value={formData.startDate}
+                placeholder="Enter the description about the company"
+                type="date"
+                onChange={handleInputChange}
+                name="startDate"
+              />
+            </div>
+            <div className="organization-form-input-container">
+              <label className="organization-form-label-name">end date</label>
+              <input
+                value={formData.endDate}
+                placeholder="Enter the description about the company"
+                onChange={handleInputChange}
+                type="date"
+                name="endDate"
+              />
+            </div>
+            <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Description
               </label>
               <textarea
+                value={formData.description}
                 placeholder="Enter the description about the company"
                 onChange={handleInputChange}
                 cols={16}
                 rows={3}
                 name="description"
+              />
+            </div>
+            <div className="organization-form-input-container">
+              <label className="organization-form-label-name">
+                No of Users
+              </label>
+              <input
+                value={formData.noOfUsers}
+                placeholder="2"
+                onChange={handleInputChange}
+                name="noOfUsers"
               />
             </div>
           </div>

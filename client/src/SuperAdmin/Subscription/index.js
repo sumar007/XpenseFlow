@@ -40,7 +40,9 @@ function SubscriptionForm() {
     e.preventDefault();
 
     console.log(formData);
-    const token = Cookies.get("_a_p_k");
+
+    const token = sessionStorage.getItem("token");
+
     try {
       const response = await fetch(
         "http://localhost:3009/api/v1/subscription-plans-add",
