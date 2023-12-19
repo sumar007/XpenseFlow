@@ -15,15 +15,22 @@ import SubscriptionList from "../SubscriptionList";
 
 import "./SuperAdminHome.css";
 import SubscriptionDetailView from "../SubscriptionViewDetail";
+import OrganizationViewDetail from "../OrganizationViewDetail";
 
 function UserPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [active, setActive] = useState("alltasks");
+  const [active, setActive] = useState("organizations");
   const [activeId, setId] = useState("");
+  const [orgActiveId, setOrgId] = useState("");
 
   const setSubscriptionDetail = (id) => {
     setId(id);
     setActive("detail");
+  };
+
+  const getOrgId = (orgId) => {
+    setOrgId(orgId);
+    setActive("org-detail");
   };
 
   return (
@@ -96,7 +103,9 @@ function UserPanel() {
       </Sidebar>
       <div style={{ width: "100%", height: "max-content" }}>
         {active === "subform" && <SubscriptionForm />}
-        {active === "organizations" && <OrganizationList />}
+        {active === "organizations" && (
+          <OrganizationList setOrganizationId={getOrgId} />
+        )}
         {active === "orgform" && <OrganizationForm />}
         {active === "sublist" && (
           <SubscriptionList setSubscriptionDetail={setSubscriptionDetail} />
@@ -104,6 +113,9 @@ function UserPanel() {
 
         {active === "detail" && (
           <SubscriptionDetailView subscriptionId={activeId} />
+        )}
+        {active === "org-detail" && (
+          <OrganizationViewDetail orgActive={orgActiveId} />
         )}
       </div>
     </div>

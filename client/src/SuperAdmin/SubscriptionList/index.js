@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { ToggleButton } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import {
   GridToolbar,
@@ -164,7 +165,7 @@ function SubscriptionList({ setSubscriptionDetail }) {
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteIcon />}
+            icon={<ToggleButton />}
             label="Delete"
             onClick={() => handleDeleteClick(id)}
             color="inherit"

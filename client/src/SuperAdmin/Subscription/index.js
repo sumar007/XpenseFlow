@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
 function SubscriptionForm() {
   const [formData, setFormData] = useState({
@@ -62,7 +63,15 @@ function SubscriptionForm() {
       console.error("Error:", error);
     }
   };
-  console.log(formData.features);
+
+  const getEditingPlan = async () => {
+    const options = {
+      method: "GET",
+    };
+
+    const api = ``;
+  };
+
   return (
     <div style={{ display: "flex" }}>
       {/* <SideBar /> */}

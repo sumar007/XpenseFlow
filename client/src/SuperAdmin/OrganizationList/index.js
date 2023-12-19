@@ -49,7 +49,7 @@ const CustomCheckboxHeader = (props) => {
   );
 };
 
-function OrganizationList() {
+function OrganizationList({ setOrganizationId }) {
   const navigate = useNavigate(); // Move this line to the top
   const [organizations, setOrganizations] = useState([]);
 
@@ -57,9 +57,7 @@ function OrganizationList() {
   const [selectedRow, setSelectedRow] = React.useState(null);
 
   const handleEditClick = (id) => {
-    const row = rows.find((r) => r.id === id);
-    setSelectedRow(row);
-    setModalOpen(true);
+    setOrganizationId(id);
   };
 
   const handleCloseModal = () => {

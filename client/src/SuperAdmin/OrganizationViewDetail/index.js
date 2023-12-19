@@ -4,8 +4,8 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { json } from "react-router-dom";
 
-const OrganizationViewDetail = () => {
-  const organizationId = "657a8f4a7ae4ca39a7a0e16a";
+const OrganizationViewDetail = ({ orgActive }) => {
+  const organizationId = orgActive;
   const [formData, setFormData] = useState({
     organizationName: "",
     description: "",
@@ -35,6 +35,7 @@ const OrganizationViewDetail = () => {
       if (response.ok) {
         const data = await response.json();
         setFormData(data); // Assuming your state structure matches the organization details
+        console.log(data);
       } else {
         console.error(
           "Error fetching organization details:",
@@ -47,7 +48,6 @@ const OrganizationViewDetail = () => {
   };
 
   useEffect(() => {
-   
     fetchOrganizationDetails();
   }, [organizationId]);
 
@@ -87,7 +87,7 @@ const OrganizationViewDetail = () => {
   };
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // const token = Cookies.get("_a_p_k");
     const options = {
       method: "PUT",
@@ -97,17 +97,17 @@ const OrganizationViewDetail = () => {
       },
       body: JSON.stringify(formData),
     };
-  
+
     try {
       const response = await fetch(
         `http://localhost:3009/api/v1/updateorganization/${organizationId}`,
         options
       );
-  
+
       if (response.ok) {
         const updatedData = await response.json();
         console.log("Organization updated:", updatedData);
-        fetchOrganizationDetails()
+        fetchOrganizationDetails();
       } else {
         console.error("Error updating organization:", response.statusText);
       }
@@ -150,8 +150,6 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">City</label>
               <input
@@ -163,6 +161,8 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">State</label>
               <input
@@ -174,8 +174,6 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Country</label>
               <input
@@ -224,8 +222,6 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Email
@@ -239,6 +235,8 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Website</label>
               <input
@@ -250,9 +248,7 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
-            {/* <div className="organization-form-input-container">
+            <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Create Password
               </label>
@@ -264,18 +260,38 @@ const OrganizationViewDetail = () => {
                 placeholder="Enter Password"
                 onChange={handleInputChange}
               />
-            </div> */}
+            </div>
+            <div className="organization-form-input-container">
+              <label className="organization-form-label-name">
+                Subscription Plan
+              </label>
+              <select
+                className="organization-form-input-text"
+                value={formData.packageId}
+                name="packageId"
+                onChange={handleSelectChange}
+              >
+                {packageList.map((eachPackage, index) => {
+                  console.log(eachPackage._id);
+                  return (
+                    <option key={index} value={eachPackage._id}>
+                      {eachPackage.subscriptionType}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
             {/* <div className="organization-form-input-container">
-            <label className="organization-form-label-name">Website</label>
-            <input
-              type="text"
-              className="organization-form-input-text"
-              value={formData.website}
-              name="website"
-              placeholder="Ex:www.abc.com"
-              onChange={handleInputChange}
-            />
-          </div> */}
+          <label className="organization-form-label-name">Website</label>
+          <input
+            type="text"
+            className="organization-form-input-text"
+            value={formData.website}
+            name="website"
+            placeholder="Ex:www.abc.com"
+            onChange={handleInputChange}
+          />
+        </div> */}
           </div>
           <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
@@ -304,8 +320,6 @@ const OrganizationViewDetail = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">
                 Company Logo
@@ -318,26 +332,6 @@ const OrganizationViewDetail = () => {
                 onChange={handleFileChange}
               />
             </div>
-            <div className="organization-form-input-container">
-              <label className="organization-form-label-name">
-                Subscription Plan
-              </label>
-              <select
-                className="organization-form-input-text"
-                value={formData.packageId}
-                name="packageId"
-                onChange={handleSelectChange}
-              >
-                {packageList.map((eachPackage, index) => {
-                  console.log(eachPackage._id);
-                  return (
-                    <option key={index} value={eachPackage._id}>
-                      {eachPackage.subscriptionType}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
           </div>
           <div className="organization-form-input-flex-container">
             <div className="organization-form-input-container">
@@ -347,13 +341,15 @@ const OrganizationViewDetail = () => {
               <textarea
                 placeholder="Enter the description about the company"
                 onChange={handleInputChange}
+                cols={16}
+                rows={3}
                 name="description"
               />
             </div>
           </div>
           <div className="organization-form-submit-button-container">
             <button type="submit" className="organization-form-submit-button">
-              Submit
+              SUBMIT
             </button>
           </div>
         </form>
