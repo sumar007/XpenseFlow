@@ -123,9 +123,15 @@ export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
 });
 
 // Route for super-admin login
+<<<<<<< HEAD
 export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
+=======
+export const SuperAdminLogin = async (req, res) => {
+  console.log("backend login");
+>>>>>>> upstream/main
   try {
     const { email, password } = req.body;
+    console.log(req.body);
 
     const user = await AdminModel.findOne({ email });
     if (!user) {
@@ -152,7 +158,7 @@ export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
         // Add any other relevant user data to the token payload
       },
     };
-
+    console.log(payload);
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
@@ -161,7 +167,8 @@ export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
         if (err) {
           throw err;
         }
-        res.status(200).json({ message: "Login successful", token });
+        console.log(token, "token");
+        res.status(201).json({ message: "Login successful", token });
       }
     );
   } catch (error) {

@@ -25,9 +25,9 @@ const OrganizationForm = () => {
   const [companyLogo, setCompanyLogo] = useState("");
   const [packageList, setPackageList] = useState([]);
 
-console.log(packageList)
+  console.log(packageList);
 
- console.log(formData.packageId, "venu");
+  console.log(formData.packageId, "venu");
 
  useEffect(() => {
   const fetchPackages = async () => {

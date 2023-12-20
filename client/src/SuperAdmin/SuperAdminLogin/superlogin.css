@@ -98,6 +98,24 @@
 .Login-image {
   width: 100%;
 }
+.super-forgot-modal-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.super-admin-forgot-form-container {
+  width: 50%;
+}
+.super-forgot-modal-main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.close-button {
+  width: 30px;
+  height: 30px;
+}
 
 @media (max-width: 1200px) {
   .super-admin-login-form-main-container {
