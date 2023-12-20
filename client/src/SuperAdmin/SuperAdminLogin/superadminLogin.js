@@ -62,7 +62,6 @@ const SuperadminLogin = () => {
         console.log(response.status, "status sai");
         if (response.status === 200) {
           response.json().then((data) => {
-
             Toast.fire({
               icon: "success",
               title: data.message,

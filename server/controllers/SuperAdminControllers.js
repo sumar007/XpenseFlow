@@ -3,13 +3,12 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from 'uuid';
-import multer from 'multer';
+import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
 import dotenv from "dotenv";
 import { AdminModel } from "../models/superAdminModel.js";
 import CatchAsyncError from "../middleware/catchasync.js";
 import { Subscription } from "../models/subscription.js";
-
 
 function sendVerificationEmail(email, code) {
   const transporter = nodemailer.createTransport({
@@ -46,7 +45,6 @@ function sendResetPasswordEmail(email, resetToken) {
 
   // const resetLink = `http://localhost:3009/reset-password/${resetToken}`;
 
-
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
@@ -65,7 +63,7 @@ function sendResetPasswordEmail(email, resetToken) {
 }
 
 // Route for super admin registration
-export const SuperAdminRegistration = CatchAsyncError(async(req, res) => {
+export const SuperAdminRegistration = CatchAsyncError(async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const username = name;
@@ -123,12 +121,8 @@ export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
 });
 
 // Route for super-admin login
-<<<<<<< HEAD
 export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
-=======
-export const SuperAdminLogin = async (req, res) => {
   console.log("backend login");
->>>>>>> upstream/main
   try {
     const { email, password } = req.body;
     console.log(req.body);
@@ -168,7 +162,7 @@ export const SuperAdminLogin = async (req, res) => {
           throw err;
         }
         console.log(token, "token");
-        res.status(201).json({ message: "Login successful", token });
+        res.status(200).json({ message: "Login successful", token });
       }
     );
   } catch (error) {
@@ -182,9 +176,9 @@ export const requestPasswordReset = CatchAsyncError(async (req, res) => {
   try {
     const { email } = req.body;
     const user = await AdminModel.findOne({ email });
-   
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Generate and save a reset token for the user
@@ -193,17 +187,15 @@ export const requestPasswordReset = CatchAsyncError(async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // Token expiration time (e.g., 1 hour)
     await user.save();
 
-
-
     // Send the reset link to the user's email using nodemailer
     sendResetPasswordEmail(email, resetToken);
     res.status(200).json({
-       message: 'Password reset link sent to your email',
-      resetToken
-      });
+      message: "Password reset link sent to your email",
+      resetToken,
+    });
   } catch (error) {
-    console.error('Password reset request error:', error);
-    res.status(500).json({ error: 'Failed to initiate password reset' });
+    console.error("Password reset request error:", error);
+    res.status(500).json({ error: "Failed to initiate password reset" });
   }
 });
 
@@ -218,7 +210,7 @@ export const resetPassword = CatchAsyncError(async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid or expired token' });
+      return res.status(401).json({ message: "Invalid or expired token" });
     }
 
     // Update the user's password and remove/reset the resetToken and expiry fields
@@ -228,27 +220,24 @@ export const resetPassword = CatchAsyncError(async (req, res) => {
     await user.save();
 
     res.status(200).json({
-      message: 'Password reset successful',
-
+      message: "Password reset successful",
     });
   } catch (error) {
-    console.error('Password reset error:', error);
-    res.status(500).json({ error: 'Failed to reset password' });
+    console.error("Password reset error:", error);
+    res.status(500).json({ error: "Failed to reset password" });
   }
 });
-
-
 
 //update profile of super admin
 export const updateAdminProfile = CatchAsyncError(async (req, res) => {
   try {
     const { id } = req.params;
     const { name, currentPassword, newPassword } = req.body;
-    
+
     const superAdmin = await AdminModel.findById(id);
-  
+
     if (!superAdmin) {
-      return res.status(404).json({ error: 'SuperAdmin not found' });
+      return res.status(404).json({ error: "SuperAdmin not found" });
     }
     // Update name if provided
     if (name) {
@@ -257,9 +246,12 @@ export const updateAdminProfile = CatchAsyncError(async (req, res) => {
 
     // Update password if provided
     if (currentPassword && newPassword) {
-      const isMatch = await bcrypt.compare(currentPassword, superAdmin.password);
+      const isMatch = await bcrypt.compare(
+        currentPassword,
+        superAdmin.password
+      );
       if (!isMatch) {
-        return res.status(400).json({ error: 'Current password is incorrect' });
+        return res.status(400).json({ error: "Current password is incorrect" });
       }
       superAdmin.password = await bcrypt.hash(newPassword, 10);
     }
@@ -271,13 +263,12 @@ export const updateAdminProfile = CatchAsyncError(async (req, res) => {
 
     await superAdmin.save();
 
-    res.json({ message: 'SuperAdmin profile updated successfully' });
+    res.json({ message: "SuperAdmin profile updated successfully" });
   } catch (error) {
-    console.error('Error updating profile:', error);
-    res.status(500).json({ error: 'Failed to update SuperAdmin profile' });
+    console.error("Error updating profile:", error);
+    res.status(500).json({ error: "Failed to update SuperAdmin profile" });
   }
 });
-
 
 //notification is pending now after getting all users then only we will work on this
 
@@ -290,7 +281,7 @@ export const updateAdminProfile = CatchAsyncError(async (req, res) => {
 //         message,
 //         // Additional fields if needed
 //       });
-      
+
 //       await newNotification.save(); // Save the notification for the user
 //     }
 
@@ -312,22 +303,6 @@ export const updateAdminProfile = CatchAsyncError(async (req, res) => {
 //     res.status(500).json({ error: 'Failed to handle notification request' });
 //   }
 // });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export const subscriptionAddPlan = CatchAsyncError(async (req, res, next) => {
   try {
@@ -380,23 +355,24 @@ export const getSubscriptionList = CatchAsyncError(async (req, res, next) => {
   }
 });
 
-export const getSpecificSubscriptionDetails = CatchAsyncError(async (req, res) => {
-  try {
-    const { id } = req.params;
-    console.log(id)
-    const subscription = await Subscription.findById(id);
+export const getSpecificSubscriptionDetails = CatchAsyncError(
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      const subscription = await Subscription.findById(id);
 
-    if (subscription) {
-      res.json({ data: subscription });
-    } else {
-      res.status(404).json({ error: "Subscription plan not found" });
+      if (subscription) {
+        res.json({ data: subscription });
+      } else {
+        res.status(404).json({ error: "Subscription plan not found" });
+      }
+    } catch (error) {
+      console.error("Error fetching subscription plan:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-  } catch (error) {
-    console.error("Error fetching subscription plan:", error);
-    res.status(500).json({ error: "Internal Server Error" });
   }
-});
-
+);
 
 export const updateSubscriptionPlan = CatchAsyncError(async (req, res) => {
   try {
@@ -447,3 +423,23 @@ export const updateSubscriptionPlan = CatchAsyncError(async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+export const updateStatusOfSubscription = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  console.log("update subscription called");
+  try {
+    const subscription = await Subscription.findByIdAndUpdate(
+      id,
+      { $set: { status } },
+      { new: true }
+    );
+    if (!subscription) {
+      return res.status(404).json({ message: "Subscription not found" });
+    }
+    return res.json(subscription);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};

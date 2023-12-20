@@ -99,7 +99,6 @@ function OrganizationList({ setOrganizationId }) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 
-    };
 
       await response.json();
       fetchData();
@@ -107,6 +106,7 @@ function OrganizationList({ setOrganizationId }) {
       console.error("Error updating status:", error);
     }
   };
+
 
   const fetchData = async () => {
     try {

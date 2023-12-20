@@ -62,6 +62,6 @@ superAdminRouter.put(
   updateAdminProfile
 );
 
-superAdminRouter.put("/updatestatussubscription",protectSuperAdminRoute, updateStatusOfSubscription);
+superAdminRouter.put("/updatestatussubscription/:id",protectSuperAdminRoute, updateStatusOfSubscription);
 
 export default superAdminRouter;
