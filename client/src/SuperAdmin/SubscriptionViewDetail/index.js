@@ -127,50 +127,56 @@ function SubscriptionDetailView(props) {
           className="subscripton-form-sub-container"
           onSubmit={handleSubmit}
         >
-          <h1 className="subscription-form-heading">Subscription Form</h1>
-          <div className="subscription-form-input-container">
-            <label className="subscription-label-name">Subscription Type</label>
-            <input
-              type="text"
-              className="subscription-form-input"
-              name="subscriptionType"
-              placeholder="ex: Silver,Gold"
-              value={formData.subscriptionType}
-              onChange={handleChange}
-            />
+          <h1 className="subscription-form-heading">Update Subscription</h1>
+          <div className="subscription-form-inputs-holding-container">
+            <div className="subscription-form-input-container">
+              <label className="subscription-label-name">
+                Subscription Type
+              </label>
+              <input
+                type="text"
+                className="subscription-form-input"
+                name="subscriptionType"
+                placeholder="ex: Silver,Gold"
+                value={formData.subscriptionType}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="subscription-form-input-container">
+              <label className="subscription-label-name">Orginal Price</label>
+              <input
+                className="subscription-form-input"
+                type="number"
+                name="originalprice"
+                placeholder="Enter the Original Price"
+                value={formData.originalprice}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div className="subscription-form-input-container">
-            <label className="subscription-label-name">Orginal Price</label>
-            <input
-              className="subscription-form-input"
-              type="number"
-              name="originalprice"
-              placeholder="Enter the Original Price"
-              value={formData.originalprice}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="subscription-form-input-container">
-            <label className="subscription-label-name">MRP Price</label>
-            <input
-              className="subscription-form-input"
-              type="number"
-              name="mrpprice"
-              placeholder="Enter the MRP Price"
-              value={formData.mrpprice}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="subscription-form-input-container">
-            <label className="subscription-label-name">Include Users</label>
-            <input
-              className="subscription-form-input"
-              type="number"
-              name="userCount"
-              placeholder="Enter the user count"
-              value={formData.userCount}
-              onChange={handleChange}
-            />
+          <div className="subscription-form-inputs-holding-container">
+            <div className="subscription-form-input-container">
+              <label className="subscription-label-name">MRP Price</label>
+              <input
+                className="subscription-form-input"
+                type="number"
+                name="mrpprice"
+                placeholder="Enter the MRP Price"
+                value={formData.mrpprice}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="subscription-form-input-container">
+              <label className="subscription-label-name">Include Users</label>
+              <input
+                className="subscription-form-input"
+                type="number"
+                name="userCount"
+                placeholder="Enter the user count"
+                value={formData.userCount}
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div className="subscription-form-input-container">
             <label className="subscription-label-name">Valid Time</label>
@@ -212,9 +218,11 @@ function SubscriptionDetailView(props) {
               </div>
             </div> */}
           </div>
-          <button type="submit" className="subscription-submit-button">
-            Submit
-          </button>
+          <div className="subscription-submit-button-container">
+            <button type="submit" className="subscription-submit-button">
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

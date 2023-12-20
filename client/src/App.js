@@ -22,24 +22,35 @@ import SuperAdminHome from "./SuperAdmin/SuperAdminHome/SuperAdminHome.js";
 import SubscriptionDetailView from "./SuperAdmin/SubscriptionViewDetail/index.js";
 import OrganizationViewDetail from "./SuperAdmin/OrganizationViewDetail/index.js";
 import SuperForgotPassword from "./SuperAdmin/SuperForgotPassword/SuperForgotPassword.js";
+import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProtectedRoute.js";
 function App() {
   return (
     <Routes>
+      <Route
+        path="/superhome"
+        element={
+          <ProtectedRoute>
+            <SuperAdminHome />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superlogin"
+        element={
+          <ProtectedRoute>
+            <SuperadminLogin />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/superSignup" element={<SuperadminSignup />} />
-      <Route path="/superlogin" element={<SuperadminLogin />} />
-      <Route path="/superadminverify" element={<SuperadminVerify />} />
-      <Route path="/organizationList" element={<OrganizationList />} />
-      <Route path="/organizationRegistration" element={<OrganizationForm />} />
-      <Route path="/subscriptionlist" element={<SubscriptionList />} />
-      <Route path="/superhome" element={<SuperAdminHome />} />
-      <Route path="/subscriptionForm" element={<SubscriptionForm />} />
+
       <Route
         path="/subscriptionViewDetail/:id"
         element={<SubscriptionDetailView />}
       />
 
       <Route
-        path="/organizationViewDetail/658124601449baa84a477458"
+        path="/organizationViewDetail/:id"
         element={<OrganizationViewDetail />}
       />
       <Route path="/super-forgot" element={<SuperForgotPassword />} />

@@ -1,12 +1,10 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { MdOutlineAddTask } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { FaTasks } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { HiUsers } from "react-icons/hi2";
-import { GrProjects } from "react-icons/gr";
-import { IoMdSettings } from "react-icons/io";
+import { HiDocumentPlus } from "react-icons/hi2";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { useState } from "react";
+import { BsBuildingAdd, BsBuildings } from "react-icons/bs";
 
 import OrganizationList from "../OrganizationList";
 import OrganizationForm from "../OrganizationRegistration";
@@ -84,7 +82,7 @@ function UserPanel() {
           </MenuItem> */}
 
           <MenuItem
-            icon={<FaTasks />}
+            icon={<BsBuildings />}
             onClick={() => setActive("organizations")}
           >
             Organizations
@@ -96,13 +94,22 @@ function UserPanel() {
             Create Projects
           </MenuItem> */}
 
-          <MenuItem icon={<GrProjects />} onClick={() => setActive("orgform")}>
+          <MenuItem
+            icon={<BsBuildingAdd />}
+            onClick={() => setActive("orgform")}
+          >
             Add Organization
           </MenuItem>
-          <MenuItem icon={<HiUsers />} onClick={() => setActive("sublist")}>
+          <MenuItem
+            icon={<FaMoneyCheckDollar />}
+            onClick={() => setActive("sublist")}
+          >
             Subscriptions
           </MenuItem>
-          <MenuItem icon={<HiUsers />} onClick={() => setActive("subform")}>
+          <MenuItem
+            icon={<HiDocumentPlus />}
+            onClick={() => setActive("subform")}
+          >
             Add Subscription
           </MenuItem>
           {/* <MenuItem
@@ -123,7 +130,7 @@ function UserPanel() {
         {active === "organizations" && (
           <OrganizationList setOrganizationId={getOrgId} />
         )}
-        {active === "orgform" && <OrganizationForm />}
+        {active === "orgform" && <OrganizationForm setUpdate={updateOrg} />}
         {active === "sublist" && (
           <SubscriptionList setSubscriptionDetail={setSubscriptionDetail} />
         )}

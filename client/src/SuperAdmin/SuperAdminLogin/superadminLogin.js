@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import React Router
 import "./superlogin.css";
 import { IoCloseSharp } from "react-icons/io5";
@@ -19,6 +19,17 @@ const SuperadminLogin = () => {
 
   const [error, setError] = useState(""); // State variable for error message
   const navigate = useNavigate(); // Get access to the navigation history
+
+  // useEffect(() => {
+  //   const role = sessionStorage.getItem("role");
+  //   const token = sessionStorage.getItem("token");
+  //   console.log(role, token);
+  //   if (role && token) {
+  //     navigate("/superhome");
+  //   } else {
+  //     navigate("/superlogin");
+  //   }
+  // }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,8 +73,8 @@ const SuperadminLogin = () => {
       body: JSON.stringify(jsonData), // Convert JSON object to string
     })
       .then((response) => {
-        console.log(response.status, "status sai");
         if (response.status === 200) {
+          const role = "superadmin";
           response.json().then((data) => {
             // Extract the token from the response
             Toast.fire({
@@ -71,6 +82,7 @@ const SuperadminLogin = () => {
               title: data.message,
             });
             sessionStorage.setItem("token", data.token);
+            sessionStorage.setItem("role", role);
 
             navigate("/superhome");
 

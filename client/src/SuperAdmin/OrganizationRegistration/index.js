@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { json } from "react-router-dom";
 import Toast from "../../components/utlis/toast";
 
-const OrganizationForm = () => {
+const OrganizationForm = ({ setUpdate }) => {
   const [formData, setFormData] = useState({
     organizationName: "",
     description: "",
@@ -76,14 +76,13 @@ const OrganizationForm = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const token = Cookies.get("_a_p_k");
     const form = new FormData();
 
     Object.entries(formData).forEach(([key, value]) => {
       form.append(key, value);
     });
     form.append("companyLogo", companyLogo);
-    console.log(companyLogo);
+
     const options = {
       method: "POST",
       //   headers: {
@@ -107,6 +106,7 @@ const OrganizationForm = () => {
           icon: "success",
           title: data,
         });
+        setUpdate();
       } else {
         console.error("Error sending data to server:", response.statusText);
       }
@@ -136,6 +136,7 @@ const OrganizationForm = () => {
                 name="organizationName"
                 placeholder="Enter Your Organization Name"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -147,6 +148,7 @@ const OrganizationForm = () => {
                 name="industry"
                 placeholder="Ex:IT,Medical"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -158,6 +160,7 @@ const OrganizationForm = () => {
                 name="city"
                 placeholder="Ex: Hyderbad, Bangalore"
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -171,6 +174,7 @@ const OrganizationForm = () => {
                 name="state"
                 placeholder="Ex:Telangana"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -182,6 +186,7 @@ const OrganizationForm = () => {
                 name="country"
                 placeholder="Ex:India"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -193,6 +198,7 @@ const OrganizationForm = () => {
                 name="address"
                 placeholder="Ex:2-1/720,Hyderbad"
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -208,6 +214,7 @@ const OrganizationForm = () => {
                 name="postalCode"
                 placeholder="Ex:500000"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -219,6 +226,7 @@ const OrganizationForm = () => {
                 name="phone"
                 placeholder="Ex:9879879870"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -232,6 +240,7 @@ const OrganizationForm = () => {
                 name="companyEmail"
                 placeholder="Ex:abc@company.com"
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
@@ -245,6 +254,7 @@ const OrganizationForm = () => {
                 name="website"
                 placeholder="Ex:www.abc.com"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -258,6 +268,7 @@ const OrganizationForm = () => {
                 name="password"
                 placeholder="Enter Password"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -304,6 +315,7 @@ const OrganizationForm = () => {
                 name="responsiblePerson"
                 placeholder="Ex:Name"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -317,6 +329,7 @@ const OrganizationForm = () => {
                 name="companyRegistrationNumber"
                 placeholder="Ex:Company registration number"
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div className="organization-form-input-container">
@@ -329,6 +342,7 @@ const OrganizationForm = () => {
                 placeholder="Ex:Logo"
                 name="companyLogo"
                 onChange={handleFileChange}
+                required
               />
             </div>
           </div>
@@ -339,10 +353,12 @@ const OrganizationForm = () => {
               </label>
               <textarea
                 placeholder="Enter the description about the company"
+                style={{ border: "2px solid black" }}
                 onChange={handleInputChange}
                 cols={16}
                 rows={3}
                 name="description"
+                required
               />
             </div>
           </div>
