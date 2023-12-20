@@ -100,12 +100,14 @@ function OrganizationList({ setOrganizationId }) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 
+
       await response.json();
       fetchData();
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
+
 
   const fetchData = async () => {
     try {

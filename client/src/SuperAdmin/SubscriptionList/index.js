@@ -69,7 +69,7 @@ function SubscriptionList({ setSubscriptionDetail }) {
 
   const handleToggleStatus = async (id, currentStatus) => {
     try {
-      const token = Cookies.get("token");
+      const token = sessionStorage.getItem("token");
       const options = {
         method: "PUT",
         headers: {

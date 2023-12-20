@@ -45,6 +45,7 @@ export const addOrganization = async (req, res) => {
       packageId,
       companyLogo,
       status: true,
+      role: "Admin",
     });
 
     const saltRounds = 10;
@@ -135,6 +136,7 @@ export const updateSpecificOrganization = async (req, res) => {
     console.error("Error updating organization details:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+
 };
 
 export const updateStatusOfOrganization = async (req, res) => {
