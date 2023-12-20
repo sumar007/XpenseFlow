@@ -63,17 +63,13 @@ const SuperadminLogin = () => {
     })
       .then((response) => {
         console.log(response.status, "status sai");
-        if (response.status === 201) {
+        if (response.status === 200) {
           response.json().then((data) => {
             // Extract the token from the response
-        const receivedToken = data.token;
-        // Store the received token in local storage
-        localStorage.setItem("token", receivedToken);
             Toast.fire({
               icon: "success",
               title: data.message,
             });
-            console.log(data.token);
             sessionStorage.setItem("token", data.token);
 
             navigate("/superhome");
@@ -116,8 +112,6 @@ const SuperadminLogin = () => {
   const onClickStaff = () => {
     navigate("/signup");
   };
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjU4MTNjZjcwMTJmMmRhODY3ZDM1YjBiIiwiZW1haWwiOiJ2ZW51b2ZmY2FtcHVzQGdtYWlsLmNvbSJ9LCJpYXQiOjE3MDI5Njk2ODUsImV4cCI6MTcwMjk3MzI4NX0.YZI__Sz2jGJMk7JyfJFSrlU_GepShZ9lirhgjj5yd_c token";
 
   const submitForgotEmail = async (event) => {
     event.preventDefault();
@@ -129,6 +123,7 @@ const SuperadminLogin = () => {
       };
 
       // Perform the POST request using fetch
+      const token = sessionStorage.getItem("token");
       const response = await fetch(
         "http://localhost:3009/api/v1/super-admin-password",
         {

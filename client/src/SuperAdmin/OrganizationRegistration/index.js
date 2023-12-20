@@ -3,6 +3,7 @@ import "./index.css";
 //import SideBar from "../SideBar/index.js";
 import Cookies from "js-cookie";
 import { json } from "react-router-dom";
+import Toast from "../../components/utlis/toast";
 
 const OrganizationForm = () => {
   const [formData, setFormData] = useState({
@@ -29,34 +30,34 @@ const OrganizationForm = () => {
 
   console.log(formData.packageId, "venu");
 
- useEffect(() => {
-  const fetchPackages = async () => {
-    try {
-      const token = Cookies.get("token");
-      const response = await fetch(
-        "http://localhost:3009/api/v1/subscriptionlist",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const response = await fetch(
+          "http://localhost:3009/api/v1/subscriptionlist",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.subscriptionList);
+          setPackageList(data.subscriptionList);
+          setFormData({ ...formData, packageId: data.subscriptionList[0]._id });
+        } else {
+          console.error("Error fetching packages:", response.statusText);
         }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.subscriptionList);
-        setPackageList(data.subscriptionList);
-        setFormData({ ...formData, packageId: data.subscriptionList[0]._id });
-      } else {
-        console.error("Error fetching packages:", response.statusText);
+      } catch (error) {
+        console.error("Error fetching packages:", error);
       }
-    } catch (error) {
-      console.error("Error fetching packages:", error);
-    }
-  };
+    };
 
-  fetchPackages();
-}, []);
+    fetchPackages();
+  }, []);
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
@@ -102,6 +103,10 @@ const OrganizationForm = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Response from server:", data);
+        Toast.fire({
+          icon: "success",
+          title: data,
+        });
       } else {
         console.error("Error sending data to server:", response.statusText);
       }

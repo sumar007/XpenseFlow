@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import Toast from "../../components/utlis/toast";
 
-function SubscriptionForm() {
+function SubscriptionForm({ setSubScription }) {
   const [formData, setFormData] = useState({
     subscriptionType: "",
     originalprice: "",
@@ -57,21 +58,18 @@ function SubscriptionForm() {
       );
 
       if (response.ok) {
-        console.log("Data sent successfully");
+        const data = await response.json();
+        Toast.fire({
+          icon: "success",
+          title: data.message,
+        });
+        setSubScription();
       } else {
         console.error("Failed to send data to the backend");
       }
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
-  const getEditingPlan = async () => {
-    const options = {
-      method: "GET",
-    };
-
-    const api = ``;
   };
 
   return (
