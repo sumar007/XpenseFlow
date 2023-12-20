@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom"; // Import useParams from react-router-dom
+import Toast from "../../components/utlis/toast";
 
 function SubscriptionDetailView(props) {
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ function SubscriptionDetailView(props) {
       try {
         // Retrieve the token from session storage
         const token = sessionStorage.getItem("token");
-    
+
         const response = await fetch(
           `http://localhost:3009/api/v1/subscription-plans/${id}`,
           {
@@ -53,7 +54,7 @@ function SubscriptionDetailView(props) {
             },
           }
         );
-    
+
         if (response.ok) {
           const { data } = await response.json();
           // Destructure and assign form data
@@ -65,7 +66,7 @@ function SubscriptionDetailView(props) {
             convertedValidTime, // Assuming this is the correct property name
             // features,
           } = data;
-    
+
           // Update the state with the fetched subscription details
           setFormData({
             subscriptionType,
@@ -83,7 +84,6 @@ function SubscriptionDetailView(props) {
         console.error("Error:", error);
       }
     };
-    
 
     fetchSubscriptionDetails();
   }, [id]);
@@ -106,7 +106,12 @@ function SubscriptionDetailView(props) {
       );
 
       if (response.ok) {
-        console.log("Data sent successfully");
+        const data = await response.json();
+        Toast.fire({
+          icon: "success",
+          title: data.message,
+        });
+        props.setUpdateSub();
       } else {
         console.error("Failed to send data to the backend");
       }

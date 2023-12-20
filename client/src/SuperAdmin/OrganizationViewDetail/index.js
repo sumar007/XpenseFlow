@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./index.css";
 //import SideBar from "../SideBar/index.js";
 import Cookies from "js-cookie";
-import { json } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
+import Toast from "../../components/utlis/toast";
 
-
-const OrganizationViewDetail = ({ orgActive }) => {
+const OrganizationViewDetail = ({ orgActive, setUpdate }) => {
   const organizationId = orgActive;
 
   const [formData, setFormData] = useState({
@@ -26,11 +26,12 @@ const OrganizationViewDetail = ({ orgActive }) => {
     packageId: "",
     startDate: "",
     endDate: "",
-    noOfUsers:"",
+    noOfUsers: "",
   });
 
   const [companyLogo, setCompanyLogo] = useState("");
   const [packageList, setPackageList] = useState([]);
+  const navigate = useNavigate();
 
   const fetchOrganizationDetails = async () => {
     try {
@@ -46,8 +47,8 @@ const OrganizationViewDetail = ({ orgActive }) => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data, "venuuuu");
 
-  
         // Convert start date and end date to YYYY-MM-DD format
         const formattedStartDate = new Date(data.subscriptionDetails.startDate)
           .toISOString()
@@ -55,14 +56,13 @@ const OrganizationViewDetail = ({ orgActive }) => {
         const formattedEndDate = new Date(data.subscriptionDetails.endDate)
           .toISOString()
           .split("T")[0];
-  
+
         setFormData({
           ...data.organization,
           noOfUsers: data.subscriptionDetails.noOfUsers,
           startDate: formattedStartDate,
           endDate: formattedEndDate,
         });
-
       } else {
         console.error(
           "Error fetching organization details:",
@@ -145,7 +145,13 @@ const OrganizationViewDetail = ({ orgActive }) => {
       if (response.ok) {
         const updatedData = await response.json();
         console.log("Organization updated:", updatedData);
+        Toast.fire({
+          icon: "success",
+          title: "Organization Updated Successfully",
+        });
         fetchOrganizationDetails();
+        setUpdate();
+        // navigate("/superhome");
       } else {
         console.error("Error updating organization:", response.statusText);
       }

@@ -45,18 +45,14 @@ const SuperadminSignup = () => {
       setErrors(validationErrors);
       return;
     }
-
-    const token = sessionStorage.getItem("token");
     // Construct the request object with the POST method and the request body as JSON
     const requestOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json", // Set the Content-Type to JSON
       },
       body: JSON.stringify(formData),
     };
-    console.log(formData);
     // Send the POST request using the fetch API
     fetch("http://localhost:3009/api/v1/superadminsignup", requestOptions)
       .then((response) => {
