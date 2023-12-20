@@ -89,10 +89,10 @@ function OrganizationList() {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
   const columns = [
     {
       field: "_id",

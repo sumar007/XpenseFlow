@@ -21,9 +21,16 @@ import SuperAdminHome from "./SuperAdmin/SuperAdminHome/SuperAdminHome.js";
 
 import SubscriptionDetailView from "./SuperAdmin/SubscriptionViewDetail/index.js";
 import OrganizationViewDetail from "./SuperAdmin/OrganizationViewDetail/index.js";
+import AdminLogin from "./Admin/AdminLogin/index.js";
+import AdminPanel from "./Admin/Adminpanel/index.js";
+import UserRoleForm from "./Admin/AddRole.js/index.js";
 function App() {
   return (
     <Routes>
+      <Route path="/addrole" element={<UserRoleForm />} />
+      <Route path="/adminpanel" element={<AdminPanel />} />  
+      <Route path="/adminlogin" element={<AdminLogin />} />
+
       <Route path="/superSignup" element={<SuperadminSignup />} />
       <Route path="/superlogin" element={<SuperadminLogin />} />
       <Route path="/superadminverify" element={<SuperadminVerify />} />

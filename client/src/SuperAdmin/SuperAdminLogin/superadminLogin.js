@@ -32,7 +32,6 @@ const SuperadminLogin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(""); // Clear any previous error messages
-
     // Define the URL of your server's login endpoint
     const url = `http://localhost:3009/api/v1/superadminlogin`;
 
@@ -41,8 +40,6 @@ const SuperadminLogin = () => {
       email: formData.email,
       password: formData.password,
     };
-    let response;
-    // Make a POST request using the fetch API with JSON data
     fetch(url, {
       method: "POST",
       headers: {
@@ -54,17 +51,12 @@ const SuperadminLogin = () => {
         if (response.status === 200) {
           // Login successful
           response.json().then((data) => {
-            // Extract the token from the response
-        const receivedToken = data.token;
-        // Store the received token in local storage
-        localStorage.setItem("token", receivedToken);
             Toast.fire({
               icon: "success",
               title: data.message,
             });
             console.log(data.token);
             sessionStorage.setItem("token", data.token);
-
             navigate("/superhome");
 
             // localStorage.setItem("role", data.role);
@@ -85,7 +77,6 @@ const SuperadminLogin = () => {
             // }, 100);
           });
         } else if (response.status === 400) {
-          // Password required or incorrect
           response.json().then((data) => {
             Toast.fire({
               icon: "error",
@@ -93,11 +84,10 @@ const SuperadminLogin = () => {
             });
           });
         } else {
-          // Handle other status codes or error messages
           setError("Login failed");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setError("Error occurred during login");
       });
   };

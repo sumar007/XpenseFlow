@@ -45,6 +45,7 @@ export const addOrganization = async (req, res) => {
       packageId,
       companyLogo,
       status: true,
+      role: "Admin",
     });
 
     const saltRounds = 10;
