@@ -3,6 +3,7 @@ import "./index.css";
 //import SideBar from "../SideBar/index.js";
 import Cookies from "js-cookie";
 import { json } from "react-router-dom";
+import Toast from "../../components/utlis/toast";
 
 const OrganizationForm = () => {
   const [formData, setFormData] = useState({
@@ -102,6 +103,10 @@ const OrganizationForm = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Response from server:", data);
+        Toast.fire({
+          icon: "success",
+          title: data,
+        });
       } else {
         console.error("Error sending data to server:", response.statusText);
       }

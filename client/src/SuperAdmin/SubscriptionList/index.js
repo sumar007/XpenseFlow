@@ -3,6 +3,9 @@ import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { ToggleButton } from "@mui/material";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import {
   GridToolbar,
@@ -16,19 +19,6 @@ import Modal from "@mui/material/Modal";
 
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-const handleDeleteClick = () => {};
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
 
 const getSelectedRowsToExport = ({ apiRef }) => {
   const selectedRowIds = selectedGridRowsSelector(apiRef);
@@ -55,7 +45,7 @@ function SubscriptionList({ setSubscriptionDetail }) {
   const [subscriptions, setSubscriptions] = useState([]);
 
   // const [isModalOpen, setModalOpen] = React.useState(false);
-  // const [selectedRow, setSelectedRow] = React.useState(null);
+  const [status, setSelectedRow] = React.useState(null);
 
   const handleEditClick = (id) => {
     setSubscriptionDetail(id);
@@ -63,36 +53,70 @@ function SubscriptionList({ setSubscriptionDetail }) {
     // setModalOpen(true);
   };
 
-  // const handleCloseModal = () => {
-  //   setModalOpen(false);
-  // };
+  const getStatus = (id) => {
+    const details = subscriptions.find((sub) => sub._id === id);
+    return details ? details.status : null;
+  };
 
-  useEffect(() => {
-    console.log("Fetching Data...");
-    const fetchData = async () => {
-      const token = sessionStorage.getItem("token");
+  const handleToggle = (id) => {
+    const details = subscriptions.filter((sub) => sub._id === id);
+    setSelectedRow(details);
+    console.log(details, "venuuuu");
+    const status = details[0].status;
+    handleToggleStatus(id, status);
+  };
+
+  const handleToggleStatus = async (id, currentStatus) => {
+    try {
+      const token = Cookies.get("token");
       const options = {
-        method: "GET",
-         headers: {
-           Authorization: `Bearer ${token}`,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          status: !currentStatus, // Toggle the status
+        }),
       };
-      const api = "http://localhost:3009/api/v1/subscriptionlist";
-      try {
-        const response = await fetch(api, options);
+      const api = `http://localhost:3009/api/v1/updatestatussubscription/${id}`;
+      const response = await fetch(api, options);
 
-        if (!response.ok) {
-          throw new Error(`Request failed with status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setSubscriptions(data.subscriptionList);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
       }
-    };
 
+      await response.json();
+      fetchData();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    const token = sessionStorage.getItem("token");
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const api = "http://localhost:3009/api/v1/subscriptionlist";
+    try {
+      const response = await fetch(api, options);
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setSubscriptions(data.subscriptionList);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -164,9 +188,15 @@ function SubscriptionList({ setSubscriptionDetail }) {
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteIcon />}
+            icon={
+              getStatus(id) ? (
+                <ToggleOnIcon style={{ color: "green", fontSize: "30px" }} />
+              ) : (
+                <ToggleOffIcon style={{ fontSize: "30px" }} />
+              )
+            }
             label="Delete"
-            onClick={() => handleDeleteClick(id)}
+            onClick={() => handleToggle(id)}
             color="inherit"
           />,
         ];

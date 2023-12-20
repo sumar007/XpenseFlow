@@ -2,7 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import {
   GridToolbar,
@@ -49,7 +50,7 @@ const CustomCheckboxHeader = (props) => {
   );
 };
 
-function OrganizationList() {
+function OrganizationList({ setOrganizationId }) {
   const navigate = useNavigate(); // Move this line to the top
   const [organizations, setOrganizations] = useState([]);
 
@@ -57,39 +58,79 @@ function OrganizationList() {
   const [selectedRow, setSelectedRow] = React.useState(null);
 
   const handleEditClick = (id) => {
-    const row = rows.find((r) => r.id === id);
-    setSelectedRow(row);
-    setModalOpen(true);
+    setOrganizationId(id);
+    console.log(id, "org edit ");
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
   };
 
-  useEffect(() => {
-    console.log("Fetching Data...");
-    const fetchData = async () => {
-      try {
-        const token = Cookies.get("token");
-        const options = {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const api = "http://localhost:3009/api/v1/organizationlist";
-        const response = await fetch(api, options);
-        if (!response.ok) {
-          throw new Error(`Request failed with status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log(data);
-        setOrganizations(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const getStatus = (id) => {
+    const details = organizations.find((org) => org._id === id);
+    return details ? details.status : null;
+  };
+
+  const handleToggle = (id) => {
+    const details = organizations.filter((sub) => sub._id === id);
+    setSelectedRow(details);
+    console.log(details, "venuuuu");
+    const status = details[0].status;
+    handleToggleStatus(id, status);
+  };
+
+  const handleToggleStatus = async (id, currentStatus) => {
+    try {
+      const token = sessionStorage.getItem("token");
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status: !currentStatus, // Toggle the status
+        }),
+      };
+      const api = `http://localhost:3009/api/v1/updateorganizationStatus/${id}`;
+      const response = await fetch(api, options);
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
       }
+
     };
 
+      await response.json();
+      fetchData();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const fetchData = async () => {
+    try {
+      const token = Cookies.get("token");
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const api = "http://localhost:3009/api/v1/organizationlist";
+      const response = await fetch(api, options);
+      if (!response.ok) {
+        throw new Error(`Request failed with status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      setOrganizations(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -151,9 +192,15 @@ function OrganizationList() {
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteIcon />}
+            icon={
+              getStatus(id) ? (
+                <ToggleOnIcon style={{ color: "green", fontSize: "30px" }} />
+              ) : (
+                <ToggleOffIcon style={{ fontSize: "30px" }} />
+              )
+            }
             label="Delete"
-            onClick={() => handleDeleteClick(id)}
+            onClick={() => handleToggle(id)}
             color="inherit"
           />,
         ];

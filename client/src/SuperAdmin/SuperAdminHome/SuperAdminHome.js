@@ -15,15 +15,37 @@ import SubscriptionList from "../SubscriptionList";
 
 import "./SuperAdminHome.css";
 import SubscriptionDetailView from "../SubscriptionViewDetail";
+import OrganizationViewDetail from "../OrganizationViewDetail";
+import { useNavigate } from "react-router-dom";
 
 function UserPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [active, setActive] = useState("alltasks");
+  const [active, setActive] = useState("organizations");
   const [activeId, setId] = useState("");
+  const [orgActiveId, setOrgId] = useState("");
+  const navigate = useNavigate();
 
   const setSubscriptionDetail = (id) => {
     setId(id);
     setActive("detail");
+  };
+
+  const getOrgId = (orgId) => {
+    setOrgId(orgId);
+    setActive("org-detail");
+  };
+
+  const updateOrg = () => {
+    setActive("organizations");
+  };
+
+  const updateSubscription = () => {
+    setActive("sublist");
+  };
+
+  const logoutSuperAdmin = () => {
+    sessionStorage.removeItem("token");
+    navigate("/superlogin");
   };
 
   return (
@@ -89,21 +111,34 @@ function UserPanel() {
           >
             Settings
           </MenuItem> */}
-          <MenuItem icon={<IoLogOut />} onClick={() => setActive("logout")}>
+          <MenuItem icon={<IoLogOut />} onClick={logoutSuperAdmin}>
             LogOut
           </MenuItem>
         </Menu>
       </Sidebar>
       <div style={{ width: "100%", height: "max-content" }}>
-        {active === "subform" && <SubscriptionForm />}
-        {active === "organizations" && <OrganizationList />}
+        {active === "subform" && (
+          <SubscriptionForm setSubScription={updateSubscription} />
+        )}
+        {active === "organizations" && (
+          <OrganizationList setOrganizationId={getOrgId} />
+        )}
         {active === "orgform" && <OrganizationForm />}
         {active === "sublist" && (
           <SubscriptionList setSubscriptionDetail={setSubscriptionDetail} />
         )}
 
         {active === "detail" && (
-          <SubscriptionDetailView subscriptionId={activeId} />
+          <SubscriptionDetailView
+            subscriptionId={activeId}
+            setUpdateSub={updateSubscription}
+          />
+        )}
+        {active === "org-detail" && (
+          <OrganizationViewDetail
+            orgActive={orgActiveId}
+            setUpdate={updateOrg}
+          />
         )}
       </div>
     </div>
