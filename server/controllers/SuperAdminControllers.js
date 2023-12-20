@@ -91,7 +91,7 @@ export const SuperAdminRegistration = CatchAsyncError(async(req, res) => {
     sendVerificationEmail(email, verificationCode);
 
     res.status(201).json({
-      message: "Registration successful. Check your email for verification.",
+      message: "Registration successfull. Check your email for verification.",
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -250,7 +250,6 @@ export const updateAdminProfile = CatchAsyncError(async (req, res) => {
     if (!superAdmin) {
       return res.status(404).json({ error: 'SuperAdmin not found' });
     }
-
     // Update name if provided
     if (name) {
       superAdmin.username = name;

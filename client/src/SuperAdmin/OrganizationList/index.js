@@ -99,6 +99,8 @@ function OrganizationList({ setOrganizationId }) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 
+    };
+
       await response.json();
       fetchData();
     } catch (error) {

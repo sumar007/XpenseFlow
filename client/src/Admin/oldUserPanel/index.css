@@ -1,0 +1,207 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: "Roboto";
+}
+.link {
+  text-decoration: none;
+  font-weight: 900;
+  font-family: "Roboto";
+  color: #ffffff;
+}
+.header {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  align-items: center;
+  text-align: center;
+}
+/* select{
+   
+    border:none;
+   width:60px;
+   padding:5px;
+   background:transparent;
+    outline:none;
+} */
+
+.totalItems {
+  border: none;
+  width: 90%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+
+  justify-content: space-between;
+}
+.myItems {
+  margin-left: 10px;
+  list-style-type: none;
+  display: flex;
+  color: #ffffff;
+  width: 300px;
+  border-radius: 8px;
+  padding-left: 0px;
+  display: flex;
+  background: #717185;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  justify-content: space-around;
+}
+
+#lockButton {
+  align-self: flex-end;
+  margin-bottom: 15px;
+}
+
+.listItems {
+  margin-left: 10px;
+  width: 300px;
+  list-style-type: none;
+  display: flex;
+  color: #ffffff;
+
+  border-radius: 8px;
+  padding-left: 0px;
+  display: flex;
+  background: #717185;
+  color: #ffffff;
+  padding: 5px;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+}
+
+.sliderbar {
+  background: linear-gradient(to right, #0616c9, #503991);
+}
+.taskItems {
+  list-style-type: none;
+  display: flex;
+  color: #ffffff;
+
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  padding-left: 0px;
+  display: flex;
+  background: #010178;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+}
+
+.taskCreation {
+  list-style-type: none;
+  display: flex;
+  color: #ffffff;
+
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  padding-left: 0px;
+  display: flex;
+  background: #42424f;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+}
+.containerIcons {
+  display: flex;
+}
+
+.searchIcon {
+  color: dark;
+  color: black;
+  font-size: 20px;
+  margin-right: 9px;
+  margin-top: 5px;
+  outline: none;
+  border: none;
+}
+
+.Icon {
+  color: "#ffffff";
+}
+
+/*new css */
+
+.Nav-Service-container:hover {
+  text-decoration: underline;
+  text-decoration-color: greenyellow;
+  list-style-type: none;
+  position: relative;
+}
+
+.Nav-Service-container-items {
+  display: none;
+}
+
+.Nav-Service-container:hover .Nav-Service-container-items {
+  display: block;
+  background: "#ffffff";
+  font-weight: bold;
+  color: black;
+}
+/* .Nav-Service-container {
+  position: relative;
+  list-style-type: none;
+}
+.Nav-Service-container-items {
+  position: absolute;
+  top: 50px;
+  left: -170px;
+  list-style-type: circle;
+  visibility: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  flex-wrap: wrap;
+  gap: 15px;
+  min-width: 450px;
+  z-index: 100;
+}
+
+.Nav-Service-container:hover .Nav-Service-container-items {
+  visibility: visible;
+  padding-left: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 4px;
+}
+.Headeroption-item {
+  color: #222;
+  text-decoration: none;
+  min-width: 150px;
+  justify-content: flex-start;
+}
+
+.Headeroption-item:hover {
+  text-decoration: underline;
+}
+
+.nav-menu-item {
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 500;
+  padding-top: 10px;
+}
+
+.nav-menu-item:hover {
+  color: #ffffff;
+}
+
+.nav-menu-item:hover::after {
+  transition: 0.2s ease-in-out;
+  display: block;
+  height: 2px;
+  content: "";
+  background-color: greenyellow;
+  width: 100%;
+} */
