@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RiFileEditFill } from "react-icons/ri";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
@@ -185,7 +186,7 @@ function OrganizationList({ setOrganizationId }) {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditIcon />}
+            icon={<RiFileEditFill />}
             label="Edit"
             className="textPrimary"
             onClick={() => handleEditClick(id)}
@@ -222,7 +223,7 @@ function OrganizationList({ setOrganizationId }) {
         display: "flex",
         justifyContent: "space-between",
         "& .super-app-theme--header": {
-          backgroundColor: "blue",
+          backgroundColor: "#2f3a52",
           color: "#fff",
         },
         "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
@@ -230,8 +231,8 @@ function OrganizationList({ setOrganizationId }) {
           border: "none !important", // Remove the border when the cell is focused
           boxShadow: "none !important", // Remove any box shadow
         },
-        "& .even-row:hover, & .odd-row:hover": {
-          backgroundColor: "grey", // Remove the background color on hover
+        "& .even-row, & .odd-row": {
+          backgroundColor: "#d7d7d9", // Remove the background color on hover
         },
       }}
     >

@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
+import { RiFileEditFill } from "react-icons/ri";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import { ToggleButton } from "@mui/material";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
@@ -181,7 +182,7 @@ function SubscriptionList({ setSubscriptionDetail }) {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditIcon />}
+            icon={<RiFileEditFill />}
             label="Edit"
             className="textPrimary"
             onClick={() => handleEditClick(id)}
@@ -218,16 +219,20 @@ function SubscriptionList({ setSubscriptionDetail }) {
         display: "flex",
         justifyContent: "space-between",
         "& .super-app-theme--header": {
-          backgroundColor: "blue",
+          backgroundColor: "#2f3a52",
           color: "#fff",
+          fontWeight: "bold",
+          letterSpacing: "1px",
         },
         "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
           outline: "none !important", // Remove the focus outline
           border: "none !important", // Remove the border when the cell is focused
           boxShadow: "none !important", // Remove any box shadow
         },
-        "& .even-row:hover, & .odd-row:hover": {
-          backgroundColor: "grey", // Remove the background color on hover
+        "& .even-row, & .odd-row": {
+          backgroundColor: "#d7d7d9",
+          color: "black",
+          fontWeight: "bold", // Remove the background color on hover
         },
       }}
     >
