@@ -13,7 +13,7 @@ import {
   requestPasswordReset,
   resetPassword,
   updateAdminProfile,
-  updateStatusOfSubscription,
+  
 } from "../controllers/SuperAdminControllers.js";
 import { protectSuperAdminRoute } from "../middleware/auth.js";
 
@@ -62,6 +62,6 @@ adminRouter.put(
   updateAdminProfile
 );
 
-adminRouter.put("/updatestatussubscription",protectSuperAdminRoute, updateStatusOfSubscription);
+// adminRouter.put("/updatestatussubscription",protectSuperAdminRoute, updateStatusOfSubscription);
 
 export default adminRouter;

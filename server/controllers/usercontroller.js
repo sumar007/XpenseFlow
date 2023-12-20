@@ -105,11 +105,11 @@ function sendVerificationEmail(email, code) {
 router.post("/login", async (req, res) => {
   // Retrieve login credentials from the request body
   const { email, password } = req.body;
-  console.log(req.body);
+ 
   try {
     // Find the user in the database
     const user = await User.findOne({ email });
-    console.log(user);
+  
     if (!email) {
       return res.status(404).json({ message: "email not found" });
     }
