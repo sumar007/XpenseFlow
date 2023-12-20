@@ -122,11 +122,8 @@ export const SuperAdminVerifyEmail = async (req, res) => {
 
 // Route for super-admin login
 export const SuperAdminLogin = async (req, res) => {
-  console.log("backend login");
   try {
     const { email, password } = req.body;
-    console.log(req.body);
-
     const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -161,8 +158,7 @@ export const SuperAdminLogin = async (req, res) => {
         if (err) {
           throw err;
         }
-        console.log(token, "token");
-        res.status(201).json({ message: "Login successful", token });
+        res.status(200).json({ message: "Login successful", token });
       }
     );
   } catch (error) {
@@ -351,7 +347,7 @@ export const getSubscriptionList = async (req, res, next) => {
   try {
     console.log("called subscripryin");
     const subscriptions = await Subscription.find();
-    console.log(subscriptions)
+    console.log(subscriptions);
     res.status(200).json({ subscriptionList: subscriptions });
   } catch (error) {
     console.error("Error fetching subscription data:", error);
@@ -425,8 +421,7 @@ export const updateSubscriptionPlan = async (req, res) => {
   }
 };
 
-
-export const updateStatusOfSubscription=  async (req, res) => {
+export const updateStatusOfSubscription = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   try {

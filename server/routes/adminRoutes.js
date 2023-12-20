@@ -42,19 +42,23 @@ adminRouter.post(
   protectSuperAdminRoute,
   subscriptionAddPlan
 );
-adminRouter.get("/subscriptionlist",protectSuperAdminRoute, getSubscriptionList);
-adminRouter.get("/subscription-plans/:id",protectSuperAdminRoute, getSpecificSubscriptionDetails);
+adminRouter.get(
+  "/subscriptionlist",
+  protectSuperAdminRoute,
+  getSubscriptionList
+);
+adminRouter.get(
+  "/subscription-plans/:id",
+  protectSuperAdminRoute,
+  getSpecificSubscriptionDetails
+);
 adminRouter.put(
   "/subscription-plans/:id",
   protectSuperAdminRoute,
   updateSubscriptionPlan
 );
-adminRouter.post(
-  "/super-admin-password",
-  protectSuperAdminRoute,
-  requestPasswordReset
-);
-adminRouter.post("/reset-password", protectSuperAdminRoute, resetPassword);
+adminRouter.post("/super-admin-password", requestPasswordReset);
+adminRouter.post("/reset-password", resetPassword);
 adminRouter.put(
   "/superadmin/profile/:id",
   protectSuperAdminRoute,
@@ -62,6 +66,10 @@ adminRouter.put(
   updateAdminProfile
 );
 
-adminRouter.put("/updatestatussubscription",protectSuperAdminRoute, updateStatusOfSubscription);
+adminRouter.put(
+  "/updatestatussubscription/:id",
+
+  updateStatusOfSubscription
+);
 
 export default adminRouter;
