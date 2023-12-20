@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
 import dotenv from "dotenv";
 import { AdminModel } from "../models/superAdminModel.js";
-
+import CatchAsyncError from "../middleware/catchasync.js";
 import { Subscription } from "../models/subscription.js";
 
 function sendVerificationEmail(email, code) {
@@ -63,7 +63,7 @@ function sendResetPasswordEmail(email, resetToken) {
 }
 
 // Route for super admin registration
-export const SuperAdminRegistration = async (req, res) => {
+export const SuperAdminRegistration = CatchAsyncError(async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const username = name;
@@ -89,16 +89,16 @@ export const SuperAdminRegistration = async (req, res) => {
     sendVerificationEmail(email, verificationCode);
 
     res.status(201).json({
-      message: "Registration successful. Check your email for verification.",
+      message: "Registration successfull. Check your email for verification.",
     });
   } catch (error) {
     console.error("Registration error:", error);
     res.status(500).json({ error: "Failed to register user" });
   }
-};
+});
 
 // Route for email verification
-export const SuperAdminVerifyEmail = async (req, res) => {
+export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
   try {
     const { email, verificationCode } = req.body;
 
@@ -118,10 +118,12 @@ export const SuperAdminVerifyEmail = async (req, res) => {
     console.error("Verification error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-};
+});
 
 // Route for super-admin login
 export const SuperAdminLogin = async (req, res) => {
+export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
+  console.log("backend login");
   try {
     const { email, password } = req.body;
     const user = await AdminModel.findOne({ email });
@@ -153,11 +155,12 @@ export const SuperAdminLogin = async (req, res) => {
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "72h" },
+      { expiresIn: "1h" },
       (err, token) => {
         if (err) {
           throw err;
         }
+        console.log(token, "token");
         res.status(200).json({ message: "Login successful", token });
       }
     );
@@ -165,14 +168,14 @@ export const SuperAdminLogin = async (req, res) => {
     console.error("Login error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-};
+});
 
 // Generate and store reset token for the SuperAdmin
-export const requestPasswordReset = async (req, res) => {
+export const requestPasswordReset = CatchAsyncError(async (req, res) => {
   try {
     const { email } = req.body;
     const user = await AdminModel.findOne({ email });
-    console.log(email);
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -193,10 +196,10 @@ export const requestPasswordReset = async (req, res) => {
     console.error("Password reset request error:", error);
     res.status(500).json({ error: "Failed to initiate password reset" });
   }
-};
+});
 
 // Reset password using the reset token
-export const resetPassword = async (req, res) => {
+export const resetPassword = CatchAsyncError(async (req, res) => {
   try {
     const { token, newPassword } = req.body;
 
@@ -222,10 +225,10 @@ export const resetPassword = async (req, res) => {
     console.error("Password reset error:", error);
     res.status(500).json({ error: "Failed to reset password" });
   }
-};
+});
 
 //update profile of super admin
-export const updateAdminProfile = async (req, res) => {
+export const updateAdminProfile = CatchAsyncError(async (req, res) => {
   try {
     const { id } = req.params;
     const { name, currentPassword, newPassword } = req.body;
@@ -235,7 +238,6 @@ export const updateAdminProfile = async (req, res) => {
     if (!superAdmin) {
       return res.status(404).json({ error: "SuperAdmin not found" });
     }
-
     // Update name if provided
     if (name) {
       superAdmin.username = name;
@@ -265,11 +267,11 @@ export const updateAdminProfile = async (req, res) => {
     console.error("Error updating profile:", error);
     res.status(500).json({ error: "Failed to update SuperAdmin profile" });
   }
-};
+});
 
 //notification is pending now after getting all users then only we will work on this
 
-//  const sendNotifications = async (message, selectedUsers) => {
+//  const sendNotifications = CatchAsyncError(async (message, selectedUsers) => {
 //   try {
 //     // Loop through selectedUsers and create a notification for each user
 //     for (const userId of selectedUsers) {
@@ -299,9 +301,9 @@ export const updateAdminProfile = async (req, res) => {
 //     console.error('Error handling notification request:', error);
 //     res.status(500).json({ error: 'Failed to handle notification request' });
 //   }
-// };
+// });
 
-export const subscriptionAddPlan = async (req, res, next) => {
+export const subscriptionAddPlan = CatchAsyncError(async (req, res, next) => {
   try {
     const {
       subscriptionType,
@@ -332,7 +334,6 @@ export const subscriptionAddPlan = async (req, res, next) => {
       userCount,
       convertedValidTime,
       // features,
-      status: true,
     });
 
     await newSubscription.save();
@@ -341,11 +342,10 @@ export const subscriptionAddPlan = async (req, res, next) => {
     console.error("Error adding subscription plan:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
-export const getSubscriptionList = async (req, res, next) => {
+export const getSubscriptionList = CatchAsyncError(async (req, res, next) => {
   try {
-    console.log("called subscripryin");
     const subscriptions = await Subscription.find();
     console.log(subscriptions);
     res.status(200).json({ subscriptionList: subscriptions });
@@ -353,26 +353,28 @@ export const getSubscriptionList = async (req, res, next) => {
     console.error("Error fetching subscription data:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
-export const getSpecificSubscriptionDetails = async (req, res) => {
-  try {
-    const { id } = req.params;
-    console.log(id);
-    const subscription = await Subscription.findById(id);
+export const getSpecificSubscriptionDetails = CatchAsyncError(
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      console.log(id);
+      const subscription = await Subscription.findById(id);
 
-    if (subscription) {
-      res.json({ data: subscription });
-    } else {
-      res.status(404).json({ error: "Subscription plan not found" });
+      if (subscription) {
+        res.json({ data: subscription });
+      } else {
+        res.status(404).json({ error: "Subscription plan not found" });
+      }
+    } catch (error) {
+      console.error("Error fetching subscription plan:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-  } catch (error) {
-    console.error("Error fetching subscription plan:", error);
-    res.status(500).json({ error: "Internal Server Error" });
   }
-};
+);
 
-export const updateSubscriptionPlan = async (req, res) => {
+export const updateSubscriptionPlan = CatchAsyncError(async (req, res) => {
   try {
     const { id } = req.params; // Get the subscription ID from the request parameters
     const {
@@ -410,6 +412,7 @@ export const updateSubscriptionPlan = async (req, res) => {
       },
       { new: true } // Return the updated document
     );
+
     if (updatedSubscription) {
       res.json({ message: "Subscription plan updated successfully" });
     } else {
@@ -419,11 +422,12 @@ export const updateSubscriptionPlan = async (req, res) => {
     console.error("Error updating subscription plan:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-};
+});
 
 export const updateStatusOfSubscription = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
+  console.log("update subscription called");
   try {
     const subscription = await Subscription.findByIdAndUpdate(
       id,

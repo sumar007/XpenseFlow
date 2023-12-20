@@ -15,10 +15,19 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
 import userRouter from "./controllers/usercontroller.js";
-import adminRouter from "./routes/adminRoutes.js";
 import organizationRouter from "./routes/organizationRoutes.js";
+import superAdminRouter from "./routes/superAdminRoutes.js";
+import { adminRouter } from "./routes/adminRoutes.js";
+import { employeeRouter } from "./routes/employeeRoutes.js";
 
-app.use("/api/v1", userRouter, adminRouter, organizationRouter);
+app.use(
+  "/api/v1",
+  userRouter,
+  superAdminRouter,
+  organizationRouter,
+  adminRouter,
+  employeeRouter
+);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

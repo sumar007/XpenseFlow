@@ -55,6 +55,9 @@ const organizationSchema = new mongoose.Schema({
   },
   status:{
     type: Boolean,
+  },
+  role:{
+    type: String,
   }
 });
 
