@@ -97,29 +97,28 @@ function AddProjectForm() {
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     console.log(data, teamMembers, managers);
-      event.preventDefault();
-      const token = sessionStorage.getItem("token");
-      const apiurl = "http://localhost:3009/api/v1/addproject";
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ ...data, teamMembers, managers }),
-      };
+    event.preventDefault();
+    const token = sessionStorage.getItem("token");
+    const apiurl = "http://localhost:3009/api/v1/addproject";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ ...data, teamMembers, managers }),
+    };
 
-      try {
-        const response = await fetch(apiurl, options);
-        console.log(response);
-        if (response.ok === true) {
-          const responseData = await response.json();
-          console.log("api worked", responseData);
-        }
-      } catch (error) {
-        console.error(error);
+    try {
+      const response = await fetch(apiurl, options);
+      console.log(response);
+      if (response.ok === true) {
+        const responseData = await response.json();
+        console.log("api worked", responseData);
       }
-    
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleSelect = (selectedOptions, type) => {
@@ -131,7 +130,7 @@ function AddProjectForm() {
     }
   };
 
-  console.log(teamMembers, managers, 'saicharan')
+  console.log(teamMembers, managers, "saicharan");
 
   return (
     <div className="totalContainer">
