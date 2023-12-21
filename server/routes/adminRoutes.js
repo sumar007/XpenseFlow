@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  AddEmploye,
+  AddEmployee,
+  AddProject,
   AdminLogin,
   createUserRole,
   getEmployeesByOrganizationId,
@@ -12,19 +13,6 @@ import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
 
-import {
-  subscriptionAddPlan,
-  getSubscriptionList,
-  SuperAdminRegistration,
-  SuperAdminVerifyEmail,
-  SuperAdminLogin,
-  getSpecificSubscriptionDetails,
-  updateSubscriptionPlan,
-  requestPasswordReset,
-  resetPassword,
-  updateAdminProfile,
-} from "../controllers/SuperAdminControllers.js";
-import { protectSuperAdminRoute } from "../middleware/auth.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -91,7 +79,7 @@ adminRouter.post(
   "/addemployee",
   protectAdminRoute,
   upload.single("profilePic"),
-  AddEmploye
+  AddEmployee
 );
 
 adminRouter.get(
@@ -99,3 +87,7 @@ adminRouter.get(
   protectAdminRoute,
   getEmployeesByOrganizationId
 );
+
+
+adminRouter.post("/addproject", protectAdminRoute, AddProject);
+
