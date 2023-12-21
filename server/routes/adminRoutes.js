@@ -4,6 +4,7 @@ import {
   AddProject,
   AdminLogin,
   createUserRole,
+  getAllProjects,
   getEmployeesByOrganizationId,
   getUserRolesByOrganizationId,
 } from "../controllers/AdminControllers.js";
@@ -12,21 +13,6 @@ import multer from "multer";
 import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
-
-import {
-  subscriptionAddPlan,
-  getSubscriptionList,
-  SuperAdminRegistration,
-  SuperAdminVerifyEmail,
-  SuperAdminLogin,
-  getSpecificSubscriptionDetails,
-  updateSubscriptionPlan,
-  requestPasswordReset,
-  resetPassword,
-  updateAdminProfile,
-  updateStatusOfSubscription,
-} from "../controllers/SuperAdminControllers.js";
-import { protectSuperAdminRoute } from "../middleware/auth.js";
 
 
 const storage = multer.diskStorage({
@@ -66,3 +52,6 @@ adminRouter.get(
 );
 
 adminRouter.post("/addproject", protectAdminRoute, AddProject);
+
+adminRouter.get("/getprojects", protectAdminRoute, getAllProjects);
+

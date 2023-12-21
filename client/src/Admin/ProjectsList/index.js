@@ -51,23 +51,22 @@ export default function ProjectsTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get("jwtToken");
+      const token = sessionStorage.getItem("token");
       const options = {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = "http://localhost:3009/api/v1/getprojectlistdetails";
+      const api = "http://localhost:3009/api/v1/getprojects";
       try {
         const response = await fetch(api, options);
-
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
-
         const data = await response.json();
-        setProjects(data.results);
+        setProjects(data.projects);
+        console.log(data.projects)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
