@@ -87,56 +87,12 @@ export const getUserRolesByOrganizationId = async (req, res) => {
   }
 };
 
-//   const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
-//   console.log(req.body, "saicharan add employee body called");
-//   try {
-//     const {
-//       email,
-//       password,
-//       fullName,
-//       joinDate,
-//       roleId,
-//       socialMediaProfile,
-//       employeeID,
-//       address,
-//       phoneNumber,
-//     } = req.body;
-//     let profilePic = "";
-//     if (req.file) {
-//       profilePic = req.file.filename;
-//     }
-//     const employee = new Employee({
-//       organizationId,
-//       email,
-//       password,
-//       fullName,
-//       joinDate,
-//       roleId,
-//       roleName,
-//       socialMediaProfile,
-//       employeeID,
-//       address,
-//       phoneNumber,
-//       profilePic,
-//     });
 
-//     await employee.save();
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(password, saltRounds);
-//     employee.password = hashedPassword;
-
-//     const savedEmployee = await employee.save();
-
-//     res
-//       .status(201)
-//       .json({ message: "Employee added successfully", savedEmployee });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
+ 
+ 
 export const AddEmployee = async (req, res) => {
   const organizationId = req.Admin._id;
+
 
   try {
     const {
@@ -183,7 +139,7 @@ export const AddEmployee = async (req, res) => {
       .status(201)
       .json({ message: "Employee added successfully", savedEmployee });
   } catch (error) {
-    console.error(error);
+    
     res.status(500).json({ message: "Internal server error" });
   }
 };

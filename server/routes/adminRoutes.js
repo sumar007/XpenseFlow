@@ -14,6 +14,7 @@ import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -53,3 +54,4 @@ adminRouter.get(
 adminRouter.post("/addproject", protectAdminRoute, AddProject);
 
 adminRouter.get("/getprojects", protectAdminRoute, getAllProjects);
+
