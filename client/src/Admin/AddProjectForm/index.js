@@ -59,7 +59,7 @@ function AddProjectForm() {
     fetchData();
   }, []);
 
-  console.log(employees)
+  console.log(employees);
 
   const options = employees.filter((employee) => ({
     id: employee._id,
@@ -88,7 +88,7 @@ function AddProjectForm() {
       event.stopPropagation();
     } else {
       event.preventDefault();
-      const token = Cookies.get("jwtToken");
+      const token = sessionStorage.getItem("jwtToken");
       const apiurl = "http://localhost:3009/api/v1/addproject";
       const options = {
         method: "POST",
