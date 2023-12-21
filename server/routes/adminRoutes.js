@@ -23,6 +23,7 @@ import {
   requestPasswordReset,
   resetPassword,
   updateAdminProfile,
+  updateStatusOfSubscription,
 } from "../controllers/SuperAdminControllers.js";
 import { protectSuperAdminRoute } from "../middleware/auth.js";
 
