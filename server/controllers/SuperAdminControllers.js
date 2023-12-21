@@ -121,6 +121,7 @@ export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
 });
 
 // Route for super-admin login
+
 export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
   console.log("backend login");
   try {
