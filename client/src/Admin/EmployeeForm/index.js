@@ -77,18 +77,18 @@ function AddEmployeeForm() {
           setprofilePic("");
           setValidated(true);
           // Clear form fields by updating the state connected to the inputs
-          updatedData({
-            ...data,
-            email: "",
-            password: "",
-            fullName: "",
-            roleId: "",
-            joinDate: "",
-            phoneNumber: "",
-            address: "",
-            employeeID: "",
-            socialMediaProfile: "",
-          });
+          // updatedData({
+          //   ...data,
+          //   email: "",
+          //   password: "",
+          //   fullName: "",
+          //   roleId: "",
+          //   joinDate: "",
+          //   phoneNumber: "",
+          //   address: "",
+          //   employeeID: "",
+          //   socialMediaProfile: "",
+          // });
 
           Toast.fire({
             icon: "success",

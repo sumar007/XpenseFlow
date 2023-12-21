@@ -442,3 +442,5 @@ export const updateStatusOfSubscription = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+//subscriptionAddPlan,getSubscriptionList,getSpecificSubscriptionDetails,updateSubscriptionPlan,updateStatusOfSubscription
