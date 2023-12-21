@@ -15,6 +15,8 @@ const employeeSchema = new mongoose.Schema({
   address: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   profilePic: { type: String },
+  status: {type: Boolean},
+  active: {type: Boolean}
 });
 
 // Define the 'Employee' model using the employeeSchema

@@ -28,6 +28,7 @@ import UserRoleForm from "./Admin/AddRole.js/index.js";
 
 import SuperForgotPassword from "./SuperAdmin/SuperForgotPassword/SuperForgotPassword.js";
 import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProtectedRoute.js";
+import EmployeeDetail from "./Admin/EmployeeDetail/index.js";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/employeedetail/:id" element={<EmployeeDetail />} />
       <Route path="/addrole" element={<UserRoleForm />} />
       <Route path="/adminpanel" element={<AdminPanel />} />  
       <Route path="/adminlogin" element={<AdminLogin />} />
