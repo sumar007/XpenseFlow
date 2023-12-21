@@ -3,9 +3,9 @@ import multer from "multer";
 import path from "path";
 
 import {
+  SuperAdminRegistration,
   subscriptionAddPlan,
   getSubscriptionList,
-  SuperAdminRegistration,
   SuperAdminVerifyEmail,
   SuperAdminLogin,
   getSpecificSubscriptionDetails,
@@ -42,8 +42,16 @@ superAdminRouter.post(
   protectSuperAdminRoute,
   subscriptionAddPlan
 );
-superAdminRouter.get("/subscriptionlist",protectSuperAdminRoute, getSubscriptionList);
-superAdminRouter.get("/subscription-plans/:id",protectSuperAdminRoute, getSpecificSubscriptionDetails);
+superAdminRouter.get(
+  "/subscriptionlist",
+  protectSuperAdminRoute,
+  getSubscriptionList
+);
+superAdminRouter.get(
+  "/subscription-plans/:id",
+  protectSuperAdminRoute,
+  getSpecificSubscriptionDetails
+);
 superAdminRouter.put(
   "/subscription-plans/:id",
   protectSuperAdminRoute,
@@ -62,6 +70,81 @@ superAdminRouter.put(
   updateAdminProfile
 );
 
-superAdminRouter.put("/updatestatussubscription/:id",protectSuperAdminRoute, updateStatusOfSubscription);
+superAdminRouter.put(
+  "/updatestatussubscription/:id",
+  protectSuperAdminRoute,
+  updateStatusOfSubscription
+);
 
 export default superAdminRouter;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// adminRouter.post("/superadminsignup", SuperAdminRegistration);
+// adminRouter.post("/superadminverify", SuperAdminVerifyEmail);
+// adminRouter.post("/superadminlogin", SuperAdminLogin);
+// adminRouter.post(
+//   "/subscription-plans-add",
+//   protectSuperAdminRoute,
+//   subscriptionAddPlan
+// );
+// adminRouter.get(
+//   "/subscriptionlist",
+//   protectSuperAdminRoute,
+//   getSubscriptionList
+// );
+// adminRouter.get(
+//   "/subscription-plans/:id",
+//   protectSuperAdminRoute,
+//   getSpecificSubscriptionDetails
+// );
+// adminRouter.put(
+//   "/subscription-plans/:id",
+//   protectSuperAdminRoute,
+// //   updateSubscriptionPlan
+// // );
+// // adminRouter.post("/super-admin-password", requestPasswordReset);
+// adminRouter.post("/reset-password", resetPassword);
+// adminRouter.put(
+//   "/superadmin/profile/:id",
+//   protectSuperAdminRoute,
+//   upload.single("profilePicture"),
+//   updateAdminProfile
+// );
+
+// adminRouter.put(
+//   "/updatestatussubscription/:id",
+
+//   updateStatusOfSubscription
+// );
