@@ -2,54 +2,100 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   min-height: 100vh;
   width: 100%;
+
+  padding: 30px;
 }
 .subscripton-form-sub-container {
   padding: 10px;
   border-radius: 10px;
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 60%;
 }
 .subscription-form-heading {
-  font-size: 24px;
-  color: #0000b3;
-  margin: 5px 0px 5px 0px;
+  font-size: 30px;
+  color: #4f46e5;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-align: center;
 }
+.subscription-form-inputs-holding-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
 .subscription-form-input-container {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   width: 90%;
 }
 .subscription-label-name {
   font-size: 16px;
   color: #222;
-  font-weight: 600;
+  font-weight: bold;
 }
 .subscription-form-input {
-  border-radius: 4px;
+  border-radius: 5px;
   padding: 10px 4px;
-  font-size: 14px;
-  width: 100%;
-  border: 0.5px solid #333;
+  font-size: 15px;
+  width: 90%;
+  border: 3px solid rgb(25, 25, 28);
 }
 .subscription-form-flex {
   display: flex;
   align-items: center;
   gap: 5px;
 }
+.subscription-submit-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .subscription-submit-button {
-  border: none;
-  background-color: #0000b3;
-  color: #fff;
-  padding: 6px 20px;
+  width: 35%;
+  background-color: transparent;
+  color: black;
+  padding: 8px 20px;
+  border: 3px #4f46e5 solid;
+  border-radius: 10px;
   cursor: pointer;
-  outline: none;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.subscription-submit-button:hover {
+  border: 3px #4f46e5 solid;
+  color: white;
+  background-color: #4f46e5;
+  transition: 0.3s ease-in-out;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1024px) {
+  .subscripton-form-sub-container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .subscription-form-heading {
+    font-size: 24px;
+  }
+  .subscripton-form-sub-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .subscription-form-inputs-holding-container {
+    flex-direction: column;
+  }
+  .subscription-submit-button {
+    width: 60%;
+  }
 }

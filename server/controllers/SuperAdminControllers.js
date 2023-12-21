@@ -121,12 +121,11 @@ export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
 });
 
 // Route for super-admin login
+export const SuperAdminLogin = async (req, res) => {
 export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
   console.log("backend login");
   try {
     const { email, password } = req.body;
-    console.log(req.body);
-
     const user = await AdminModel.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -348,6 +347,7 @@ export const subscriptionAddPlan = CatchAsyncError(async (req, res, next) => {
 export const getSubscriptionList = CatchAsyncError(async (req, res, next) => {
   try {
     const subscriptions = await Subscription.find();
+    console.log(subscriptions);
     res.status(200).json({ subscriptionList: subscriptions });
   } catch (error) {
     console.error("Error fetching subscription data:", error);
