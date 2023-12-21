@@ -3,11 +3,12 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import "./index.css";
 import Toast from "../../components/utlis/toast";
 import Select from "react-dropdown-select";
 
-function AddProjectForm() {
+function ProjecEditForm(props) {
+  console.log(props, "posps");
+  console.log(props.projectId, "finalid");
   const [validated, setValidated] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [data, updatedData] = useState({
@@ -96,7 +97,6 @@ function AddProjectForm() {
   };
 
   const handleSubmit = async (event) => {
-    const form = event.currentTarget;
     console.log(data, teamMembers, managers);
     event.preventDefault();
     const token = sessionStorage.getItem("token");
@@ -464,4 +464,4 @@ function AddProjectForm() {
   );
 }
 
-export default AddProjectForm;
+export default ProjecEditForm;

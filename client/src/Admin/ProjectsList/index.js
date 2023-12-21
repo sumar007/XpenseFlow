@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { MdEditSquare, MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 
 import "react-sliding-pane/dist/react-sliding-pane.css";
@@ -16,26 +17,43 @@ import Cookies from "js-cookie";
 
 const columns = [
   {
-    id: "taskname",
-    label: "Task Name",
+    id: "_id",
+    label: "Id",
+    hide: true,
+  },
+  {
+    id: "projectName",
+    label: "Project Name",
     minWidth: 100,
     align: "center",
   },
   {
-    id: "taskdescription",
-    label: "Task Description",
+    id: "clientName",
+    label: "Client Name",
     minWidth: 100,
     align: "center",
   },
   {
-    id: "deadline",
+    id: "projectStatus",
+    label: "Status",
+    minWidth: 100,
+    align: "center",
+  },
+  {
+    id: "endDate",
     label: "Deadline",
+    minWidth: 100,
+    align: "center",
+  },
+  {
+    id: "actions",
+    label: "Actions",
     minWidth: 100,
     align: "center",
   },
 ];
 
-export default function ProjectsTable() {
+export default function ProjectsTable({ getProjectId }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [projects, setProjects] = useState([]);
@@ -65,8 +83,7 @@ export default function ProjectsTable() {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
-        setProjects(data.projects);
-        console.log(data.projects)
+        setProjects(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -75,7 +92,11 @@ export default function ProjectsTable() {
     fetchData();
   }, []);
 
-  console.log(projects);
+  const setProjectId = (id) => {
+    getProjectId(id);
+  };
+
+  const options = { year: "numeric", month: "numeric", day: "numeric" };
 
   return (
     <>
@@ -84,20 +105,24 @@ export default function ProjectsTable() {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{
-                      minWidth: column.minWidth,
-                      backgroundColor: "#0000b3",
-                      color: "#fff",
-                      zIndex: 0,
-                    }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
+                {columns.map(
+                  (column) =>
+                    // Check if column should be hidden
+                    !column.hide && (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          minWidth: column.minWidth,
+                          backgroundColor: "#0000b3",
+                          color: "#fff",
+                          zIndex: 0,
+                        }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    )
+                )}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,15 +133,35 @@ export default function ProjectsTable() {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={project.id}
+                    key={project._id}
                   >
-                    {columns.map((column) => (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.id === "deadline"
-                          ? new Date(project[column.id]).toLocaleString()
-                          : project[column.id]}
-                      </TableCell>
-                    ))}
+                    {columns.map(
+                      (column) =>
+                        // Check if column should be hidden
+                        !column.hide && (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.id === "endDate"
+                              ? new Date(project[column.id]).toLocaleString(
+                                  undefined,
+                                  options
+                                )
+                              : project[column.id]}
+
+                            {column.id === "actions" && (
+                              <div>
+                                <MdEditSquare
+                                  className="project-edit-icon"
+                                  onClick={() => setProjectId(project._id)} // Wrap in arrow function
+                                />
+                                <MdDelete
+                                  className="project-edit-icon"
+                                  onClick={() => setProjectId(project._id)}
+                                />
+                              </div>
+                            )}
+                          </TableCell>
+                        )
+                    )}
                   </TableRow>
                 ))}
             </TableBody>

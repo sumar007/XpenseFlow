@@ -28,12 +28,12 @@ import UserRoleForm from "./Admin/AddRole.js/index.js";
 
 import SuperForgotPassword from "./SuperAdmin/SuperForgotPassword/SuperForgotPassword.js";
 import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProtectedRoute.js";
-
+import ProjecEditForm from "./Admin/ProjectEditForm/ProjectEditForm.js";
 
 function App() {
   return (
     <Routes>
-        <Route
+      <Route
         path="/superhome"
         element={
           <ProtectedRoute>
@@ -49,23 +49,20 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/edit-project" element={<ProjecEditForm />} />{" "}
       <Route path="/addrole" element={<UserRoleForm />} />
-      <Route path="/adminpanel" element={<AdminPanel />} />  
+      <Route path="/adminpanel" element={<AdminPanel />} />
       <Route path="/adminlogin" element={<AdminLogin />} />
-
       <Route path="/superSignup" element={<SuperadminSignup />} />
-
       <Route
         path="/subscriptionViewDetail/:id"
         element={<SubscriptionDetailView />}
       />
-
       <Route
         path="/organizationViewDetail/:id"
         element={<OrganizationViewDetail />}
       />
       <Route path="/super-forgot" element={<SuperForgotPassword />} />
-
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/Support" element={<Support />} />

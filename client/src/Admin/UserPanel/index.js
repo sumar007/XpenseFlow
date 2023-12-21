@@ -16,10 +16,12 @@ import TasksTable from "../TasksList";
 import AddEmployeeForm from "../EmployeeForm";
 import EmployeesList from "../EmployeesList";
 import Cookies from "js-cookie";
+import ProjecEditForm from "../ProjectEditForm/ProjectEditForm";
 
 function UserPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [active, setActive] = useState("alltasks");
+  const [projectId, setProjectId] = useState();
   const [logoImageUrl, setLogoImageUrl] = useState("");
   const navigate = useNavigate();
 
@@ -32,6 +34,12 @@ function UserPanel() {
 
     // Navigate to login page
     navigate("/login");
+  };
+
+  const setUpdateProjectId = async (id) => {
+    await setProjectId(id);
+    console.log("project id", id, "gggg");
+    await setActive("projectview");
   };
 
   useEffect(() => {
@@ -64,7 +72,7 @@ function UserPanel() {
   }, []);
 
   const PDF_URL = process.env.REACT_APP_PDF_URL;
-
+  console.log(projectId, "saiiiii", active, "active");
   return (
     <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
       <Sidebar
@@ -139,10 +147,13 @@ function UserPanel() {
       <div style={{ width: "100%" }}>
         <UserNavbar />
         {active === "alltasks" && <TasksTable />}
-        {active === "allprojects" && <ProjectsTable />}
+        {active === "allprojects" && (
+          <ProjectsTable getProjectId={setUpdateProjectId} />
+        )}
         {active === "addproject" && <AddProjectForm />}
         {active === "employeelist" && <EmployeesList />}
         {active === "addemployee" && <AddEmployeeForm />}
+        {active === "projectview" && <ProjecEditForm projectId={projectId} />}
       </div>
     </div>
   );
