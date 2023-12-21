@@ -13,6 +13,22 @@ import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
 
+import {
+  subscriptionAddPlan,
+  getSubscriptionList,
+  SuperAdminRegistration,
+  SuperAdminVerifyEmail,
+  SuperAdminLogin,
+  getSpecificSubscriptionDetails,
+  updateSubscriptionPlan,
+  requestPasswordReset,
+  resetPassword,
+  updateAdminProfile,
+  updateStatusOfSubscription,
+} from "../controllers/SuperAdminControllers.js";
+import { protectSuperAdminRoute } from "../middleware/auth.js";
+
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
