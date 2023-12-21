@@ -204,7 +204,7 @@ export const getEmployeesByOrganizationId = async (req, res) => {
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
-  console.log("add project called")
+  console.log("add project called");
   try {
     const {
       projectName,
@@ -246,11 +246,22 @@ export const AddProject = async (req, res) => {
       managers,
     });
     const savedProject = await newProject.save();
-    console.log(savedProject)
+    console.log(savedProject);
     res.json(savedProject);
-
   } catch (error) {
-    console.error('Error adding project:', error);
+    console.error("Error adding project:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+    console.log(projects)
+    res.json(projects);
+  } catch (error) {
+    console.error('Error fetching projects:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

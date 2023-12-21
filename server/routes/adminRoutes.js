@@ -4,6 +4,7 @@ import {
   AddProject,
   AdminLogin,
   createUserRole,
+  getAllProjects,
   getEmployeesByOrganizationId,
   getUserRolesByOrganizationId,
 } from "../controllers/AdminControllers.js";
@@ -12,7 +13,6 @@ import multer from "multer";
 import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -50,6 +50,6 @@ adminRouter.get(
   getEmployeesByOrganizationId
 );
 
-
 adminRouter.post("/addproject", protectAdminRoute, AddProject);
 
+adminRouter.get("/getprojects", protectAdminRoute, getAllProjects);
