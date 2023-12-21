@@ -54,7 +54,6 @@ export const protectAdminRoute = async (req, res, next) => {
       console.log(req.headers);
       token = req.headers.authorization.split(" ")[1]; // Extract token from the header
     }
-    console.log(token);
     if (!token) {
       return res.status(401).json({ message: "Authorization denied" });
     }
@@ -63,7 +62,6 @@ export const protectAdminRoute = async (req, res, next) => {
 
     // Find Super Admin by ID from the decoded token
     const Admin = await Organization.findById(decoded.user.id);
-    console.log(Admin);
     if (!Admin || Admin.role !== "Admin") {
       return res.status(403).json({ message: "Unauthorized access" });
     }

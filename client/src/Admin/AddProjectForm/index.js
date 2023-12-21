@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import "./index.css";
 import Select from "react-dropdown-select";
-import Cookies from "js-cookie";
 
 function AddProjectForm() {
   const [validated, setValidated] = useState(false);
@@ -30,11 +29,9 @@ function AddProjectForm() {
 
   const [teamMembers, setTeamMembers] = useState([]);
   const [managers, setManagers] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       const token = sessionStorage.getItem("token");
-
       const options = {
         method: "GET",
         headers: {
@@ -44,11 +41,9 @@ function AddProjectForm() {
       const api = "http://localhost:3009/api/v1/getemployees";
       try {
         const response = await fetch(api, options);
-
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
-
         const data = await response.json();
         setEmployees(data.employees);
       } catch (error) {
@@ -59,19 +54,38 @@ function AddProjectForm() {
     fetchData();
   }, []);
 
-  console.log(employees)
+  console.log(employees);
 
-  const options = employees.filter((employee) => ({
-    id: employee._id,
-    value: employee._id,
-    label: employee.fullName,
-  }));
+  // const options = employees.filter((employee) => ({
+  //   id: employee._id,
+  //   value: employee._id,
+  //   label: employee.fullName,
+  // }));
 
-  const options1 = employees.filter((employee) => ({
-    id: employee._id,
-    value: employee._id,
-    label: employee.fullName,
-  }));
+  // const options1 = employees.filter((employee) => ({
+  //   id: employee._id,
+  //   value: employee._id,
+  //   label: employee.fullName,
+  // }));
+
+  const options = employees
+    .filter((employee) => employee.roleName === "employee") // Assuming email is the property you want to use
+    .map((employee) => ({
+      value: employee._id,
+      id: employee._id,
+      label: employee.fullName,
+    }));
+
+  const options1 = employees
+    .filter((employee) => employee.roleName === "manager") // Assuming roleName is the property you want to use
+    .map((employee) => ({
+      value: employee._id,
+      id: employee._id,
+      label: employee.fullName,
+    }));
+
+  console.log(options, options1);
+  console.log(options, options1);
 
   const change = (event) => {
     updatedData({
@@ -82,13 +96,9 @@ function AddProjectForm() {
 
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
-
-    if (form.checkValidity() === false) {
+    console.log(data, teamMembers, managers);
       event.preventDefault();
-      event.stopPropagation();
-    } else {
-      event.preventDefault();
-      const token = Cookies.get("jwtToken");
+      const token = sessionStorage.getItem("token");
       const apiurl = "http://localhost:3009/api/v1/addproject";
       const options = {
         method: "POST",
@@ -109,8 +119,7 @@ function AddProjectForm() {
       } catch (error) {
         console.error(error);
       }
-    }
-    setValidated(true);
+    
   };
 
   const handleSelect = (selectedOptions, type) => {
@@ -121,6 +130,8 @@ function AddProjectForm() {
       setManagers(selectedNames);
     }
   };
+
+  console.log(teamMembers, managers, 'saicharan')
 
   return (
     <div className="totalContainer">
@@ -205,7 +216,7 @@ function AddProjectForm() {
               >
                 <option>Project Status</option>
                 <option value="progress">In Progress</option>
-                <option value="pendig">Pendig</option>
+                <option value="pending">Pending</option>
                 <option value="working">Working</option>
                 <option value="complete">Complete</option>
                 <option value="testingbyclient">Testing by Client</option>

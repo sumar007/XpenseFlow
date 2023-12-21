@@ -121,7 +121,10 @@ export const SuperAdminVerifyEmail = CatchAsyncError(async (req, res) => {
 });
 
 // Route for super-admin login
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/main
 export const SuperAdminLogin = CatchAsyncError(async (req, res) => {
   console.log("backend login");
   try {
@@ -443,3 +446,5 @@ export const updateStatusOfSubscription = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+//subscriptionAddPlan,getSubscriptionList,getSpecificSubscriptionDetails,updateSubscriptionPlan,updateStatusOfSubscription

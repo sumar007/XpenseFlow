@@ -1,6 +1,7 @@
 import express from "express";
 import {
-  AddEmploye,
+  AddEmployee,
+  AddProject,
   AdminLogin,
   createUserRole,
   getEmployeesByOrganizationId,
@@ -12,20 +13,6 @@ import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
 
-import {
-  subscriptionAddPlan,
-  getSubscriptionList,
-  SuperAdminRegistration,
-  SuperAdminVerifyEmail,
-  SuperAdminLogin,
-  getSpecificSubscriptionDetails,
-  updateSubscriptionPlan,
-  requestPasswordReset,
-  resetPassword,
-  updateAdminProfile,
-  updateStatusOfSubscription,
-} from "../controllers/SuperAdminControllers.js";
-import { protectSuperAdminRoute } from "../middleware/auth.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,44 +30,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 export const adminRouter = express.Router();
-
-adminRouter.post("/superadminsignup", SuperAdminRegistration);
-adminRouter.post("/superadminverify", SuperAdminVerifyEmail);
-adminRouter.post("/superadminlogin", SuperAdminLogin);
-adminRouter.post(
-  "/subscription-plans-add",
-  protectSuperAdminRoute,
-  subscriptionAddPlan
-);
-adminRouter.get(
-  "/subscriptionlist",
-  protectSuperAdminRoute,
-  getSubscriptionList
-);
-adminRouter.get(
-  "/subscription-plans/:id",
-  protectSuperAdminRoute,
-  getSpecificSubscriptionDetails
-);
-adminRouter.put(
-  "/subscription-plans/:id",
-  protectSuperAdminRoute,
-  updateSubscriptionPlan
-);
-adminRouter.post("/super-admin-password", requestPasswordReset);
-adminRouter.post("/reset-password", resetPassword);
-adminRouter.put(
-  "/superadmin/profile/:id",
-  protectSuperAdminRoute,
-  upload.single("profilePicture"),
-  updateAdminProfile
-);
-
-adminRouter.put(
-  "/updatestatussubscription/:id",
-
-  updateStatusOfSubscription
-);
 adminRouter.post("/adminlogin", AdminLogin);
 adminRouter.post("/addrole", protectAdminRoute, createUserRole);
 adminRouter.get(
@@ -92,7 +41,7 @@ adminRouter.post(
   "/addemployee",
   protectAdminRoute,
   upload.single("profilePic"),
-  AddEmploye
+  AddEmployee
 );
 
 adminRouter.get(
@@ -100,3 +49,7 @@ adminRouter.get(
   protectAdminRoute,
   getEmployeesByOrganizationId
 );
+
+
+adminRouter.post("/addproject", protectAdminRoute, AddProject);
+
