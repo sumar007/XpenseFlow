@@ -65,8 +65,8 @@ export default function ProjectsTable() {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
-        setProjects(data.projects);
-        console.log(data.projects)
+        setProjects(data);
+        console.log(data,"projects")
       } catch (error) {
         console.error("Error fetching data:", error);
       }

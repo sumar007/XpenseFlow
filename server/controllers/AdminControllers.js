@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import UserRole from "../models/roleModel.js";
 import Employee from "../models/employeeModel.js";
 import Project from "../models/projectModel.js";
+import CatchAsyncError from "../middleware/catchasync.js";
 
 export const AdminLogin = async (req, res) => {
   try {
@@ -87,13 +88,8 @@ export const getUserRolesByOrganizationId = async (req, res) => {
   }
 };
 
-
- 
- 
 export const AddEmployee = async (req, res) => {
   const organizationId = req.Admin._id;
-
-
   try {
     const {
       email,
@@ -121,12 +117,14 @@ export const AddEmployee = async (req, res) => {
       fullName,
       joinDate,
       roleId,
-      roleName: role.RoleName, // Add roleName based on the found role
+      roleName: role.RoleName,
       socialMediaProfile,
       employeeID,
       address,
       phoneNumber,
       profilePic: req.file ? req.file.filename : "",
+      status: true,
+      active: true,
     });
 
     const saltRounds = 10;
@@ -139,7 +137,6 @@ export const AddEmployee = async (req, res) => {
       .status(201)
       .json({ message: "Employee added successfully", savedEmployee });
   } catch (error) {
-    
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -157,6 +154,121 @@ export const getEmployeesByOrganizationId = async (req, res) => {
   }
 };
 
+export const getSpecificEmployeeDetails = CatchAsyncError(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const employee = await Employee.findById(id);
+
+    if (employee) {
+      res.json({ data: employee });
+    } else {
+      res.status(404).json({ error: "employee not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching employee:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
+  const organizationId = req.Admin._id;
+  try {
+    const _id = req.params.id;
+    console.log(_id, "id called");
+    const {
+      email,
+      fullName,
+      roleId,
+      joinDate,
+      phoneNumber,
+      address,
+      employeeID,
+      socialMediaProfile,
+    } = req.body;
+    console.log("employeupdate called", req.body);
+    const role = await UserRole.findOne({ _id: roleId, organizationId });
+    console.log(role);
+    if (!role) {
+      return res.status(400).json({ message: "Invalid roleId" });
+    }
+    let profilePicPath = ""; // Default empty path
+    if (req.file) {
+      profilePicPath = req.file.path;
+    }
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      _id,
+      {
+        email,
+        fullName,
+        roleId,
+        roleName: role.RoleName,
+        joinDate,
+        phoneNumber,
+        address,
+        employeeID,
+        socialMediaProfile,
+        profilePic: profilePicPath,
+        status: true,
+        active: true,
+      },
+      { new: true }
+    );
+    console.log(updatedEmployee);
+    res.json({
+      success: true,
+      message: "Employee details updated successfully",
+      data: updatedEmployee,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+});
+
+export const updateStatusOfEmployee = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  console.log("update subscription called");
+  try {
+    const employee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { status } },
+      { new: true }
+    );
+    if (!employee) {
+      return res.status(404).json({ message: "employee not found" });
+    }
+    return res.json(employee);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const deleteEmployee = async (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+  console.log("update subscription called");
+  try {
+    const employee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { active } },
+      { new: true }
+    );
+    if (!employee) {
+      return res.status(404).json({ message: "employee not found" });
+    }
+    return res.json(employee);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
@@ -210,14 +322,13 @@ export const AddProject = async (req, res) => {
   }
 };
 
-
 export const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find();
-    console.log(projects)
+    console.log(projects);
     res.json(projects);
   } catch (error) {
-    console.error('Error fetching projects:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
