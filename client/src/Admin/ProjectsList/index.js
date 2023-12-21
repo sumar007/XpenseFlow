@@ -84,6 +84,7 @@ export default function ProjectsTable({ getProjectId }) {
         }
         const data = await response.json();
         setProjects(data);
+        console.log(data,"projects")
       } catch (error) {
         console.error("Error fetching data:", error);
       }

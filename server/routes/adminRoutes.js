@@ -4,16 +4,19 @@ import {
   AddProject,
   AdminLogin,
   createUserRole,
+  deleteEmployee,
   getAllProjects,
   getEmployeesByOrganizationId,
+  getSpecificEmployeeDetails,
   getUserRolesByOrganizationId,
+  updateEmployeeDetails,
+  updateStatusOfEmployee,
 } from "../controllers/AdminControllers.js";
 
 import multer from "multer";
 import path from "path";
 
 import { protectAdminRoute } from "../middleware/auth.js";
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -40,7 +43,7 @@ adminRouter.get(
 );
 adminRouter.post(
   "/addemployee",
-  protectAdminRoute,
+   protectAdminRoute,
   upload.single("profilePic"),
   AddEmployee
 );
@@ -55,3 +58,22 @@ adminRouter.post("/addproject", protectAdminRoute, AddProject);
 
 adminRouter.get("/getprojects", protectAdminRoute, getAllProjects);
 
+adminRouter.get(
+  "/getemployeedetails/:id",
+  protectAdminRoute,
+  getSpecificEmployeeDetails
+);
+
+adminRouter.get(
+  "/updateEmployeeStatus",
+  protectAdminRoute,
+  updateStatusOfEmployee
+);
+
+adminRouter.get("/deleteEmployee", protectAdminRoute, deleteEmployee);
+adminRouter.put(
+  "/updateemployeedetails/:id",
+  protectAdminRoute,
+  upload.single("profilePic"),
+  updateEmployeeDetails
+);

@@ -83,11 +83,8 @@ export const SuperAdminRegistration = CatchAsyncError(async (req, res) => {
       password: hashedPassword,
       verificationCode,
     });
-
-    const savedUser = await user.save();
-
+    await user.save();
     sendVerificationEmail(email, verificationCode);
-
     res.status(201).json({
       message: "Registration successfull. Check your email for verification.",
     });
