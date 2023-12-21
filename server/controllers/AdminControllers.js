@@ -87,11 +87,6 @@ export const getUserRolesByOrganizationId = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-export const AddEmploye = async (req, res) => {
-  const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
- 
-=======
 //   const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
 //   console.log(req.body, "saicharan add employee body called");
 //   try {
@@ -143,7 +138,6 @@ export const AddEmploye = async (req, res) => {
 export const AddEmployee = async (req, res) => {
   const organizationId = req.Admin._id;
 
->>>>>>> upstream/main
   try {
     const {
       email,
