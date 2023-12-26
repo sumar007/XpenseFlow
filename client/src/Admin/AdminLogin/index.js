@@ -55,7 +55,16 @@ const AdminLogin = () => {
             });
             console.log(data.token);
             sessionStorage.setItem("token", data.token);
-            navigate("/adminpanel");
+            sessionStorage.setItem("role", data.role);
+            if (data.role === "Admin") {
+              navigate("/adminpanel");
+            } 
+            // else if (data.role === "manager") {
+            //   navigate("/UserPanel");
+            // }
+             else {
+              navigate("/UserPanel1");
+            }
 
             // localStorage.setItem("role", data.role);
             // sessionStorage.setItem("role", data.role);

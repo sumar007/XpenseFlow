@@ -16,9 +16,13 @@ import TasksTable from "../TasksList";
 import AddEmployeeForm from "../EmployeeForm";
 import EmployeesList from "../EmployeesList";
 import Cookies from "js-cookie";
+
+import TimeSheetForm from "../AddTimeSheet";
+=======
 import ProjecEditForm from "../ProjectEditForm/ProjectEditForm";
 
-function UserPanel() {
+
+function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [active, setActive] = useState("alltasks");
   const [projectId, setProjectId] = useState();
@@ -102,14 +106,14 @@ function UserPanel() {
             <GiHamburgerMenu onClick={() => setIsCollapsed(!isCollapsed)} />
           </div>
           <MenuItem icon={<FaTasks />} onClick={() => setActive("alltasks")}>
-            All Tasks
+            Add Tasks
           </MenuItem>
 
           <MenuItem
             icon={<GrProjects />}
             onClick={() => setActive("allprojects")}
           >
-            All Projects
+            All Tasks
           </MenuItem>
           <MenuItem
             icon={<GrProjects />}
@@ -146,10 +150,15 @@ function UserPanel() {
       </Sidebar>
       <div style={{ width: "100%" }}>
         <UserNavbar />
+
+        {active === "alltasks" && <TimeSheetForm />}
+        {active === "allprojects" && <ProjectsTable />}
+
         {active === "alltasks" && <TasksTable />}
         {active === "allprojects" && (
           <ProjectsTable getProjectId={setUpdateProjectId} />
         )}
+
         {active === "addproject" && <AddProjectForm />}
         {active === "employeelist" && <EmployeesList />}
         {active === "addemployee" && <AddEmployeeForm />}
@@ -159,4 +168,4 @@ function UserPanel() {
   );
 }
 
-export default UserPanel;
+export default UserPanel1;
