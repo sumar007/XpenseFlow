@@ -2,17 +2,16 @@ import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaTasks } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
-import { HiUsers } from "react-icons/hi2";
 import { GrProjects } from "react-icons/gr";
 import { IoMdSettings } from "react-icons/io";
 import { useEffect, useState } from "react";
 import ProjectsTable from "../ProjectsList";
+import { PiUserListBold, PiUserCirclePlusBold } from "react-icons/pi";
+import { MdOutlineDensitySmall, MdAssignmentAdd } from "react-icons/md";
 import "./index.css";
 import UserNavbar from "../UserNavbar";
 import { useNavigate } from "react-router-dom";
-
 import AddProjectForm from "../AddProjectForm";
-import TasksTable from "../TasksList";
 import AddEmployeeForm from "../EmployeeForm";
 import EmployeesList from "../EmployeesList";
 import Cookies from "js-cookie";
@@ -86,7 +85,7 @@ function UserPanel1() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
       <Sidebar
-        backgroundColor="#1a659e"
+        backgroundColor="#ced4da"
         className="sidebar-container"
         collapsed={isCollapsed}
         collapsedWidth="60px"
@@ -99,11 +98,14 @@ function UserPanel1() {
                 backgroundColor: "#0f5298",
                 color: "#b6c8d9",
               },
-              backgroundColor: "#1a659e", // Background color for menu items
-              color: "#ffffff", // Default text color for menu items
+              backgroundColor: "#ced4da", // Background color for menu items
+              color: "#050505", // Default text color for menu items
               "&:hover": {
+                width: "90%",
+                marginLeft: "10px",
+                borderRadius: "10px",
                 backgroundColor: "#004e89", // Background color on hover
-                color: "#ffffff", // Text color on hover
+                color: "#F0F0F0 ", // Text color on hover
               },
             },
           }}
@@ -111,15 +113,18 @@ function UserPanel1() {
           <div className="hamburger-icon">
             <GiHamburgerMenu onClick={() => setIsCollapsed(!isCollapsed)} />
           </div>
-          <MenuItem icon={<FaTasks />} onClick={() => setActive("alltasks")}>
+          <MenuItem
+            icon={<MdAssignmentAdd />}
+            onClick={() => setActive("alltasks")}
+          >
             Add Tasks
           </MenuItem>
 
           <MenuItem
-            icon={<GrProjects />}
+            icon={<MdOutlineDensitySmall />}
             onClick={() => setActive("allprojects")}
           >
-            All Tasks
+            All Projects
           </MenuItem>
           <MenuItem
             icon={<GrProjects />}
@@ -128,20 +133,23 @@ function UserPanel1() {
             Add Project
           </MenuItem>
           <MenuItem
-            icon={<HiUsers />}
+            icon={<PiUserListBold />}
             onClick={() => setActive("employeelist")}
           >
             Employees List
           </MenuItem>
-          <MenuItem icon={<HiUsers />} onClick={() => setActive("addemployee")}>
+          <MenuItem
+            icon={<PiUserCirclePlusBold />}
+            onClick={() => setActive("addemployee")}
+          >
             Add Employee
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             icon={<IoMdSettings />}
             onClick={() => setActive("settings")}
           >
             Settings
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem icon={<IoLogOut />} onClick={handleLogout}>
             LogOut
           </MenuItem>
@@ -158,8 +166,6 @@ function UserPanel1() {
         <UserNavbar />
 
         {active === "alltasks" && <TimeSheetForm />}
-      
-
         {active === "allprojects" && (
           <ProjectsTable getProjectId={setUpdateProjectId} />
         )}
