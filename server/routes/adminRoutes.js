@@ -8,8 +8,10 @@ import {
   getAllProjects,
   getEmployeesByOrganizationId,
   getSpecificEmployeeDetails,
+  getSpecificProjectDetails,
   getUserRolesByOrganizationId,
   updateEmployeeDetails,
+  updateSpecificProject,
   updateStatusOfEmployee,
 } from "../controllers/AdminControllers.js";
 
@@ -77,3 +79,5 @@ adminRouter.put(
   upload.single("profilePic"),
   updateEmployeeDetails
 );
+adminRouter.get('/projects/:projectId', protectAdminRoute, getSpecificProjectDetails)
+adminRouter.put('/projects/:projectId', protectAdminRoute, updateSpecificProject)
