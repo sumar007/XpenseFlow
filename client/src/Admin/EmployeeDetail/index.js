@@ -7,8 +7,8 @@ import "./index.css";
 import Cookies from "js-cookie";
 import Toast from "../utlis/toast";
 
-function EmployeeDetail() {
-  let id = "6582c0152a154b3bf70a912b";
+function EmployeeDetail({ updateEmpId }) {
+  let id = updateEmpId;
   const [validated, setValidated] = useState(false);
   const [roles, setRoles] = useState([]);
   const [profilePic, setprofilePic] = useState("");
@@ -50,12 +50,9 @@ function EmployeeDetail() {
 
       if (response.ok) {
         const employeeData = await response.json();
-        console.log(employeeData.data.socialMediaProfile, "socialMediaProfile");
         const formattedJoinDate = new Date(employeeData.data.joinDate)
           .toISOString()
           .split("T")[0];
-
-        console.log(employeeData.data);
         updatedData({
           email: employeeData.data.email,
           fullName: employeeData.data.fullName,
@@ -74,30 +71,29 @@ function EmployeeDetail() {
     }
   };
 
- 
-const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const token = sessionStorage.getItem("token");
     const form = event.currentTarget;
     const formData = new FormData();
-  
+
     // Append data fields to the FormData object
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
-  
+
     // Append the profilePic to FormData
     formData.append("profilePic", profilePic);
-  
+
     const apiurl = `http://localhost:3009/api/v1/updateemployeedetails/${id}`;
     const options = {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData,  // Use the FormData directly as the body
+      body: formData, // Use the FormData directly as the body
     };
-  
+
     try {
       const response = await fetch(apiurl, options);
       if (response.ok === true) {
@@ -109,7 +105,7 @@ const handleSubmit = async (event) => {
       console.error(error);
     }
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -122,12 +118,12 @@ const handleSubmit = async (event) => {
           },
         };
         const response = await fetch(api, options);
-        console.log(response);
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
 
         const data = await response.json();
+
         setRoles(data.userRoles);
         updatedData({ ...data, roleId: data.userRoles[0]._id });
       } catch (error) {
@@ -140,72 +136,115 @@ const handleSubmit = async (event) => {
   }, []);
 
   return (
-    <div className="totalContainer">
-      <div className="formContainer">
-        <div className="container">
+    <div className="update-emp-totalContainer">
+      <div className="update-emp-formContainer">
+        <div className="update-emp-container">
           <div className="row">
             <div className="col-12">
-              <h2 className="heading">Add employee</h2>
+              <h2 className="update-emp-heading">Update Employee</h2>
             </div>
           </div>
         </div>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom03">
-              <label htmlFor="validationCustom03" className="bootstraplabel">
-                email
+          <Row>
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom03"
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="employee-add-label"
+              >
+                Email
               </label>
               <Form.Control
                 required
-                value={data.email}
                 type="text"
                 name="email"
                 onChange={change}
+                value={data.email}
                 placeholder="Enter Your E-Mail"
+                className="employee-add-input"
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row>
-            <Form.Group as={Col} controlId="validationCustom09">
-              <label className="bootstraplabel" htmlFor="validationCustom09">
-                fullName
+
+            <Form.Group
+              as={Col}
+              controlId="validationCustom09"
+              md="4"
+              sm="6"
+              xs="12"
+            >
+              <label
+                className="employee-add-label"
+                htmlFor="validationCustom09"
+              >
+                FullName
               </label>
               <Form.Control
                 type="text"
                 name="fullName"
-                value={data.fullName}
                 onChange={change}
                 placeholder="Enter Your Full Name"
                 required
+                className="employee-add-input"
+                value={data.fullName}
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid name.
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom05">
-              <label htmlFor="validationCustom05" className="bootstraplabel">
-                joinDate
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom05"
+            >
+              <label
+                htmlFor="validationCustom05"
+                className="employee-add-label"
+              >
+                JoinDate
               </label>
               <Form.Control
                 type="date"
                 name="joinDate"
                 onChange={change}
-                value={data.joinDate}
                 placeholder="Enter Your Join Date"
                 required
+                className="employee-add-input"
+                value={data.joinDate}
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Start Date.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom07">
-              <label className="bootstraplabel" htmlFor="validationCustom07">
+          </Row>
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom07"
+            >
+              <label
+                className="employee-add-label"
+                htmlFor="validationCustom07"
+              >
                 Role
               </label>
-              <Form.Select name="roleId" value={data.roleId}  onChange={change} required>
+              <Form.Select
+                name="roleId"
+                onChange={change}
+                required
+                className="employee-add-input"
+              >
                 {roles.map((each, index) => (
                   <option value={each._id}>{each.RoleName}</option>
                 ))}
@@ -215,33 +254,53 @@ const handleSubmit = async (event) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                socialMediaProfile
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                SocialMediaProfile
               </label>
               <Form.Control
                 type="text"
-                value={data.socialMediaProfile}
                 name="socialMediaProfile"
                 onChange={change}
                 placeholder="Paste Your Linkdin link"
                 required
+                value={data.socialMediaProfile}
+                className="employee-add-input"
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Link.
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                employeeID
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                EmployeeID
               </label>
               <Form.Control
                 type="text"
                 name="employeeID"
-                value={data.employeeID}
                 onChange={change}
                 placeholder="Enter Your Employee Id"
+                className="employee-add-input"
+                value={data.employeeID}
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -249,33 +308,53 @@ const handleSubmit = async (event) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                address
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                Address
               </label>
               <Form.Control
                 type="text"
                 name="address"
-                value={data.address}
                 onChange={change}
                 placeholder="Enter Your Address"
+                className="employee-add-input"
                 required
+                value={data.address}
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Data.
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                phoneNumber
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                PhoneNumber
               </label>
               <Form.Control
                 type="number"
-                value={data.phoneNumber}
                 name="phoneNumber"
                 onChange={change}
-                placeholder="Paste Your figma url"
+                placeholder="Enter your phone number"
+                className="employee-add-input"
+                value={data.phoneNumber}
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -283,9 +362,18 @@ const handleSubmit = async (event) => {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                profilePic
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                ProfilePic
               </label>
               <Form.Control
                 type="file"
@@ -294,6 +382,7 @@ const handleSubmit = async (event) => {
                 // Remove the 'value' prop
                 // value={profilePic}  // This line should be removed
                 placeholder="Type your Remark"
+                className="employee-add-input"
                 required
               />
 
@@ -303,9 +392,11 @@ const handleSubmit = async (event) => {
             </Form.Group>
           </Row>
 
-          <Button type="submit" className="mt-2">
-            Submit
-          </Button>
+          <div className="employee-add-button-container">
+            <button type="submit" className="employee-add-button">
+              SUBMIT
+            </button>
+          </div>
         </Form>
       </div>
     </div>
