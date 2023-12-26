@@ -8,8 +8,6 @@ import Select from "react-dropdown-select";
 
 function ProjecEditForm(props) {
   const id = props.projectId;
-  console.log(props, "props");
-  console.log(props.projectId, "finalid");
   const [validated, setValidated] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [data, updatedData] = useState({
@@ -28,6 +26,8 @@ function ProjecEditForm(props) {
     priority: "",
     projectType: "",
     endDate: "",
+    teamMembersIds: "",
+    managerId: "",
   });
 
   const [teamMembers, setTeamMembers] = useState([]);
@@ -48,6 +48,7 @@ function ProjecEditForm(props) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
+        console.log(data, "employees list");
         setEmployees(data.employees);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,8 +58,6 @@ function ProjecEditForm(props) {
     fetchData();
     getprojectDetails();
   }, []);
-
-  console.log(employees);
 
   const getprojectDetails = async () => {
     const token = sessionStorage.getItem("token");
@@ -74,10 +73,7 @@ function ProjecEditForm(props) {
 
       if (response.ok) {
         const projectDetails = await response.json();
-        console.log(
-          projectDetails.projectName,
-          "project data saicharan lllllllllllllllllllllllllllllllll"
-        );
+        console.log(projectDetails, "VENU");
         const startDate = new Date(projectDetails.startDate)
           .toISOString()
           .split("T")[0];
@@ -100,9 +96,11 @@ function ProjecEditForm(props) {
           priority,
           projectType,
           teamMembers,
+          managers,
         } = projectDetails;
-        setTeamMembers(teamMembers);
-        console.log(teamMembers, "team members saicharan")
+        // setTeamMembers(teamMembers);
+        // setManagers(managers);
+        console.log(teamMembers, "console")
         updatedData({
           projectName,
           clientName,
@@ -119,6 +117,8 @@ function ProjecEditForm(props) {
           priority,
           projectType,
           endDate,
+          teamMembersIds: teamMembers,
+          managerId: managers,
         });
       } else {
         console.error("Failed to fetch employee details");
@@ -139,7 +139,23 @@ function ProjecEditForm(props) {
   //   value: employee._id,
   //   label: employee.fullName,
   // }));
+  const selectedTeamMembers = employees
+  .filter((employee) => data.teamMembersIds.includes(employee._id)) 
+  .map((person) => ({
+    value: person._id,
+    id: person._id,
+    label: person.fullName,
+  }));
 
+  const selectedMangers =  employees
+  .filter((employee) => data.managerId.includes(employee._id)) 
+  .map((person) => ({
+    value: person._id,
+    id: person._id,
+    label: person.fullName,
+  }));
+
+  console.log( employees, data.teamMembersIds, selectedTeamMembers, "prashnath");
   const options = employees
     .filter((employee) => employee.roleName === "employee") // Assuming email is the property you want to use
     .map((employee) => ({
@@ -156,9 +172,6 @@ function ProjecEditForm(props) {
       label: employee.fullName,
     }));
 
-  console.log(options, options1);
-  console.log(options, options1);
-
   const change = (event) => {
     updatedData({
       ...data,
@@ -172,7 +185,7 @@ function ProjecEditForm(props) {
     const token = sessionStorage.getItem("token");
     const apiurl = `http://localhost:3009/api/v1/projects/${id}`;
     const options = {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -182,14 +195,14 @@ function ProjecEditForm(props) {
 
     try {
       const response = await fetch(apiurl, options);
-      console.log(response);
+
       if (response.ok === true) {
         const responseData = await response.json();
         Toast.fire({
           icon: "success",
           title: "Project Added Successfully",
         });
-        console.log("api worked", responseData);
+
         getprojectDetails();
       }
     } catch (error) {
@@ -206,7 +219,7 @@ function ProjecEditForm(props) {
     }
   };
 
-  console.log(teamMembers, managers, "saicharan");
+  console.log(teamMembers, managers, "final");
 
   return (
     <div className="totalContainer">
@@ -392,7 +405,6 @@ function ProjecEditForm(props) {
                 Please provide a valid Completion Status.
               </Form.Control.Feedback>
             </Form.Group>
-
             <Form.Group as={Col} md="3" controlId="validationCustom11">
               <label htmlFor="validationCustom08" className="bootstraplabel">
                 Dev Url
@@ -508,7 +520,7 @@ function ProjecEditForm(props) {
                         }
                         placeholder="+Add"
                         addPlaceholder="+Add"
-                        value={teamMembers}
+                        values={selectedTeamMembers}
                         keepSelectedInList={true}
                         dropdownHandle={true}
                         className="select-multiple-inputs"
@@ -528,6 +540,7 @@ function ProjecEditForm(props) {
                         }
                         placeholder="+Add"
                         addPlaceholder="+Add"
+                        values={selectedMangers}
                         keepSelectedInList={true}
                         dropdownHandle={true}
                         className="select-multiple-inputs"

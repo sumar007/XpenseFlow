@@ -409,7 +409,7 @@ export const getAllProjects = async (req, res) => {
 
 export const getSpecificProjectDetails = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.projectId);
+    const project = await Project.findById(req.params.id);
     if (!project) {
       return res.status(404).json({ error: "Project not found" });
     }
@@ -422,7 +422,7 @@ export const getSpecificProjectDetails = async (req, res) => {
 
 export const updateSpecificProject = async (req, res) => {
   try {
-    const projectId = req.params.projectId;
+    const projectId = req.params.id;
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
       req.body,
