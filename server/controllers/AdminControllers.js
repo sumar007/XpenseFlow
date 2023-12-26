@@ -96,11 +96,7 @@ export const AdminLogin = async (req, res) => {
       }
 
       console.log(user1.password, "password");
-      // if (!user.isVerified) {
-      //   return res.status(400).json({
-      //     message: "User not verified. Check your email for verification.",
-      //   });
-      // }
+
       const isMatch = await bcrypt.compare(password, user1.password);
       console.log(isMatch);
       if (!isMatch) {
@@ -270,7 +266,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
-    let profilePicPath = ""; 
+    let profilePicPath = "";
     if (req.file) {
       profilePicPath = req.file.path;
     }
@@ -411,22 +407,20 @@ export const getAllProjects = async (req, res) => {
   }
 };
 
-
-export const getSpecificProjectDetails= async (req, res) => {
+export const getSpecificProjectDetails = async (req, res) => {
   try {
     const project = await Project.findById(req.params.projectId);
     if (!project) {
-      return res.status(404).json({ error: 'Project not found' });
+      return res.status(404).json({ error: "Project not found" });
     }
     res.json(project);
   } catch (error) {
-    console.error('Error fetching project by ID:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching project by ID:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-
-export const updateSpecificProject= async (req, res) => {
+export const updateSpecificProject = async (req, res) => {
   try {
     const projectId = req.params.projectId;
     const updatedProject = await Project.findByIdAndUpdate(
@@ -435,11 +429,11 @@ export const updateSpecificProject= async (req, res) => {
       { new: true }
     );
     if (!updatedProject) {
-      return res.status(404).json({ error: 'Project not found' });
+      return res.status(404).json({ error: "Project not found" });
     }
     res.json(updatedProject);
   } catch (error) {
-    console.error('Error updating project by ID:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error updating project by ID:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
