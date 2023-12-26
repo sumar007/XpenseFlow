@@ -43,7 +43,7 @@ adminRouter.get(
 );
 adminRouter.post(
   "/addemployee",
-  protectAdminRoute,
+   protectAdminRoute,
   upload.single("profilePic"),
   AddEmployee
 );
