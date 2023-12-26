@@ -127,7 +127,6 @@ const TimeSheetForm = () => {
           ))}
         </div>
       </label>
-
       <button type="submit">Submit</button>
     </form>
   );

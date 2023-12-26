@@ -8,8 +8,10 @@ import {
   getAllProjects,
   getEmployeesByOrganizationId,
   getSpecificEmployeeDetails,
+  getSpecificProjectDetails,
   getUserRolesByOrganizationId,
   updateEmployeeDetails,
+  updateSpecificProject,
   updateStatusOfEmployee,
 } from "../controllers/AdminControllers.js";
 
@@ -43,7 +45,7 @@ adminRouter.get(
 );
 adminRouter.post(
   "/addemployee",
-   protectAdminRoute,
+  protectAdminRoute,
   upload.single("profilePic"),
   AddEmployee
 );
@@ -64,16 +66,18 @@ adminRouter.get(
   getSpecificEmployeeDetails
 );
 
-adminRouter.get(
-  "/updateEmployeeStatus",
+adminRouter.put(
+  "/updateEmployeeStatus/:id",
   protectAdminRoute,
   updateStatusOfEmployee
 );
 
-adminRouter.get("/deleteEmployee", protectAdminRoute, deleteEmployee);
+adminRouter.delete("/deleteEmployee/:id", protectAdminRoute, deleteEmployee);
 adminRouter.put(
   "/updateemployeedetails/:id",
   protectAdminRoute,
   upload.single("profilePic"),
   updateEmployeeDetails
 );
+adminRouter.get('/projects/:projectId', protectAdminRoute, getSpecificProjectDetails)
+adminRouter.put('/projects/:projectId', protectAdminRoute, updateSpecificProject)

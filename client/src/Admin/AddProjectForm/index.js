@@ -138,12 +138,12 @@ function AddProjectForm() {
   console.log(teamMembers, managers, "saicharan");
 
   return (
-    <div className="totalContainer">
-      <div className="formContainer">
+    <div className="add-project-totalContainer">
+      <div className="add-project-formContainer">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h2 className="heading mb-2">Add Project</h2>
+              <h2 className="add-project-heading mt-3 mb-5">Add Project</h2>
             </div>
           </div>
         </div>
@@ -454,8 +454,8 @@ function AddProjectForm() {
             </div>
           </div>
           <div className="text-center">
-            <Button type="submit" className="mt-2">
-              Submit form
+            <Button type="submit" className="mt-5">
+              Add Project
             </Button>
           </div>
         </Form>

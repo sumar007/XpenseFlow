@@ -201,6 +201,121 @@ export const getEmployeesByOrganizationId = async (req, res) => {
   }
 };
 
+export const getSpecificEmployeeDetails = CatchAsyncError(async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const employee = await Employee.findById(id);
+
+    if (employee) {
+      res.json({ data: employee });
+    } else {
+      res.status(404).json({ error: "employee not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching employee:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
+  const organizationId = req.Admin._id;
+  try {
+    const _id = req.params.id;
+    console.log(_id, "id called");
+    const {
+      email,
+      fullName,
+      roleId,
+      joinDate,
+      phoneNumber,
+      address,
+      employeeID,
+      socialMediaProfile,
+    } = req.body;
+    console.log("employeupdate called", req.body);
+    const role = await UserRole.findOne({ _id: roleId, organizationId });
+    console.log(role);
+    if (!role) {
+      return res.status(400).json({ message: "Invalid roleId" });
+    }
+    let profilePicPath = ""; 
+    if (req.file) {
+      profilePicPath = req.file.path;
+    }
+    const updatedEmployee = await Employee.findByIdAndUpdate(
+      _id,
+      {
+        email,
+        fullName,
+        roleId,
+        roleName: role.RoleName,
+        joinDate,
+        phoneNumber,
+        address,
+        employeeID,
+        socialMediaProfile,
+        profilePic: profilePicPath,
+        status: true,
+        active: true,
+      },
+      { new: true }
+    );
+    console.log(updatedEmployee);
+    res.json({
+      success: true,
+      message: "Employee details updated successfully",
+      data: updatedEmployee,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+});
+
+export const updateStatusOfEmployee = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  console.log("update subscription called");
+  try {
+    const employee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { status } },
+      { new: true }
+    );
+    if (!employee) {
+      return res.status(404).json({ message: "employee not found" });
+    }
+    return res.json(employee);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const deleteEmployee = async (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+  console.log("update subscription called");
+  try {
+    const employee = await Employee.findByIdAndUpdate(
+      id,
+      { $set: { active } },
+      { new: true }
+    );
+    if (!employee) {
+      return res.status(404).json({ message: "employee not found" });
+    }
+    return res.json(employee);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
@@ -251,6 +366,39 @@ export const AddProject = async (req, res) => {
 
   } catch (error) {
     console.error('Error adding project:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export const getSpecificProjectDetails= async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.projectId);
+    if (!project) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    res.json(project);
+  } catch (error) {
+    console.error('Error fetching project by ID:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
+export const updateSpecificProject= async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+    const updatedProject = await Project.findByIdAndUpdate(
+      projectId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    res.json(updatedProject);
+  } catch (error) {
+    console.error('Error updating project by ID:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
