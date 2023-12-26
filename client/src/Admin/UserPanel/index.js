@@ -158,9 +158,8 @@ function UserPanel1() {
         <UserNavbar />
 
         {active === "alltasks" && <TimeSheetForm />}
-        {active === "allprojects" && <ProjectsTable />}
+      
 
-        {active === "alltasks" && <TasksTable />}
         {active === "allprojects" && (
           <ProjectsTable getProjectId={setUpdateProjectId} />
         )}
