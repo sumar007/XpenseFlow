@@ -84,7 +84,7 @@ export default function ProjectsTable({ getProjectId }) {
         }
         const data = await response.json();
         setProjects(data);
-        console.log(data,"projects")
+        console.log(data, "projects");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -115,7 +115,7 @@ export default function ProjectsTable({ getProjectId }) {
                         align={column.align}
                         style={{
                           minWidth: column.minWidth,
-                          backgroundColor: "#0000b3",
+                          backgroundColor: "#004e89",
                           color: "#fff",
                           zIndex: 0,
                         }}

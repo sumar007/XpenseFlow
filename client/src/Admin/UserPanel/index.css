@@ -8,6 +8,11 @@
   justify-content: flex-end;
   margin: 10px 10px 10px 0px;
   cursor: pointer;
+  color: black;
+}
+
+.hamburger-icon:hover {
+  color: #fff;
 }
 
 .sidebar-icons-container {
