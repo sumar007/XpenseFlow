@@ -16,8 +16,9 @@ import TasksTable from "../TasksList";
 import AddEmployeeForm from "../EmployeeForm";
 import EmployeesList from "../EmployeesList";
 import Cookies from "js-cookie";
+import TimeSheetForm from "../AddTimeSheet";
 
-function UserPanel() {
+function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [active, setActive] = useState("alltasks");
   const [logoImageUrl, setLogoImageUrl] = useState("");
@@ -94,14 +95,14 @@ function UserPanel() {
             <GiHamburgerMenu onClick={() => setIsCollapsed(!isCollapsed)} />
           </div>
           <MenuItem icon={<FaTasks />} onClick={() => setActive("alltasks")}>
-            All Tasks
+            Add Tasks
           </MenuItem>
 
           <MenuItem
             icon={<GrProjects />}
             onClick={() => setActive("allprojects")}
           >
-            All Projects
+            All Tasks
           </MenuItem>
           <MenuItem
             icon={<GrProjects />}
@@ -138,7 +139,7 @@ function UserPanel() {
       </Sidebar>
       <div style={{ width: "100%" }}>
         <UserNavbar />
-        {active === "alltasks" && <TasksTable />}
+        {active === "alltasks" && <TimeSheetForm />}
         {active === "allprojects" && <ProjectsTable />}
         {active === "addproject" && <AddProjectForm />}
         {active === "employeelist" && <EmployeesList />}
@@ -148,4 +149,4 @@ function UserPanel() {
   );
 }
 
-export default UserPanel;
+export default UserPanel1;

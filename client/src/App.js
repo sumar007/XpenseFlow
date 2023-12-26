@@ -29,11 +29,14 @@ import UserRoleForm from "./Admin/AddRole.js/index.js";
 import SuperForgotPassword from "./SuperAdmin/SuperForgotPassword/SuperForgotPassword.js";
 import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProtectedRoute.js";
 import EmployeeDetail from "./Admin/EmployeeDetail/index.js";
+import TimeSheetForm from "./Admin/AddTimeSheet/index.js";
+import UserPanel1 from "./Admin/UserPanel/index.js";
 
 
 function App() {
   return (
     <Routes>
+      <Route path="/UserPanel1" element={<UserPanel1 />} />
         <Route
         path="/superhome"
         element={
@@ -50,6 +53,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/TimeSheetForm" element={<TimeSheetForm />} />
       <Route path="/employeedetail/:id" element={<EmployeeDetail />} />
       <Route path="/addrole" element={<UserRoleForm />} />
       <Route path="/adminpanel" element={<AdminPanel />} />  

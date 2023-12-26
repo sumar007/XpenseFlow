@@ -6,48 +6,128 @@ import Employee from "../models/employeeModel.js";
 import Project from "../models/projectModel.js";
 import CatchAsyncError from "../middleware/catchasync.js";
 
+// export const AdminLogin = async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+//     const companyEmail = email;
+//     console.log(req.body, "saiacharan");
+//     const user = await Organization.findOne({ companyEmail });
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     console.log(user.password, "password");
+//     // if (!user.isVerified) {
+//     //   return res.status(400).json({
+//     //     message: "User not verified. Check your email for verification.",
+//     //   });
+//     // }
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     console.log(isMatch);
+
+//     if (!isMatch) {
+//       return res.status(400).json({ message: "Incorrect password" });
+//     }
+//     // Create a JWT token with user payload
+//     const payload = {
+//       user: {
+//         id: user.id,
+//         email: user.email,
+//       },
+//     };
+
+//     jwt.sign(
+//       payload,
+//       process.env.JWT_SECRET,
+//       { expiresIn: "72h" },
+//       (err, token) => {
+//         if (err) {
+//           throw err;
+//         }
+//         res
+//           .status(200)
+//           .json({ message: "Login successful", token, role: "Admin" });
+//       }
+//     );
+//   } catch (error) {
+//     console.error("Login error:", error);
+//     return res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
 export const AdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const companyEmail = email;
     console.log(req.body, "saiacharan");
-    const user = await Organization.findOne({ companyEmail });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    console.log(user.password, "password");
-    // if (!user.isVerified) {
-    //   return res.status(400).json({
-    //     message: "User not verified. Check your email for verification.",
-    //   });
-    // }
-    const isMatch = await bcrypt.compare(password, user.password);
-    console.log(isMatch);
-
-    if (!isMatch) {
-      return res.status(400).json({ message: "Incorrect password" });
-    }
-    // Create a JWT token with user payload
-    const payload = {
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-    };
-
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: "72h" },
-      (err, token) => {
-        if (err) {
-          throw err;
-        }
-        res
-          .status(200)
-          .json({ message: "Login successful", token, role: "Admin" });
+    let user;
+    user = await Organization.findOne({ companyEmail });
+    console.log(user, "user admin");
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      console.log(isMatch);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Incorrect password" });
       }
-    );
+      // Create a JWT token with user payload
+      const payload = {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+      };
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: "72h" },
+        (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res
+            .status(200)
+            .json({ message: "Login successful", token, role: "Admin" });
+        }
+      );
+    }
+    if (!user) {
+      const user1 = await Employee.findOne({ email });
+      if (!user1) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      console.log(user1.password, "password");
+      // if (!user.isVerified) {
+      //   return res.status(400).json({
+      //     message: "User not verified. Check your email for verification.",
+      //   });
+      // }
+      const isMatch = await bcrypt.compare(password, user1.password);
+      console.log(isMatch);
+      if (!isMatch) {
+        return res.status(400).json({ message: "Incorrect password" });
+      }
+      // Create a JWT token with user payload
+      const payload = {
+        user1: {
+          id: user1.id,
+          email: user1.email,
+        },
+      };
+
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: "72h" },
+        (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res
+            .status(200)
+            .json({ message: "Login successful", token, role: user1.role });
+        }
+      );
+    }
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -105,11 +185,9 @@ export const AddEmployee = async (req, res) => {
     console.log(roleId, "roleid");
     // Assuming you have the UserRole model imported
     const role = await UserRole.findOne({ _id: roleId, organizationId });
-    console.log(role);
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
-
     const employee = new Employee({
       organizationId,
       email,
