@@ -20,12 +20,14 @@ import Cookies from "js-cookie";
 import TimeSheetForm from "../AddTimeSheet";
 
 import ProjecEditForm from "../ProjectEditForm/ProjectEditForm";
+import EmployeeDetail from "../EmployeeDetail";
 
 function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [active, setActive] = useState("alltasks");
   const [projectId, setProjectId] = useState();
   const [logoImageUrl, setLogoImageUrl] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -43,6 +45,11 @@ function UserPanel1() {
     await setProjectId(id);
     console.log("project id", id, "gggg");
     await setActive("projectview");
+  };
+
+  const setUpdateEmployeeId = (id) => {
+    setEmployeeId(id);
+    setActive("employeeview");
   };
 
   useEffect(() => {
@@ -79,7 +86,7 @@ function UserPanel1() {
   return (
     <div style={{ display: "flex", minHeight: "100vh", width: "100%" }}>
       <Sidebar
-        backgroundColor="#0f5298"
+        backgroundColor="#1a659e"
         className="sidebar-container"
         collapsed={isCollapsed}
         collapsedWidth="60px"
@@ -92,10 +99,10 @@ function UserPanel1() {
                 backgroundColor: "#0f5298",
                 color: "#b6c8d9",
               },
-              backgroundColor: "#0f5298", // Background color for menu items
+              backgroundColor: "#1a659e", // Background color for menu items
               color: "#ffffff", // Default text color for menu items
               "&:hover": {
-                backgroundColor: "#0000b3", // Background color on hover
+                backgroundColor: "#004e89", // Background color on hover
                 color: "#ffffff", // Text color on hover
               },
             },
@@ -159,9 +166,14 @@ function UserPanel1() {
         )}
 
         {active === "addproject" && <AddProjectForm />}
-        {active === "employeelist" && <EmployeesList />}
+        {active === "employeelist" && (
+          <EmployeesList getEmployeeId={setUpdateEmployeeId} />
+        )}
         {active === "addemployee" && <AddEmployeeForm />}
         {active === "projectview" && <ProjecEditForm projectId={projectId} />}
+        {active === "employeeview" && (
+          <EmployeeDetail updateEmpId={employeeId} />
+        )}
       </div>
     </div>
   );

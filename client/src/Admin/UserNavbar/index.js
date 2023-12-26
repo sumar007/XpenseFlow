@@ -1,6 +1,7 @@
 import { FaSearch } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { IoIosRocket } from "react-icons/io";
+import { BsPersonFillAdd } from "react-icons/bs";
 import "./index.css";
 import Cookies from "js-cookie";
 
@@ -79,7 +80,7 @@ const UserNavbar = () => {
             <p className="user-navbar-text">Upgrade</p>
           </button>
           <button className="user-navbar-invite-btn-main-container">
-            <IoIosRocket />
+            <BsPersonFillAdd />
             <p className="user-navbar-text">Invite</p>
           </button>
         </div>

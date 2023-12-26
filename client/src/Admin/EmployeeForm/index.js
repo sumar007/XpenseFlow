@@ -45,61 +45,58 @@ function AddEmployeeForm() {
     });
     formData.append("profilePic", profilePic);
 
-    
-      event.preventDefault();
-      const apiurl = "http://localhost:3009/api/v1/addemployee";
-      const token = sessionStorage.getItem("token");
+    event.preventDefault();
+    const apiurl = "http://localhost:3009/api/v1/addemployee";
+    const token = sessionStorage.getItem("token");
 
-      const options = {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      };
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    };
 
-      try {
-        const response = await fetch(apiurl, options);
-        if (response.ok === true) {
-          const data = await response.json();
-          updatedData({
-            email: "",
-            password: "",
-            fullName: "",
-            roleId: "",
-            joinDate: "",
-            phoneNumber: "",
-            address: "",
-            employeeID: "",
-            socialMediaProfile: "",
-          });
+    try {
+      const response = await fetch(apiurl, options);
+      if (response.ok === true) {
+        const data = await response.json();
+        updatedData({
+          email: "",
+          password: "",
+          fullName: "",
+          roleId: "",
+          joinDate: "",
+          phoneNumber: "",
+          address: "",
+          employeeID: "",
+          socialMediaProfile: "",
+        });
 
-          setprofilePic("");
-          setValidated(true);
-          // Clear form fields by updating the state connected to the inputs
-          // updatedData({
-          //   ...data,
-          //   email: "",
-          //   password: "",
-          //   fullName: "",
-          //   roleId: "",
-          //   joinDate: "",
-          //   phoneNumber: "",
-          //   address: "",
-          //   employeeID: "",
-          //   socialMediaProfile: "",
-          // });
+        setprofilePic("");
+        setValidated(true);
+        // Clear form fields by updating the state connected to the inputs
+        // updatedData({
+        //   ...data,
+        //   email: "",
+        //   password: "",
+        //   fullName: "",
+        //   roleId: "",
+        //   joinDate: "",
+        //   phoneNumber: "",
+        //   address: "",
+        //   employeeID: "",
+        //   socialMediaProfile: "",
+        // });
 
-          Toast.fire({
-            icon: "success",
-            title: data.message,
-          });
-        }
-      } catch (error) {
-        console.error(error);
+        Toast.fire({
+          icon: "success",
+          title: data.message,
+        });
       }
-
-    
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -131,20 +128,29 @@ function AddEmployeeForm() {
   }, []);
 
   return (
-    <div className="totalContainer">
-      <div className="formContainer">
+    <div className="employee-add-totalContainer">
+      <div className="employee-add-formContainer">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h2 className="heading">Add employee</h2>
+              <h2 className="employee-add-heading">Add Employee</h2>
             </div>
           </div>
         </div>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom03">
-              <label htmlFor="validationCustom03" className="bootstraplabel">
-                email
+          <Row>
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom03"
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="employee-add-label"
+              >
+                Email
               </label>
               <Form.Control
                 required
@@ -152,13 +158,23 @@ function AddEmployeeForm() {
                 name="email"
                 onChange={change}
                 placeholder="Enter Your E-Mail"
+                className="employee-add-input"
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom03">
-              <label htmlFor="validationCustom03" className="bootstraplabel">
-                password
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom03"
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="employee-add-label"
+              >
+                Password
               </label>
               <Form.Control
                 required
@@ -166,14 +182,22 @@ function AddEmployeeForm() {
                 name="password"
                 onChange={change}
                 placeholder="Enter Your Password"
+                className="employee-add-input"
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row>
-            <Form.Group as={Col} controlId="validationCustom09">
-              <label className="bootstraplabel" htmlFor="validationCustom09">
-                fullName
+            <Form.Group
+              as={Col}
+              controlId="validationCustom09"
+              md="4"
+              sm="6"
+              xs="12"
+            >
+              <label
+                className="employee-add-label"
+                htmlFor="validationCustom09"
+              >
+                FullName
               </label>
               <Form.Control
                 type="text"
@@ -181,6 +205,7 @@ function AddEmployeeForm() {
                 onChange={change}
                 placeholder="Enter Your Full Name"
                 required
+                className="employee-add-input"
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid name.
@@ -188,9 +213,18 @@ function AddEmployeeForm() {
             </Form.Group>
           </Row>
           <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom05">
-              <label htmlFor="validationCustom05" className="bootstraplabel">
-                joinDate
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom05"
+            >
+              <label
+                htmlFor="validationCustom05"
+                className="employee-add-label"
+              >
+                JoinDate
               </label>
               <Form.Control
                 type="date"
@@ -198,16 +232,31 @@ function AddEmployeeForm() {
                 onChange={change}
                 placeholder="Enter Your Join Date"
                 required
+                className="employee-add-input"
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Start Date.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom07">
-              <label className="bootstraplabel" htmlFor="validationCustom07">
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom07"
+            >
+              <label
+                className="employee-add-label"
+                htmlFor="validationCustom07"
+              >
                 Role
               </label>
-              <Form.Select name="roleId" onChange={change} required>
+              <Form.Select
+                name="roleId"
+                onChange={change}
+                required
+                className="employee-add-input"
+              >
                 {roles.map((each, index) => (
                   <option value={each._id}>{each.RoleName}</option>
                 ))}
@@ -217,9 +266,18 @@ function AddEmployeeForm() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                socialMediaProfile
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                SocialMediaProfile
               </label>
               <Form.Control
                 type="text"
@@ -227,21 +285,32 @@ function AddEmployeeForm() {
                 onChange={change}
                 placeholder="Paste Your Linkdin link"
                 required
+                className="employee-add-input"
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Link.
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                employeeID
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                EmployeeID
               </label>
               <Form.Control
                 type="text"
                 name="employeeID"
                 onChange={change}
                 placeholder="Enter Your Employee Id"
+                className="employee-add-input"
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -249,15 +318,25 @@ function AddEmployeeForm() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                address
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                Address
               </label>
               <Form.Control
                 type="text"
                 name="address"
                 onChange={change}
                 placeholder="Enter Your Address"
+                className="employee-add-input"
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -265,15 +344,25 @@ function AddEmployeeForm() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                phoneNumber
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                PhoneNumber
               </label>
               <Form.Control
                 type="number"
                 name="phoneNumber"
                 onChange={change}
-                placeholder="Paste Your figma url"
+                placeholder="Enter your phone number"
+                className="employee-add-input"
                 required
               />
               <Form.Control.Feedback type="invalid">
@@ -281,9 +370,18 @@ function AddEmployeeForm() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                profilePic
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                ProfilePic
               </label>
               <Form.Control
                 type="file"
@@ -292,6 +390,7 @@ function AddEmployeeForm() {
                 // Remove the 'value' prop
                 // value={profilePic}  // This line should be removed
                 placeholder="Type your Remark"
+                className="employee-add-input"
                 required
               />
 
@@ -301,9 +400,11 @@ function AddEmployeeForm() {
             </Form.Group>
           </Row>
 
-          <Button type="submit" className="mt-2">
-            Submit
-          </Button>
+          <div className="employee-add-button-container">
+            <button type="submit" className="employee-add-button">
+              SUBMIT
+            </button>
+          </div>
         </Form>
       </div>
     </div>
