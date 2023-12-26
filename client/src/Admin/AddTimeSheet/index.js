@@ -37,27 +37,45 @@ const TimeSheetForm = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Process or send the form data as needed
-    console.log('Form Data:', formData);
+    try {
+      const response = await fetch('/api/vi/employee/addTimeSheet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Clear the form
-    setFormData({
-      date: '',
-      project: '',
-      notes: '',
-      hours: {
-        monday: '',
-        tuesday: '',
-        wednesday: '',
-        thursday: '',
-        friday: '',
-        saturday: '',
-        sunday: '',
-      },
-    });
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Time sheet added successfully!', data);
+        // Reset the form after successful submission
+        setFormData({
+          date: '',
+          project: '',
+          notes: '',
+          hours: {
+            monday: '',
+            tuesday: '',
+            wednesday: '',
+            thursday: '',
+            friday: '',
+            saturday: '',
+            sunday: '',
+          },
+        });
+      } else {
+        console.error('Failed to add time sheet', data);
+        // Handle error states or display error messages
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle network errors or other issues
+    }
   };
 
   return (
@@ -69,12 +87,24 @@ const TimeSheetForm = () => {
 
       <label>
         Project Name:
-        <input type="text" name="project" value={formData.project} onChange={handleChange} placeholder="Enter project name" required />
+        <input
+          type="text"
+          name="project"
+          value={formData.project}
+          onChange={handleChange}
+          placeholder="Enter project name"
+          required
+        />
       </label>
 
       <label>
         Additional Notes:
-        <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Enter any additional notes"></textarea>
+        <textarea
+          name="notes"
+          value={formData.notes}
+          onChange={handleChange}
+          placeholder="Enter any additional notes"
+        ></textarea>
       </label>
 
       <label>
