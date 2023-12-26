@@ -40,10 +40,7 @@ const TimeSheetForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Process or send the form data as needed
     console.log('Form Data:', formData);
-
-    // Clear the form
     setFormData({
       date: '',
       project: '',
@@ -97,7 +94,6 @@ const TimeSheetForm = () => {
           ))}
         </div>
       </label>
-
       <button type="submit">Submit</button>
     </form>
   );
