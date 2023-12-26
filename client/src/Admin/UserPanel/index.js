@@ -18,9 +18,8 @@ import EmployeesList from "../EmployeesList";
 import Cookies from "js-cookie";
 
 import TimeSheetForm from "../AddTimeSheet";
-=======
-import ProjecEditForm from "../ProjectEditForm/ProjectEditForm";
 
+import ProjecEditForm from "../ProjectEditForm/ProjectEditForm";
 
 function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
