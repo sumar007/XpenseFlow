@@ -10,6 +10,7 @@ export const AdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const companyEmail = email;
+
    
     let user;
     user = await Organization.findOne({ companyEmail });
@@ -80,6 +81,8 @@ export const AdminLogin = async (req, res) => {
             
         }
       );
+    
+
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -112,7 +115,7 @@ export const createUserRole = async (req, res) => {
 export const getUserRolesByOrganizationId = async (req, res) => {
   try {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
-    const userRoles = await UserRole.find({ organizationId });
+    const userRoles = await UserRole.find();
 
     res.status(200).json({ userRoles });
   } catch (error) {
@@ -186,7 +189,7 @@ export const AddEmployee = async (req, res) => {
     } = req.body;
     console.log(roleId, "roleid");
     // Assuming you have the UserRole model imported
-    const role = await UserRole.findOne({ _id: roleId, organizationId });
+    const role = await UserRole.findOne({ _id: roleId });
     console.log(role);
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
@@ -227,7 +230,7 @@ export const getEmployeesByOrganizationId = async (req, res) => {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
 
     const employees = await Employee.find({ organizationId });
-
+    console.log(employees);
     res.status(200).json({ employees });
   } catch (error) {
     console.error(error);
@@ -353,7 +356,7 @@ export const deleteEmployee = async (req, res) => {
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
-  console.log("add project called")
+  console.log("add project called");
   try {
     const {
       projectName,
@@ -395,12 +398,22 @@ export const AddProject = async (req, res) => {
       managers,
     });
     const savedProject = await newProject.save();
-    console.log(savedProject)
+    console.log(savedProject);
     res.json(savedProject);
-
   } catch (error) {
-    console.error('Error adding project:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error adding project:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+    console.log(projects);
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -417,7 +430,7 @@ export const getAllProjects = async (req, res) => {
 
 export const getSpecificProjectDetails = async (req, res) => {
   try {
-    const project = await Project.findById(req.params.projectId);
+    const project = await Project.findById(req.params.id);
     if (!project) {
       return res.status(404).json({ error: "Project not found" });
     }
@@ -430,7 +443,7 @@ export const getSpecificProjectDetails = async (req, res) => {
 
 export const updateSpecificProject = async (req, res) => {
   try {
-    const projectId = req.params.projectId;
+    const projectId = req.params.id;
     const updatedProject = await Project.findByIdAndUpdate(
       projectId,
       req.body,

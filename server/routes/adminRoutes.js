@@ -79,5 +79,5 @@ adminRouter.put(
   upload.single("profilePic"),
   updateEmployeeDetails
 );
-adminRouter.get('/projects/:projectId', protectAdminRoute, getSpecificProjectDetails)
-adminRouter.put('/projects/:projectId', protectAdminRoute, updateSpecificProject)
+adminRouter.get('/projects/:id', protectAdminRoute, getSpecificProjectDetails)
+adminRouter.put('/projects/:id', protectAdminRoute, updateSpecificProject)
