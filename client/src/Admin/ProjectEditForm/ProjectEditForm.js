@@ -182,13 +182,13 @@ function ProjecEditForm(props) {
   const handleSubmit = async (event) => {
     console.log(data, teamMembers, managers);
     event.preventDefault();
-    const token = sessionStorage.getItem("token");
+    const token1 = sessionStorage.getItem("token");
     const apiurl = `http://localhost:3009/api/v1/projects/${id}`;
     const options = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token1}`,
       },
       body: JSON.stringify({ ...data, teamMembers, managers }),
     };
