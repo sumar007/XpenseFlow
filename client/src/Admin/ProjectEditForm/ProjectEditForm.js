@@ -27,6 +27,8 @@ function ProjecEditForm(props) {
     priority: "",
     projectType: "",
     endDate: "",
+    teamMembersIds: "",
+    managerId: "",
   });
 
   const [teamMembers, setTeamMembers] = useState([]);
@@ -47,6 +49,8 @@ function ProjecEditForm(props) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
+        console.log(data, "employees list");
+        setEmployees(data.employees);
         console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -54,9 +58,77 @@ function ProjecEditForm(props) {
     };
 
     fetchData();
+    getprojectDetails();
   }, []);
 
-  console.log(employees);
+  const getprojectDetails = async () => {
+    const token = sessionStorage.getItem("token");
+    const apiurl = `http://localhost:3009/api/v1/projects/${id}`;
+
+    try {
+      const response = await fetch(apiurl, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const projectDetails = await response.json();
+        console.log(projectDetails, "VENU");
+        const startDate = new Date(projectDetails.startDate)
+          .toISOString()
+          .split("T")[0];
+        const endDate = new Date(projectDetails.endDate)
+          .toISOString()
+          .split("T")[0];
+        // Destructure the project details and update the state
+        const {
+          projectName,
+          clientName,
+          description,
+          projectStatus,
+          gitLink,
+          liveUrl,
+          devUrl,
+          remarks,
+          figmaUrl,
+          status,
+          prerequsites,
+          priority,
+          projectType,
+          teamMembers,
+          managers,
+        } = projectDetails;
+        // setTeamMembers(teamMembers);
+        // setManagers(managers);
+        console.log(teamMembers, "console");
+        updatedData({
+          projectName,
+          clientName,
+          description,
+          projectStatus,
+          startDate,
+          gitLink,
+          liveUrl,
+          devUrl,
+          remarks,
+          figmaUrl,
+          status,
+          prerequsites,
+          priority,
+          projectType,
+          endDate,
+          teamMembersIds: teamMembers,
+          managerId: managers,
+        });
+      } else {
+        console.error("Failed to fetch employee details");
+      }
+    } catch (error) {
+      console.error("Error fetching employee details:", error);
+    }
+  };
 
   // const options = employees.filter((employee) => ({
   //   id: employee._id,
@@ -69,7 +141,23 @@ function ProjecEditForm(props) {
   //   value: employee._id,
   //   label: employee.fullName,
   // }));
+  const selectedTeamMembers = employees
+    .filter((employee) => data.teamMembersIds.includes(employee._id))
+    .map((person) => ({
+      value: person._id,
+      id: person._id,
+      label: person.fullName,
+    }));
 
+  const selectedMangers = employees
+    .filter((employee) => data.managerId.includes(employee._id))
+    .map((person) => ({
+      value: person._id,
+      id: person._id,
+      label: person.fullName,
+    }));
+
+  console.log(employees, data.teamMembersIds, selectedTeamMembers, "prashnath");
   const options = employees
     .filter((employee) => employee.roleName === "employee") // Assuming email is the property you want to use
     .map((employee) => ({
@@ -86,9 +174,6 @@ function ProjecEditForm(props) {
       label: employee.fullName,
     }));
 
-  console.log(options, options1);
-  console.log(options, options1);
-
   const change = (event) => {
     updatedData({
       ...data,
@@ -99,27 +184,28 @@ function ProjecEditForm(props) {
   const handleSubmit = async (event) => {
     console.log(data, teamMembers, managers);
     event.preventDefault();
-    const token = sessionStorage.getItem("token");
-    const apiurl = "http://localhost:3009/api/v1/addproject";
+    const token1 = sessionStorage.getItem("token");
+    const apiurl = `http://localhost:3009/api/v1/projects/${id}`;
     const options = {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token1}`,
       },
       body: JSON.stringify({ ...data, teamMembers, managers }),
     };
 
     try {
       const response = await fetch(apiurl, options);
-      console.log(response);
+
       if (response.ok === true) {
         const responseData = await response.json();
         Toast.fire({
           icon: "success",
           title: "Project Added Successfully",
         });
-        console.log("api worked", responseData);
+
+        getprojectDetails();
       }
     } catch (error) {
       console.error(error);
@@ -135,7 +221,7 @@ function ProjecEditForm(props) {
     }
   };
 
-  console.log(teamMembers, managers, "saicharan");
+  console.log(teamMembers, managers, "final");
 
   return (
     <div className="totalContainer">
@@ -155,6 +241,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Control
                 required
+                value={data.projectName}
                 onChange={change}
                 type="text"
                 name="projectName"
@@ -169,6 +256,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 className="input"
                 required
+                value={data.endDate}
                 type="date"
                 name="endDate"
                 onChange={change}
@@ -183,6 +271,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Control
                 type="date"
+                value={data.startDate}
                 name="startDate"
                 onChange={change}
                 placeholder="Enter Your Start Date"
@@ -200,6 +289,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 required
                 type="text"
+                value={data.clientName}
                 name="clientName"
                 onChange={change}
                 placeholder="Enter Your Module Name"
@@ -214,6 +304,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Select
                 name="projectStatus"
+                value={data.projectStatus}
                 required
                 onChange={change}
                 aria-label="Default select example"
@@ -235,6 +326,7 @@ function ProjecEditForm(props) {
               <Form.Select
                 name="status"
                 required
+                value={data.status}
                 onChange={change}
                 aria-label="Default select example"
               >
@@ -253,6 +345,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Control
                 name="projectType"
+                value={data.projectType}
                 onChange={change}
                 type="text"
                 placeholder="Ecommerce/Application"
@@ -270,6 +363,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 type="text"
                 name="gitLink"
+                value={data.getLink}
                 onChange={change}
                 placeholder="Paste Your Git link"
                 required
@@ -287,6 +381,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 type="text"
                 name="liveUrl"
+                value={data.liveUrl}
                 onChange={change}
                 placeholder="Paste Your Project Live url"
                 required
@@ -302,6 +397,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Control
                 type="text"
+                value={data.completionStatus}
                 name="completionStatus"
                 onChange={change}
                 placeholder="Enter Your Completion Status"
@@ -311,7 +407,6 @@ function ProjecEditForm(props) {
                 Please provide a valid Completion Status.
               </Form.Control.Feedback>
             </Form.Group>
-
             <Form.Group as={Col} md="3" controlId="validationCustom11">
               <label htmlFor="validationCustom08" className="bootstraplabel">
                 Dev Url
@@ -319,6 +414,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 type="text"
                 name="devUrl"
+                value={data.devUrl}
                 onChange={change}
                 placeholder="Paste Your Deveopment url"
                 required
@@ -335,6 +431,7 @@ function ProjecEditForm(props) {
               <Form.Control
                 type="text"
                 name="figmaUrl"
+                value={data.figmaUrl}
                 onChange={change}
                 placeholder="Paste Your figma url"
                 required
@@ -350,6 +447,7 @@ function ProjecEditForm(props) {
                 Remarks
               </label>
               <Form.Control
+                value={data.remarks}
                 type="text"
                 name="remarks"
                 onChange={change}
@@ -366,6 +464,7 @@ function ProjecEditForm(props) {
                 Prerequsites/Technologies
               </label>
               <Form.Control
+                value={data.prerequsites}
                 type="text"
                 name="prerequsites"
                 onChange={change}
@@ -382,6 +481,7 @@ function ProjecEditForm(props) {
               </label>
               <Form.Control
                 required
+                value={data.description}
                 type="textarea"
                 name="description"
                 onChange={change}
@@ -394,12 +494,12 @@ function ProjecEditForm(props) {
                 Priority
               </label>
               <Form.Select
+                value={data.priority}
                 name="priority"
                 required
                 onChange={change}
                 aria-label="Priority select example"
               >
-                <option>Priority</option>
                 <option value="high">High</option>
                 <option value="medium">Medium</option>
                 <option value="low">Low</option>
@@ -422,8 +522,8 @@ function ProjecEditForm(props) {
                         }
                         placeholder="+Add"
                         addPlaceholder="+Add"
+                        values={selectedTeamMembers}
                         keepSelectedInList={true}
-                        value={teamMembers}
                         dropdownHandle={true}
                         className="select-multiple-inputs"
                       />
@@ -442,8 +542,8 @@ function ProjecEditForm(props) {
                         }
                         placeholder="+Add"
                         addPlaceholder="+Add"
+                        values={selectedMangers}
                         keepSelectedInList={true}
-                        value={managers}
                         dropdownHandle={true}
                         className="select-multiple-inputs"
                       />
