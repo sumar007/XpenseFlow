@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./index.css";
 
 const UserRoleForm = () => {
   const [formData, setFormData] = useState({
@@ -37,26 +38,33 @@ const UserRoleForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <label>
+    <div className="add-role-main-container">
+      <form onSubmit={handleSubmit} className="add-role-form-container">
+        {/* <label>
         Organization ID:
         <input type="text" name="organizationId" value={formData.organizationId} onChange={handleChange} />
       </label> */}
-      <label>
-        Role Name:
-        <input
-          type="text"
-          name="RoleName"
-          value={formData.RoleName}
-          onChange={handleChange}
-        />
-      </label>
-      {/* <label>
+        <label className="add-role-label">
+          Role Name:
+          <input
+            type="text"
+            name="RoleName"
+            value={formData.RoleName}
+            onChange={handleChange}
+            className="add-role-input"
+            placeholder="Ex: manager, HR"
+          />
+        </label>
+
+        {/* <label>
         Status:
         <input type="number" name="status" value={formData.status} onChange={handleChange} />
       </label> */}
-      <button type="submit">Create User Role</button>
-    </form>
+        <button type="submit" className="add-role-button">
+          Create User Role
+        </button>
+      </form>
+    </div>
   );
 };
 

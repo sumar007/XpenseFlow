@@ -8,6 +8,7 @@ import Select from "react-dropdown-select";
 
 function ProjecEditForm(props) {
   const id = props.projectId;
+  console.log(id, "console");
   const [validated, setValidated] = useState(false);
   const [employees, setEmployees] = useState([]);
   const [data, updatedData] = useState({
@@ -41,7 +42,7 @@ function ProjecEditForm(props) {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = "http://localhost:3009/api/v1/getemployees";
+      const api = `http://localhost:3009/api/v1/projects/${id}`;
       try {
         const response = await fetch(api, options);
         if (!response.ok) {
@@ -50,6 +51,7 @@ function ProjecEditForm(props) {
         const data = await response.json();
         console.log(data, "employees list");
         setEmployees(data.employees);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
