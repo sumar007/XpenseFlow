@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Toast from "../../components/utlis/toast";
 import Select from "react-dropdown-select";
+import "./index.css";
 
 function ProjecEditForm(props) {
   const id = props.projectId;
@@ -51,7 +52,6 @@ function ProjecEditForm(props) {
         }
         const data = await response.json();
         setEmployees(data.employees);
-        console.log(data.data, "venyuyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -171,7 +171,6 @@ function ProjecEditForm(props) {
       id: employee._id,
       label: employee.fullName,
     }));
-  console.log(options1, "optionssssssssssssssssssss");
 
   const change = (event) => {
     updatedData({
@@ -218,27 +217,31 @@ function ProjecEditForm(props) {
       setManagers(selectedNames);
     }
   };
-  console.log(
-    // selectedMangers,
-    // selectedTeamMembers,
-    data.managerId,
-    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
-  );
 
   return (
-    <div className="totalContainer">
-      <div className="formContainer">
+    <div className="project-edit-totalContainer">
+      <div className="project-edit-formContainer">
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <h2 className="heading mb-2">Add Project</h2>
+              <h2 className="project-edit-heading ">Update Project</h2>
             </div>
           </div>
         </div>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom01">
-              <label htmlFor="validationCustom01" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom01"
+            >
+              <label
+                htmlFor="validationCustom01"
+                className="project-edit-label"
+              >
                 Project Name
               </label>
               <Form.Control
@@ -248,15 +251,26 @@ function ProjecEditForm(props) {
                 type="text"
                 name="projectName"
                 placeholder="Enter Your Project Name"
+                className="project-edit-input"
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom02">
-              <label htmlFor="validationCustom02" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom02"
+            >
+              <label
+                htmlFor="validationCustom02"
+                className="project-edit-label"
+              >
                 Project Deadline
               </label>
               <Form.Control
-                className="input"
+                className="project-edit-input"
                 required
                 value={data.endDate}
                 type="date"
@@ -267,11 +281,22 @@ function ProjecEditForm(props) {
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom03">
-              <label htmlFor="validationCustom05" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom03"
+            >
+              <label
+                htmlFor="validationCustom05"
+                className="project-edit-label"
+              >
                 Start Date
               </label>
               <Form.Control
+                className="project-edit-input"
                 type="date"
                 value={data.startDate}
                 name="startDate"
@@ -284,12 +309,23 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom04">
-              <label htmlFor="validationCustom03" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom04"
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="project-edit-label"
+              >
                 Client Name
               </label>
               <Form.Control
                 required
+                className="project-edit-input"
                 type="text"
                 value={data.clientName}
                 name="clientName"
@@ -298,13 +334,23 @@ function ProjecEditForm(props) {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom05">
-              <label htmlFor="validationCustom05" className="bootstraplabel">
+
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom05"
+            >
+              <label
+                htmlFor="validationCustom05"
+                className="project-edit-label"
+              >
                 Project Status
               </label>
               <Form.Select
+                className="project-edit-input"
                 name="projectStatus"
                 value={data.projectStatus}
                 required
@@ -321,14 +367,25 @@ function ProjecEditForm(props) {
                 <option value="testing">In Testing</option>
               </Form.Select>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom06">
-              <label className="bootstraplabel" htmlFor="validationCustom06">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom06"
+            >
+              <label
+                className="project-edit-label"
+                htmlFor="validationCustom06"
+              >
                 Status
               </label>
               <Form.Select
                 name="status"
                 required
                 value={data.status}
+                className="project-edit-input"
                 onChange={change}
                 aria-label="Default select example"
               >
@@ -341,11 +398,22 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom07">
-              <label className="bootstraplabel" htmlFor="validationCustom07">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom07"
+            >
+              <label
+                className="project-edit-label"
+                htmlFor="validationCustom07"
+              >
                 Project Type
               </label>
               <Form.Control
+                className="project-edit-input"
                 name="projectType"
                 value={data.projectType}
                 onChange={change}
@@ -358,12 +426,23 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom08">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Git Repository
               </label>
               <Form.Control
                 type="text"
+                className="project-edit-input"
                 name="gitLink"
                 value={data.getLink}
                 onChange={change}
@@ -374,14 +453,24 @@ function ProjecEditForm(props) {
                 Please provide a valid Link.
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom09">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom09"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Live Url
               </label>
               <Form.Control
                 type="text"
+                className="project-edit-input"
                 name="liveUrl"
                 value={data.liveUrl}
                 onChange={change}
@@ -393,11 +482,22 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom10">
-              <label className="bootstraplabel" htmlFor="validationCustom09">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom10"
+            >
+              <label
+                className="project-edit-label"
+                htmlFor="validationCustom09"
+              >
                 Completion Status in %
               </label>
               <Form.Control
+                className="project-edit-input"
                 type="text"
                 value={data.completionStatus}
                 name="completionStatus"
@@ -409,12 +509,23 @@ function ProjecEditForm(props) {
                 Please provide a valid Completion Status.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom11">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom11"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Dev Url
               </label>
               <Form.Control
                 type="text"
+                className="project-edit-input"
                 name="devUrl"
                 value={data.devUrl}
                 onChange={change}
@@ -426,13 +537,24 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom12">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom12"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Figma URL
               </label>
               <Form.Control
                 type="text"
                 name="figmaUrl"
+                className="project-edit-input"
                 value={data.figmaUrl}
                 onChange={change}
                 placeholder="Paste Your figma url"
@@ -442,15 +564,25 @@ function ProjecEditForm(props) {
                 Please provide a valid Link.
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group as={Col} md="3" controlId="validationCustom13">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom13"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Remarks
               </label>
               <Form.Control
                 value={data.remarks}
                 type="text"
+                className="project-edit-input"
                 name="remarks"
                 onChange={change}
                 placeholder="Type your Remark"
@@ -461,13 +593,24 @@ function ProjecEditForm(props) {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom14">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom14"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="project-edit-label"
+              >
                 Prerequsites/Technologies
               </label>
               <Form.Control
                 value={data.prerequsites}
                 type="text"
+                className="project-edit-input"
                 name="prerequsites"
                 onChange={change}
                 placeholder="Enter Technologies"
@@ -477,12 +620,23 @@ function ProjecEditForm(props) {
                 Please provide remarks.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom15">
-              <label className="bootstraplabel" htmlFor="validationCustom04">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom15"
+            >
+              <label
+                className="project-edit-label"
+                htmlFor="validationCustom04"
+              >
                 Description
               </label>
               <Form.Control
                 required
+                className="project-edit-input"
                 value={data.description}
                 type="textarea"
                 name="description"
@@ -491,14 +645,25 @@ function ProjecEditForm(props) {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom17">
-              <label htmlFor="validationCustom17" className="bootstraplabel">
+            <Form.Group
+              as={Col}
+              lg="3"
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom17"
+            >
+              <label
+                htmlFor="validationCustom17"
+                className="project-edit-label"
+              >
                 Priority
               </label>
               <Form.Select
                 value={data.priority}
                 name="priority"
                 required
+                className="project-edit-input"
                 onChange={change}
                 aria-label="Priority select example"
               >
@@ -512,9 +677,9 @@ function ProjecEditForm(props) {
           <div>
             <div className="container">
               <div className="row">
-                <div className="col-3 p-0">
+                <div className="col-3 p-0 mr-3">
                   <div className="add-project-container">
-                    <label className="bootstraplabel">Team Members</label>
+                    <label className="project-edit-label">Team Members</label>
                     <div className="responsible-person-input">
                       <Select
                         multi
@@ -534,7 +699,9 @@ function ProjecEditForm(props) {
                 </div>
                 <div className="col-3 p-0">
                   <div className="add-project-container">
-                    <label className="bootstraplabel">Project Manager</label>
+                    <label className="project-edit-label">
+                      Project Manager
+                    </label>
                     <div className="responsible-person-input">
                       <Select
                         multi
@@ -555,10 +722,10 @@ function ProjecEditForm(props) {
               </div>
             </div>
           </div>
-          <div className="text-center">
-            <Button type="submit" className="mt-2">
-              Submit form
-            </Button>
+          <div className="project-edit-button-container">
+            <button type="submit" className="project-edit-button">
+              SUBMIT
+            </button>
           </div>
         </Form>
       </div>
