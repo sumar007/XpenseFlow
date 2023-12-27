@@ -46,6 +46,7 @@ function AddProjectForm() {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
+        console.log(data, "add project");
         setEmployees(data.employees);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -84,9 +85,6 @@ function AddProjectForm() {
       id: employee._id,
       label: employee.fullName,
     }));
-
-  console.log(options, options1);
-  console.log(options, options1);
 
   const change = (event) => {
     updatedData({
