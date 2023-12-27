@@ -56,20 +56,32 @@ function App() {
       />
 
       <Route path="/TimeSheetForm" element={<TimeSheetForm />} />
-      <Route path="/employeedetail/:id" element={<EmployeeDetail />} />
-
-      <Route path="/addrole" element={<UserRoleForm />} />
-      <Route path="/adminpanel" element={<AdminPanel />} />
-      <Route path="/adminlogin" element={<AdminLogin />} />
+      <Route
+        path="/addrole"
+        element={
+          <ProtectedRoute>
+            {" "}
+            <UserRoleForm />{" "}
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/adminpanel"
+        element={
+          <ProtectedRoute>
+            <AdminPanel />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/adminlogin"
+        element={
+          <ProtectedRoute>
+            <AdminLogin />{" "}
+          </ProtectedRoute>
+        }
+      />
       <Route path="/superSignup" element={<SuperadminSignup />} />
-      <Route
-        path="/subscriptionViewDetail/:id"
-        element={<SubscriptionDetailView />}
-      />
-      <Route
-        path="/organizationViewDetail/:id"
-        element={<OrganizationViewDetail />}
-      />
       <Route path="/super-forgot" element={<SuperForgotPassword />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />

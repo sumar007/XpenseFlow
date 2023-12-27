@@ -31,19 +31,16 @@ function UserPanel1() {
 
   const handleLogout = () => {
     // Remove cookies here
-    Cookies.remove("jwtToken");
-    Cookies.remove("wiseid");
-    Cookies.remove("wiseemplyid");
-    Cookies.remove("role");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("token");
 
     // Navigate to login page
-    navigate("/login");
+    navigate("/adminlogin");
   };
 
-  const setUpdateProjectId = async (id) => {
-    await setProjectId(id);
-    console.log("project id", id, "gggg");
-    await setActive("projectview");
+  const setUpdateProjectId = (id) => {
+    setProjectId(id);
+    setActive("projectview");
   };
 
   const setUpdateEmployeeId = (id) => {
