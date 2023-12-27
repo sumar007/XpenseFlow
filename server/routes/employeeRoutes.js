@@ -1,7 +1,9 @@
 // Express Routes
 
 import express from 'express';
-import { addTimeSheet, employeeLogin, getTimeSheets } from '../controllers/employeeController.js'; // Import your controller function
+import { addTimeSheet, employeeLogin, getEmployeesByManager, getOrganizationIds, getTimeSheets } from '../controllers/employeeController.js'; // Import your controller function
+import { protectEmployeeRoute } from '../middleware/auth.js';
+import { getAllProjects } from '../controllers/AdminControllers.js';
 
 export const employeeRouter = express.Router();
 
@@ -9,4 +11,11 @@ export const employeeRouter = express.Router();
 employeeRouter.post('/employee/login', employeeLogin);
 employeeRouter.post('/employee/addTimeSheet', addTimeSheet);
 employeeRouter.get('/employee/time-sheets/:employeeId', getTimeSheets);
+employeeRouter.get(
+    "/employeelist/:organizationId",
+    protectEmployeeRoute,
+    getEmployeesByManager
+  );
+  employeeRouter.get("/getprojects", protectEmployeeRoute, getAllProjects);
+  employeeRouter.get("/getorganizationId", protectEmployeeRoute, getOrganizationIds);
 

@@ -58,7 +58,7 @@ adminRouter.get(
 
 adminRouter.post("/addproject", protectAdminRoute, AddProject);
 
-adminRouter.get("/getprojects", protectAdminRoute, getAllProjects);
+adminRouter.get("/getprojectlist", protectAdminRoute, getAllProjects);
 
 adminRouter.get(
   "/getemployeedetails/:id",
