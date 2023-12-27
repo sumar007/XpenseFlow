@@ -4,54 +4,18 @@ import jwt from "jsonwebtoken";
 import UserRole from "../models/roleModel.js";
 import Employee from "../models/employeeModel.js";
 import Project from "../models/projectModel.js";
+import CatchAsyncError from "../middleware/catchasync.js";
 
 export const AdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     const companyEmail = email;
-    console.log(req.body, "saiacharan");
     const user = await Organization.findOne({ companyEmail });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(user.password, "password");
-    // if (!user.isVerified) {
-    //   return res.status(400).json({
-    //     message: "User not verified. Check your email for verification.",
-    //   });
-    // }
     const isMatch = await bcrypt.compare(password, user.password);
     console.log(isMatch);
-
-
-      console.log(user1.password, "password");
-
-      const isMatch = await bcrypt.compare(password, user1.password);
-      console.log(isMatch);
-      if (!isMatch) {
-        return res.status(400).json({ message: "Incorrect password" });
-      }
-      // Create a JWT token with user payload
-      const payload = {
-        user1: {
-          id: user1.id,
-          email: user1.email,
-        },
-      };
-
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: "72h" },
-        (err, token) => {
-          if (err) {
-            throw err;
-          }
-          res
-            .status(200)
-            .json({ message: "Login successful", token, role: user1.role });
-        }
-      );
 
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password" });
@@ -108,7 +72,7 @@ export const createUserRole = async (req, res) => {
 export const getUserRolesByOrganizationId = async (req, res) => {
   try {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
-    const userRoles = await UserRole.find({ organizationId });
+    const userRoles = await UserRole.find();
 
     res.status(200).json({ userRoles });
   } catch (error) {
@@ -182,7 +146,7 @@ export const AddEmployee = async (req, res) => {
     } = req.body;
     console.log(roleId, "roleid");
     // Assuming you have the UserRole model imported
-    const role = await UserRole.findOne({ _id: roleId, organizationId });
+    const role = await UserRole.findOne({ _id: roleId });
     console.log(role);
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
@@ -223,7 +187,7 @@ export const getEmployeesByOrganizationId = async (req, res) => {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
 
     const employees = await Employee.find({ organizationId });
-
+    console.log(employees);
     res.status(200).json({ employees });
   } catch (error) {
     console.error(error);
@@ -349,7 +313,7 @@ export const deleteEmployee = async (req, res) => {
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
-  console.log("add project called")
+  console.log("add project called");
   try {
     const {
       projectName,
@@ -391,12 +355,22 @@ export const AddProject = async (req, res) => {
       managers,
     });
     const savedProject = await newProject.save();
-    console.log(savedProject)
+    console.log(savedProject);
     res.json(savedProject);
-
   } catch (error) {
-    console.error('Error adding project:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error adding project:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+    console.log(projects);
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

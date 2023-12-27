@@ -42,16 +42,16 @@ function ProjecEditForm(props) {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = `http://localhost:3009/api/v1/projects/${id}`;
+      const api = `http://localhost:3009/api/v1/getemployees`;
       try {
         const response = await fetch(api, options);
+        console.log(response);
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data, "employees list");
         setEmployees(data.employees);
-        console.log(data);
+        console.log(data.data, "venyuyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -75,7 +75,7 @@ function ProjecEditForm(props) {
 
       if (response.ok) {
         const projectDetails = await response.json();
-        console.log(projectDetails, "VENU");
+
         const startDate = new Date(projectDetails.startDate)
           .toISOString()
           .split("T")[0];
@@ -102,7 +102,7 @@ function ProjecEditForm(props) {
         } = projectDetails;
         // setTeamMembers(teamMembers);
         // setManagers(managers);
-        console.log(teamMembers, "console");
+
         updatedData({
           projectName,
           clientName,
@@ -157,7 +157,6 @@ function ProjecEditForm(props) {
       label: person.fullName,
     }));
 
-  console.log(employees, data.teamMembersIds, selectedTeamMembers, "prashnath");
   const options = employees
     .filter((employee) => employee.roleName === "employee") // Assuming email is the property you want to use
     .map((employee) => ({
@@ -165,7 +164,6 @@ function ProjecEditForm(props) {
       id: employee._id,
       label: employee.fullName,
     }));
-
   const options1 = employees
     .filter((employee) => employee.roleName === "manager") // Assuming roleName is the property you want to use
     .map((employee) => ({
@@ -173,6 +171,7 @@ function ProjecEditForm(props) {
       id: employee._id,
       label: employee.fullName,
     }));
+  console.log(options1, "optionssssssssssssssssssss");
 
   const change = (event) => {
     updatedData({
@@ -182,7 +181,6 @@ function ProjecEditForm(props) {
   };
 
   const handleSubmit = async (event) => {
-    console.log(data, teamMembers, managers);
     event.preventDefault();
     const token1 = sessionStorage.getItem("token");
     const apiurl = `http://localhost:3009/api/v1/projects/${id}`;
@@ -220,8 +218,12 @@ function ProjecEditForm(props) {
       setManagers(selectedNames);
     }
   };
-
-  console.log(teamMembers, managers, "final");
+  console.log(
+    // selectedMangers,
+    // selectedTeamMembers,
+    data.managerId,
+    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhh"
+  );
 
   return (
     <div className="totalContainer">
