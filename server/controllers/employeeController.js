@@ -43,7 +43,7 @@ export const addTimeSheet = async (req, res) => {
         weekEndingDate,
         projects,
       } = req.body;
-  console.log(req.body);
+  
       // Create a new time sheet document
       const newTimeSheet = new TimeSheet({
         employeeId,
