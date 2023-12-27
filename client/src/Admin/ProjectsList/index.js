@@ -76,7 +76,7 @@ export default function ProjectsTable({ getProjectId }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = "http://localhost:3009/api/v1/getprojects";
+      const api = "http://localhost:3009/api/v1/getprojectlist";
       try {
         const response = await fetch(api, options);
         if (!response.ok) {

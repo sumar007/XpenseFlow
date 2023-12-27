@@ -53,7 +53,7 @@ const AdminLogin = () => {
               icon: "success",
               title: data.message,
             });
-            console.log(data.token);
+            console.log(data);
             sessionStorage.setItem("token", data.token);
             sessionStorage.setItem("role", data.role);
             if (data.role === "Admin") {
@@ -63,7 +63,7 @@ const AdminLogin = () => {
             //   navigate("/UserPanel");
             // }
              else {
-              navigate("/UserPanel1");
+              navigate("/TimeSheetForm");
             }
 
             // localStorage.setItem("role", data.role);

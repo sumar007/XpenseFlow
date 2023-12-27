@@ -85,5 +85,30 @@ export const addTimeSheet = async (req, res) => {
       res.status(500).json({ message: 'Failed to fetch time sheets', error: error.message });
     }
   };
+
+  export const getEmployeesByManager = async (req, res) => {
+    try {
+      const {organizationId} = req.params; // Assuming organizationId is in the request parameters
+
+      const employees = await Employee.find({ organizationId });
+
+      res.status(200).json({ employees });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+
+  //fetching organizationid
+  export const getOrganizationIds = async (req, res) => {
+    try {
+      const organizationIds = await Employee.distinct('organizationId');
+      res.json(organizationIds);
+    } catch (error) {
+      console.error("Error fetching organization IDs:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+  
   
   
