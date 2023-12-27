@@ -1,11 +1,11 @@
-const express = require("express");
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+import express from "express";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-const dotenv = require("dotenv");
-const User = require("../models/usermodel");
+import dotenv from "dotenv";
+import User from "../models/usermodel.js";
 
 dotenv.config();
 
@@ -60,14 +60,13 @@ router.post("/verify", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(user,"user")
+    console.log(user, "user");
 
     if (user.verificationCode === verificationCode) {
       user.isVerified = true;
       await user.save();
       console.log("Verification successful");
       return res.status(200).json({ message: "Email verification successful" });
-      
     } else {
       return res.status(401).json({ message: "Incorrect verification code" });
     }
@@ -106,11 +105,11 @@ function sendVerificationEmail(email, code) {
 router.post("/login", async (req, res) => {
   // Retrieve login credentials from the request body
   const { email, password } = req.body;
-  console.log(req.body);
+ 
   try {
     // Find the user in the database
     const user = await User.findOne({ email });
-    console.log(user);
+  
     if (!email) {
       return res.status(404).json({ message: "email not found" });
     }
@@ -172,4 +171,4 @@ router.post("/google-signin", async (request, response) => {
   }
 });
 
-module.exports = router;
+export default router;

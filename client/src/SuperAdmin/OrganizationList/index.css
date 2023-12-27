@@ -1,0 +1,71 @@
+.orgainization-list-display-organization-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px;
+  width: 100%;
+}
+.organization-list-main-container {
+  background-color: antiquewhite;
+  border-radius: 20px;
+  padding: 20px 20px;
+  width: 46%;
+  max-height: 250px;
+}
+.organization-list-details-and-logo-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+.organization-list-detail-container {
+  width: 80%;
+}
+.organization-list-main-heading {
+  font-size: 24px;
+  margin: 0px;
+  color: #000;
+  font-weight: 600;
+}
+.organization-list-content {
+  font-size: 20px;
+  margin: 0px;
+  margin-top: 5px;
+  color: #222;
+  overflow: hidden;
+}
+.organization-list-logo-container {
+  width: 16%;
+  background-color: #fff;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0px;
+}
+.organization-list-logo {
+  width: 75%;
+}
+.organization-list-view-detail-button-container {
+  text-align: right;
+  margin-top: 6px;
+}
+.organization-list-view-detail-button {
+  border: none;
+  background-color: #0000b3;
+  color: #fff;
+  padding: 8px 20px;
+  cursor: pointer;
+  outline: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .organization-list-main-container {
+    width: 100%;
+    justify-content: center;
+  }
+}

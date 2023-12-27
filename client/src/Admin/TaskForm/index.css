@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap");
+
+.create-task-input-main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  min-width: 600px;
+}
+.create-task-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid grey;
+  border-radius: 4px;
+  padding: 10px;
+  width: 80%;
+
+  gap: 5px;
+}
+.create-task-input {
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+}
+.create-task-input-description {
+  border: none;
+  padding: 10px;
+}
+.create-task-input-select-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Roboto;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+}
+.create-task-lable-select-container {
+  padding: 10px;
+}
+
+.add-person-button {
+  margin: 15px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+.create-task-input-select {
+  border-radius: 4px;
+  padding: 6px 10px;
+  width: max-content;
+}
+.adding-task-button {
+  border: none;
+  background-color: #bbed21;
+  padding: 6px 12px;
+  border-radius: 20px;
+  width: max-content;
+  cursor: pointer;
+}
+.create-task-lable-container1 {
+  text-decoration: underline dotted;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+.create-task-main-input-select-container {
+  display: flex;
+  font-family: Roboto;
+  gap: 20px;
+  padding: 10px;
+  width: 100%;
+  border-bottom: 1px solid gray;
+}
+
+.craete-task-status-select-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  gap: 20px;
+  border-bottom: 1px solid gray;
+}
+.select-multiple-inputs {
+  min-width: 200px;
+  border-radius: 8px !important;
+}
+
+/* @media only screen and (max-width: 768px) {
+    .create-task-input-container {
+        width: 80%; 
+    }   
+}
+
+@media only screen and (max-width: 480px) {
+    .create-task-input-container {
+        width: 95%; 
+    }
+} */

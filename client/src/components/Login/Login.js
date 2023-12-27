@@ -30,7 +30,7 @@ const Login = () => {
     setError(""); // Clear any previous error messages
 
     // Define the URL of your server's login endpoint
-    const url = `http://localhost:3009/api/v1/login`;
+    const url = `http://localhost:3009/api/v1/superadminlogin`;
 
     // Create a JSON object with the form data
     const jsonData = {
@@ -54,6 +54,7 @@ const Login = () => {
               icon: "success",
               title: data.message,
             });
+            navigate("/")
 
             // sessionStorage.setItem("token", data.token);
             // localStorage.setItem("role", data.role);
