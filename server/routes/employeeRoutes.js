@@ -9,8 +9,8 @@ export const employeeRouter = express.Router();
 
 // Route for employee login
 employeeRouter.post('/employee/login', employeeLogin);
-employeeRouter.post('/employee/addTimeSheet', addTimeSheet);
-employeeRouter.get('/employee/time-sheets/:employeeId', getTimeSheets);
+employeeRouter.post('/employee/addTimeSheet',protectEmployeeRoute, addTimeSheet);
+employeeRouter.get('/employee/time-sheets/:employeeId',protectEmployeeRoute, getTimeSheets);
 employeeRouter.get(
     "/employeelist/:organizationId",
     protectEmployeeRoute,
@@ -18,4 +18,3 @@ employeeRouter.get(
   );
   employeeRouter.get("/getprojects", protectEmployeeRoute, getAllProjects);
   employeeRouter.get("/getorganizationId", protectEmployeeRoute, getOrganizationIds);
-

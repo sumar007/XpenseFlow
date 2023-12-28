@@ -77,7 +77,7 @@ export const AdminLogin = async (req, res) => {
           }
           res
             .status(200)
-            .json({ message: "Login successful", token, role:"manager" });
+            .json({ message: "Login successful", token, role:user1.roleName });
             
         }
       );
@@ -418,15 +418,15 @@ export const getAllProjects = async (req, res) => {
 };
 
 //get all projects
-export const getAllProjects = async (req, res) => {
-  try {
-    const projects = await Project.find();
-    res.json(projects);
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-}
+// export const getAllProjects = async (req, res) => {
+//   try {
+//     const projects = await Project.find();
+//     res.json(projects);
+//   } catch (error) {
+//     console.error("Error fetching projects:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// }
 
 export const getSpecificProjectDetails = async (req, res) => {
   try {
