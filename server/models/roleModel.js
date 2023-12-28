@@ -38,13 +38,13 @@ UserRole.find({
     if (rolesToInsert.length > 0) {
       return UserRole.insertMany(rolesToInsert);
     } else {
-      console.log("Default data already exists. No need to insert.");
+    
       return Promise.resolve([]);
     }
   })
   .then((result) => {
     if (result.length > 0) {
-      console.log("Default data inserted successfully:", result);
+     
     }
   })
   .catch((error) => {
