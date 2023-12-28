@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 
 const TimeSheetSchema = new mongoose.Schema({
-    employeeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-      },
+    
       managerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Manager'
@@ -14,12 +11,11 @@ const TimeSheetSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending',
   },
-  weekStartingDate: Date,
-  weekEndingDate: Date,
-  projects: [
+
+  projects: 
     {
       projectName: String,
-      tasks: [
+      tasks: 
         {
           taskName: String,
           Monday: Number,
@@ -36,9 +32,9 @@ const TimeSheetSchema = new mongoose.Schema({
             }
           }
         }
-      ]
+      
     }
-  ]
+  
 });
 
 const TimeSheet = mongoose.model('TimeSheet', TimeSheetSchema);

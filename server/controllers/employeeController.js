@@ -33,7 +33,7 @@ export const employeeLogin = async (req, res) => {
 };
 
 
-// export const addTimeSheet = async (req, res) => {
+
 //     try {
 //       // Extract data from the request body
 //       const {
@@ -64,60 +64,104 @@ export const employeeLogin = async (req, res) => {
 //     }
 //   };
 
+// export const addTimeSheet = async (req, res) => {
+//   try {
+//     const {
+//       employeeId,
+//       managerId,
+//       weekStartingDate,
+//       weekEndingDate,
+//       projects,
+//     } = req.body;
+
+//     // Modify projects data structure to include project names, task names, and hours for each day
+//     const formattedProjects = projects.map(project => {
+//       const { projectName, tasks } = project;
+//       const formattedTasks = tasks.map(task => {
+//         const {
+//           taskName,
+//           Monday,
+//           Tuesday,
+//           Wednesday,
+//           Thursday,
+//           Friday,
+//           Saturday,
+//           Sunday,
+//         } = task;
+
+//         // Calculate total hours for the task
+//         const totalHours =
+//           Monday + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday;
+
+//         return {
+//           taskName,
+//           Monday,
+//           Tuesday,
+//           Wednesday,
+//           Thursday,
+//           Friday,
+//           Saturday,
+//           Sunday,
+//           totalHours,
+//         };
+//       });
+
+//       return { projectName, tasks: formattedTasks };
+//     });
+
+//     // Create a new time sheet document with modified project data
+//     const newTimeSheet = new TimeSheet({
+//       employeeId,
+//       managerId,
+//       weekStartingDate,
+//       weekEndingDate,
+//       projects: formattedProjects,
+//     });
+
+//     await newTimeSheet.save();
+
+//     res.status(201).json({
+//       success: true,
+//       message: 'Time sheet added successfully!',
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Failed to add time sheet', error: error.message });
+//   }
+// };
 export const addTimeSheet = async (req, res) => {
   try {
-    const {
-      employeeId,
-      managerId,
-      weekStartingDate,
-      weekEndingDate,
-      projects,
-    } = req.body;
+    const { managerId, projects } = req.body;
 
-    // Modify projects data structure to include project names, task names, and hours for each day
-    const formattedProjects = projects.map(project => {
-      const { projectName, tasks } = project;
-      const formattedTasks = tasks.map(task => {
-        const {
-          taskName,
-          Monday,
-          Tuesday,
-          Wednesday,
-          Thursday,
-          Friday,
-          Saturday,
-          Sunday,
-        } = task;
+    // Calculate total hours for the task
+    const totalHours =
+      projects.tasks.Monday +
+      projects.tasks.Tuesday +
+      projects.tasks.Wednesday +
+      projects.tasks.Thursday +
+      projects.tasks.Friday +
+      projects.tasks.Saturday +
+      projects.tasks.Sunday;
 
-        // Calculate total hours for the task
-        const totalHours =
-          Monday + Tuesday + Wednesday + Thursday + Friday + Saturday + Sunday;
-
-        return {
-          taskName,
-          Monday,
-          Tuesday,
-          Wednesday,
-          Thursday,
-          Friday,
-          Saturday,
-          Sunday,
-          totalHours,
-        };
-      });
-
-      return { projectName, tasks: formattedTasks };
-    });
-
-    // Create a new time sheet document with modified project data
+    // Create a new timesheet document
     const newTimeSheet = new TimeSheet({
-      employeeId,
       managerId,
-      weekStartingDate,
-      weekEndingDate,
-      projects: formattedProjects,
+      projects: {
+        projectName: projects.projectName,
+        tasks: {
+          taskName: projects.tasks.taskName,
+          Monday: projects.tasks.Monday,
+          Tuesday: projects.tasks.Tuesday,
+          Wednesday: projects.tasks.Wednesday,
+          Thursday: projects.tasks.Thursday,
+          Friday: projects.tasks.Friday,
+          Saturday: projects.tasks.Saturday,
+          Sunday: projects.tasks.Sunday,
+          totalHours: totalHours,
+        },
+      },
     });
 
+    // Save the new timesheet to the database
     await newTimeSheet.save();
 
     res.status(201).json({
@@ -128,7 +172,6 @@ export const addTimeSheet = async (req, res) => {
     res.status(500).json({ message: 'Failed to add time sheet', error: error.message });
   }
 };
-
   export const getTimeSheets = async (req, res) => {
     try {
       const { employeeId } = req.params;
