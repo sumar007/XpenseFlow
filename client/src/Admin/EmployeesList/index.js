@@ -69,7 +69,10 @@ const columns = [
 export default function EmployeesList({ getEmployeeId }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [role, setRole] = useState("");
   const [employees, setEmployees] = useState([]);
+
+  const [orgId, setOrganizationId] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -79,15 +82,25 @@ export default function EmployeesList({ getEmployeeId }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const fetchRoles = () => {
+    const role = sessionStorage.getItem("role");
+    setRole(role);
+  };
+
   const fetchData = async () => {
     const token = sessionStorage.getItem("token");
+    const api =
+      role === "manager"
+        ? `http://localhost:3009/api/v1/employeelist/${orgId}`
+        : "http://localhost:3009/api/v1/getemployees";
+
     const options = {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    const api = "http://localhost:3009/api/v1/getemployees";
+
     try {
       const response = await fetch(api, options);
 
@@ -96,14 +109,41 @@ export default function EmployeesList({ getEmployeeId }) {
       }
 
       const data = await response.json();
-      setEmployees(data.employees);
+      const employeesData = data.employees.filter(
+        (emp) => emp.roleName === "employee"
+      );
+      setEmployees(employeesData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    console.log("Fetching Data...");
+    const fetchOrganizationId = async () => {
+      const token = sessionStorage.getItem("token");
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const api = "http://localhost:3009/api/v1/getorganizationId"; // Replace with your endpoint to get organization ID
+      try {
+        const response = await fetch(api, options);
+        if (!response.ok) {
+          throw new Error(`Request failed with status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setOrganizationId(data[0]);
+          // Assuming the organization ID is in the first element of the response array
+        }
+      } catch (error) {
+        console.error("Error fetching organization ID:", error);
+      }
+    };
+    fetchOrganizationId();
+    fetchRoles();
     fetchData();
   }, []);
 
