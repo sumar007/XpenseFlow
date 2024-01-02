@@ -47,6 +47,8 @@ const AdminLogin = () => {
     })
       .then((response) => {
         if (response.status === 200) {
+          // const data = await response.json()
+          console.log(response);
           // Login successful
           response.json().then((data) => {
             Toast.fire({
@@ -58,12 +60,12 @@ const AdminLogin = () => {
             sessionStorage.setItem("role", data.role);
             if (data.role === "Admin") {
               navigate("/adminpanel");
-            } 
+            }
             // else if (data.role === "manager") {
             //   navigate("/UserPanel");
             // }
-             else {
-              navigate("/TimeSheetForm");
+            else {
+              navigate("/employeepanel");
             }
 
             // localStorage.setItem("role", data.role);

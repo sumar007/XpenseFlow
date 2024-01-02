@@ -32,6 +32,8 @@ import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProt
 import EmployeeDetail from "./Admin/EmployeeDetail/index.js";
 import TimeSheetForm from "./Admin/AddTimeSheet/index.js";
 import UserPanel1 from "./Admin/UserPanel/index.js";
+import EmployeePanel from "./Employee/EmployeePanel/EmployeePanel.js";
+import TimeSheet from "./Employee/TimeSheet/TimeSheet.js";
 
 function App() {
   return (
@@ -81,6 +83,8 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/timesheet" element={<TimeSheet />} />
+      <Route path="/employeepanel" element={<EmployeePanel />} />
       <Route path="/superSignup" element={<SuperadminSignup />} />
       <Route path="/super-forgot" element={<SuperForgotPassword />} />
       <Route path="/aboutus" element={<AboutUs />} />

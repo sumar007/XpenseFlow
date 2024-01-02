@@ -11,13 +11,12 @@ export const AdminLogin = async (req, res) => {
     const { email, password } = req.body;
     const companyEmail = email;
 
-   
     let user;
     user = await Organization.findOne({ companyEmail });
-   
+
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
-      
+
       if (!isMatch) {
         return res.status(400).json({ message: "Incorrect password" });
       }
@@ -47,15 +46,14 @@ export const AdminLogin = async (req, res) => {
       if (!user1) {
         return res.status(404).json({ message: "User not found" });
       }
- 
-      
+
       // if (!user.isVerified) {
       //   return res.status(400).json({
       //     message: "User not verified. Check your email for verification.",
       //   });
       // }
       const isMatch = await bcrypt.compare(password, user1.password);
-     
+
       if (!isMatch) {
         return res.status(400).json({ message: "Incorrect password" });
       }
@@ -66,7 +64,7 @@ export const AdminLogin = async (req, res) => {
           email: user1.email,
         },
       };
- 
+
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
@@ -77,12 +75,9 @@ export const AdminLogin = async (req, res) => {
           }
           res
             .status(200)
-            .json({ message: "Login successful", token, role:user1.roleName });
-            
+            .json({ message: "Login successful", token, role: user1.roleName });
         }
       );
-    
-
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -92,7 +87,6 @@ export const AdminLogin = async (req, res) => {
 
 export const createUserRole = async (req, res) => {
   try {
-    console.log(req.Admin._id, "admin called by user role");
     const { RoleName } = req.body;
 
     const userRole = new UserRole({
@@ -187,10 +181,10 @@ export const AddEmployee = async (req, res) => {
       address,
       phoneNumber,
     } = req.body;
-    console.log(roleId, "roleid");
+
     // Assuming you have the UserRole model imported
     const role = await UserRole.findOne({ _id: roleId });
-    console.log(role);
+
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
@@ -230,7 +224,6 @@ export const getEmployeesByOrganizationId = async (req, res) => {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
 
     const employees = await Employee.find({ organizationId });
-    console.log(employees);
     res.status(200).json({ employees });
   } catch (error) {
     console.error(error);
@@ -241,7 +234,7 @@ export const getEmployeesByOrganizationId = async (req, res) => {
 export const getSpecificEmployeeDetails = CatchAsyncError(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     const employee = await Employee.findById(id);
 
     if (employee) {
@@ -259,7 +252,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
   const organizationId = req.Admin._id;
   try {
     const _id = req.params.id;
-    console.log(_id, "id called");
+
     const {
       email,
       fullName,
@@ -270,9 +263,9 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
       employeeID,
       socialMediaProfile,
     } = req.body;
-    console.log("employeupdate called", req.body);
+
     const role = await UserRole.findOne({ _id: roleId, organizationId });
-    console.log(role);
+
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
@@ -298,7 +291,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
       },
       { new: true }
     );
-    console.log(updatedEmployee);
+
     res.json({
       success: true,
       message: "Employee details updated successfully",
@@ -317,7 +310,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
 export const updateStatusOfEmployee = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  console.log("update subscription called");
+
   try {
     const employee = await Employee.findByIdAndUpdate(
       id,
@@ -337,7 +330,7 @@ export const updateStatusOfEmployee = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   const { id } = req.params;
   const { active } = req.body;
-  console.log("update subscription called");
+
   try {
     const employee = await Employee.findByIdAndUpdate(
       id,
@@ -356,7 +349,6 @@ export const deleteEmployee = async (req, res) => {
 //AdminLogin, createUserRole, getUserRolesByOrganizationId,AddEmployee, getEmployeesByOrganizationId, AddProject
 
 export const AddProject = async (req, res) => {
-  console.log("add project called");
   try {
     const {
       projectName,
@@ -398,7 +390,7 @@ export const AddProject = async (req, res) => {
       managers,
     });
     const savedProject = await newProject.save();
-    console.log(savedProject);
+
     res.json(savedProject);
   } catch (error) {
     console.error("Error adding project:", error);
@@ -409,7 +401,7 @@ export const AddProject = async (req, res) => {
 export const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find();
-    console.log(projects);
+
     res.json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);

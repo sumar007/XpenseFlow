@@ -79,8 +79,7 @@ export const protectAdminRoute = async (req, res, next) => {
 export const protectEmployeeRoute = async (req, res, next) => {
   try {
     let token;
-    console.log("Employee/Manager route called");
-    
+
     // Check if the authorization header contains a token
     if (
       req.headers.authorization &&
@@ -88,7 +87,7 @@ export const protectEmployeeRoute = async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1]; // Extract token from the header
     }
-    
+
     if (!token) {
       return res.status(401).json({ message: "Authorization denied" });
     }
@@ -100,9 +99,11 @@ export const protectEmployeeRoute = async (req, res, next) => {
     if (!decoded || !decoded.user1 || !decoded.user1.id) {
       return res.status(403).json({ message: "Unauthorized access" });
     }
-
+    console.log(decoded);
+    const userr = await Employee.findById(decoded.user1.id);
+    console.log(userr, "userr");
     // Attach the user object to the request for further use in protected routes
-    req.user = decoded.user1;
+    req.user = userr;
 
     next(); // Move to the protected route if authentication is successful
   } catch (error) {
