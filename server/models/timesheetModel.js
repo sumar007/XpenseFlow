@@ -19,7 +19,7 @@ const TimeSheetSchema = new mongoose.Schema({
   projects: [
     {
       projectName: String,
-      tasks: [
+      tasks: 
         {
           taskName: String,
           Monday: Number,
