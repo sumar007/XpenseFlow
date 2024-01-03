@@ -21,7 +21,7 @@ employeeRouter.post(
   addTimeSheet
 );
 employeeRouter.get(
-  "/employee/time-sheets/:employeeId",
+  "/employee/time-sheets",
   protectEmployeeRoute,
   getTimeSheets
 );

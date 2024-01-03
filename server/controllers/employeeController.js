@@ -34,14 +34,12 @@ export const employeeLogin = async (req, res) => {
     );
 
     // Respond with the token
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Login successful",
-        token,
-        employeeId: employee._id,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      employeeId: employee._id,
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: "Login failed", error });
   }
@@ -83,6 +81,7 @@ export const addTimeSheet = async (req, res) => {
   console.log(employeeId);
   try {
     const { managerId, weekStartingDate, weekEndingDate, projects } = req.body;
+    console.log(weekStartingDate, weekEndingDate);
 
     // Modify projects data structure to include project names, task names, and hours for each day
     const formattedProjects = projects.map((project) => {
@@ -128,6 +127,8 @@ export const addTimeSheet = async (req, res) => {
       projects: formattedProjects,
     });
 
+    console.log(newTimeSheet);
+
     await newTimeSheet.save();
 
     res.status(201).json({
@@ -142,9 +143,9 @@ export const addTimeSheet = async (req, res) => {
 };
 
 export const getTimeSheets = async (req, res) => {
+  const employeeId = req.user._id;
+  console.log(employeeId);
   try {
-    const { employeeId } = req.params;
-
     // Fetch time sheets for the specific employee without populating managerId
     const employeeTimeSheets = await TimeSheet.find({ employeeId });
 

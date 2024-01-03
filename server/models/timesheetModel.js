@@ -1,21 +1,21 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TimeSheetSchema = new mongoose.Schema({
-    employeeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-      },
-      managerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Manager'
-      },
+  employeeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+  },
+  managerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Manager",
+  },
   approvalStatus: {
     type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
   },
-  weekStartingDate: Date,
-  weekEndingDate: Date,
+  weekStartingDate: String,
+  weekEndingDate: String,
   projects: [
     {
       projectName: String,
@@ -32,15 +32,23 @@ const TimeSheetSchema = new mongoose.Schema({
           totalHours: {
             type: Number,
             default: function () {
-              return this.Monday + this.Tuesday + this.Wednesday + this.Thursday + this.Friday + this.Saturday + this.Sunday;
-            }
-          }
-        }
-      ]
-    }
-  ]
+              return (
+                this.Monday +
+                this.Tuesday +
+                this.Wednesday +
+                this.Thursday +
+                this.Friday +
+                this.Saturday +
+                this.Sunday
+              );
+            },
+          },
+        },
+      ],
+    },
+  ],
 });
 
-const TimeSheet = mongoose.model('TimeSheet', TimeSheetSchema);
+const TimeSheet = mongoose.model("TimeSheet", TimeSheetSchema);
 
 export default TimeSheet;

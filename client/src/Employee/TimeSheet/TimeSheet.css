@@ -1,0 +1,48 @@
+.time-sheet-main-container {
+  width: 100%;
+}
+
+.time-sheet-heading {
+}
+
+.table-header {
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+  width: 9%;
+  background-color: #b7efee;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.nav-button {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.table-container {
+  max-width: 100%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the table */
+  overflow-x: auto; /* Enable horizontal scroll if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-input {
+  width: 50%;
+}
+
+.table-select-head {
+  width: 15%;
+}
+
+.table-select {
+  width: 95%;
+}

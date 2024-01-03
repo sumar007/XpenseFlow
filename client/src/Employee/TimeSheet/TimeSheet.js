@@ -4,10 +4,11 @@ import Toast from "../../components/utlis/toast";
 
 const TimeSheet = () => {
   const days = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"];
-  const initialStartDate = new Date(2024, 1, 1); // Year, Month (0-indexed), Day
+  const initialStartDate = new Date(2024, 0, 1); // Year, Month (0-indexed), Day
   const [startDate, setStartDate] = useState(initialStartDate);
 
   const [projects, setProjects] = useState([]);
+  const [timeSheets, setTimeSheets] = useState([]);
   const [data, setData] = useState([
     {
       // weekStartingDate: startDate,
@@ -68,6 +69,37 @@ const TimeSheet = () => {
       setStartDate(oneWeekLater);
     }
   };
+  const convertArrayOfObjects = (dataArray) => {
+    const daysOfWeek = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+
+    console.log(dataArray);
+
+    return dataArray.map((input) => {
+      const hoursArray = Array(7).fill(0);
+      input.tasks.forEach((task) => {
+        daysOfWeek.forEach((day, index) => {
+          if (task[day]) {
+            hoursArray[index] += task[day];
+          }
+        });
+      });
+
+      return {
+        project: input.projectName || "",
+        task: input.tasks[0].taskName || "",
+        hours: hoursArray,
+        total: input.tasks[0].totalHours,
+      };
+    });
+  };
 
   const getTimeSheeets = async () => {
     const token = sessionStorage.getItem("token");
@@ -77,15 +109,41 @@ const TimeSheet = () => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const api = "http://localhost:3009/api/v1/getprojects";
+    const api = "http://localhost:3009/api/v1/employee/time-sheets";
+    try {
+      const response = await fetch(api, options);
+      if (response.ok) {
+        const data = await response.json();
+        const formattedStartDate = formattedDate(startDate);
+        const filteredTimeSheets = data.timeSheets.filter(
+          (eachTimeSheet) =>
+            formattedStartDate === eachTimeSheet.weekStartingDate
+        );
+
+        const inputDataArray = filteredTimeSheets[0].projects;
+        const convertedArray = convertArrayOfObjects(inputDataArray);
+        setData(convertedArray);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // const filterTimeSheets = () => {
+  //   const filterData = timeSheets.filter(
+  //     (eachTimeSheet) => startDate === eachTimeSheet.weekStartingDate
+  //   );
+  //   console.log(filterData);
+  //   // Perform operations with the filtered data here
+  // };
 
   useEffect(() => {
     fetchProjects();
     updateWeekAfterOneWeek();
-  }, []);
+    getTimeSheeets();
+  }, [startDate]);
 
-  const handlePreviousWeek = () => {
+  const handlePreviousWeek = async () => {
     const prevWeek = new Date(startDate);
     prevWeek.setDate(startDate.getDate() - 7);
     setStartDate(prevWeek);
@@ -94,15 +152,17 @@ const TimeSheet = () => {
   const handleNextWeek = () => {
     const nextWeek = new Date(startDate);
     nextWeek.setDate(startDate.getDate() + 7);
+    updateWeekAfterOneWeek();
     setStartDate(nextWeek);
   };
+  useEffect(() => {
+    getTimeSheeets(); // Call getTimeSheeets when startDate changes
+  }, []);
 
   const handleAddRow = () => {
     setData([
       ...data,
       {
-        // weekStartingDate: startDate,
-        // weekEndingDate: new Date(startDate.getTime() + 6 * 24 * 60 * 60 * 1000),
         project: projects[0].projectName,
         task: "",
         hours: [0, 0, 0, 0, 0, 0, 0],
@@ -131,7 +191,7 @@ const TimeSheet = () => {
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    return `${day}-${month}-${year}`;
   };
 
   const formattedDayDate = (date) => {
@@ -162,8 +222,10 @@ const TimeSheet = () => {
       ],
     }));
     const newTimeSheetData = {
-      weekStartingDate: startDate,
-      weekEndingDate: new Date(startDate.getTime() + 6 * 24 * 60 * 60 * 1000),
+      weekStartingDate: formattedDate(startDate),
+      weekEndingDate: formattedDate(
+        new Date(startDate.getTime() + 6 * 24 * 60 * 60 * 1000)
+      ),
       projects: updatedProjects,
     };
     setTimeSheetData(newTimeSheetData);
@@ -191,65 +253,32 @@ const TimeSheet = () => {
     }
   };
 
-  const tableHeaderStyle = {
-    fontSize: "14px",
-    textAlign: "center",
-    padding: "8px",
-    border: "1px solid #ddd",
-    width: "9%",
-    backgroundColor: "#B7EFEE",
-  };
-
-  const weekNavStyle = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: "20px",
-  };
-
-  const navButtonStyle = {
-    fontSize: "18px",
-    margin: "0 10px",
-  };
-
-  const tableContainerStyle = {
-    maxWidth: "100%", // Adjust this value as needed
-    margin: "0 auto", // Center the table
-    overflowX: "auto", // Enable horizontal scroll if needed
-  };
-
-  const tableInput = {
-    width: "50%",
-  };
-
-  const tableSelectHead = {
-    width: "15%",
-  };
-
   const tableSelect = {
     width: "95%",
   };
 
   return (
-    <div style={{ width: "100%" }}>
-      <h1>Project Simple Time Sheet</h1>
-      <div style={weekNavStyle}>
-        <button onClick={handlePreviousWeek} style={navButtonStyle}>
+    <div style={{ width: "100%" }} className="time-sheet-main-container">
+      <h4 style={{ textAlign: "center" }} className="time-sheet-heading">
+        Add Time Sheet
+      </h4>
+      <div className="week-nav">
+        <button onClick={handlePreviousWeek} className="nav-button ">
           &lt;
         </button>
         <div>{formattedDate(startDate)}</div>
-        <button onClick={handleNextWeek} style={navButtonStyle}>
+        <button onClick={handleNextWeek} className="nav-button ">
           &gt;
         </button>
       </div>
-      <div style={tableContainerStyle}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div className="table-container">
+        <table style={{ width: "95%", borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th style={tableSelectHead}>Project</th>
-              <th style={tableSelectHead}>Task</th>
+              <th className="table-select-head ">Project</th>
+              <th className="table-select-head ">Task</th>
               {days.map((day, index) => (
-                <th key={day} style={tableHeaderStyle}>
+                <th key={day} className="table-header">
                   {day}
                   <br />
                   {formattedDayDate(
@@ -261,8 +290,7 @@ const TimeSheet = () => {
                   )}
                 </th>
               ))}
-              <th style={tableHeaderStyle}>Total</th>
-              <th style={tableHeaderStyle}></th>
+              <th className="table-header">Total</th>
             </tr>
           </thead>
           <tbody>
@@ -271,7 +299,7 @@ const TimeSheet = () => {
                 <td>
                   <select
                     value={item.project}
-                    style={tableSelect}
+                    className="table-select "
                     onChange={(e) => {
                       const updatedData = [...data];
                       updatedData[index].project = e.target.value;
@@ -303,7 +331,7 @@ const TimeSheet = () => {
                     <input
                       type="number"
                       value={hour}
-                      style={tableInput}
+                      className="table-input"
                       onChange={(e) =>
                         handleHoursChange(index, dayIndex, e.target.value)
                       }
@@ -311,9 +339,6 @@ const TimeSheet = () => {
                   </td>
                 ))}
                 <td>{item.total}</td>
-                <td>
-                  <button onClick={() => handleDeleteRow(index)}>Delete</button>
-                </td>
               </tr>
             ))}
           </tbody>
