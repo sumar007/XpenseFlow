@@ -42,7 +42,7 @@ function ProjecEditForm(props) {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = `http://localhost:3009/api/v1/projects/${id}`;
+      const api = `http://localhost:3009/api/v1/getemployees`;
       try {
         const response = await fetch(api, options);
         if (!response.ok) {
