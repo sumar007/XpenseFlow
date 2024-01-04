@@ -34,6 +34,7 @@ import TimeSheetForm from "./Admin/AddTimeSheet/index.js";
 import UserPanel1 from "./Admin/UserPanel/index.js";
 import EmployeePanel from "./Employee/EmployeePanel/EmployeePanel.js";
 import TimeSheet from "./Employee/TimeSheet/TimeSheet.js";
+import AdminProtectedRoute from "./Admin/AdminProtectedRoute/AdminProtectedRoute.js";
 
 function App() {
   return (
@@ -68,21 +69,22 @@ function App() {
         }
       />
       <Route
-        path="/adminpanel"
+        path="/adminpannel"
         element={
-          <ProtectedRoute>
+          <AdminProtectedRoute>
             <AdminPanel />
-          </ProtectedRoute>
+          </AdminProtectedRoute>
         }
       />
       <Route
         path="/adminlogin"
         element={
-          <ProtectedRoute>
+          <AdminProtectedRoute>
             <AdminLogin />{" "}
-          </ProtectedRoute>
+          </AdminProtectedRoute>
         }
       />
+      <Route path="/superadminverify" element={<SuperadminVerify />} />
       <Route path="/timesheet" element={<TimeSheet />} />
       <Route path="/employeepanel" element={<EmployeePanel />} />
       <Route path="/superSignup" element={<SuperadminSignup />} />

@@ -160,21 +160,6 @@ function AddProjectForm() {
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom02">
-              <label htmlFor="validationCustom02" className="bootstraplabel">
-                Project Deadline
-              </label>
-              <Form.Control
-                className="input"
-                required
-                type="date"
-                name="endDate"
-                onChange={change}
-                placeholder="Enter Your DeadLine"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-
             <Form.Group as={Col} md="3" controlId="validationCustom03">
               <label htmlFor="validationCustom05" className="bootstraplabel">
                 Start Date
@@ -189,6 +174,20 @@ function AddProjectForm() {
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Start Date.
               </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group as={Col} md="3" controlId="validationCustom02">
+              <label htmlFor="validationCustom02" className="bootstraplabel">
+                Project Deadline
+              </label>
+              <Form.Control
+                className="input"
+                required
+                type="date"
+                name="endDate"
+                onChange={change}
+                placeholder="Enter Your DeadLine"
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group as={Col} md="3" controlId="validationCustom04">
@@ -294,7 +293,7 @@ function AddProjectForm() {
               </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="3" controlId="validationCustom10">
+            {/* <Form.Group as={Col} md="3" controlId="validationCustom10">
               <label className="bootstraplabel" htmlFor="validationCustom09">
                 Completion Status in %
               </label>
@@ -308,7 +307,7 @@ function AddProjectForm() {
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Completion Status.
               </Form.Control.Feedback>
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group as={Col} md="3" controlId="validationCustom11">
               <label htmlFor="validationCustom08" className="bootstraplabel">
@@ -341,8 +340,6 @@ function AddProjectForm() {
                 Please provide a valid Link.
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <Row className="mb-3">
             <Form.Group as={Col} md="3" controlId="validationCustom13">
               <label htmlFor="validationCustom08" className="bootstraplabel">
                 Remarks
@@ -358,35 +355,8 @@ function AddProjectForm() {
                 Please provide remarks.
               </Form.Control.Feedback>
             </Form.Group>
-
-            <Form.Group as={Col} md="3" controlId="validationCustom14">
-              <label htmlFor="validationCustom08" className="bootstraplabel">
-                Prerequsites/Technologies
-              </label>
-              <Form.Control
-                type="text"
-                name="prerequsites"
-                onChange={change}
-                placeholder="Enter Technologies"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide remarks.
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group as={Col} md="3" controlId="validationCustom15">
-              <label className="bootstraplabel" htmlFor="validationCustom04">
-                Description
-              </label>
-              <Form.Control
-                required
-                type="textarea"
-                name="description"
-                onChange={change}
-                placeholder="Enter Your Description"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
+          </Row>
+          <Row className="mb-3">
             <Form.Group as={Col} md="3" controlId="validationCustom17">
               <label htmlFor="validationCustom17" className="bootstraplabel">
                 Priority
@@ -404,53 +374,48 @@ function AddProjectForm() {
               </Form.Select>
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
-          </Row>
-          <div>
-            <div className="container">
-              <div className="row">
-                <div className="col-3 p-0">
-                  <div className="add-project-container">
-                    <label className="bootstraplabel">Team Members</label>
-                    <div className="responsible-person-input">
-                      <Select
-                        multi
-                        options={options}
-                        onChange={(selectedOptions) =>
-                          handleSelect(selectedOptions, "teamMembers")
-                        }
-                        placeholder="+Add"
-                        addPlaceholder="+Add"
-                        keepSelectedInList={true}
-                        value={teamMembers}
-                        dropdownHandle={true}
-                        className="select-multiple-inputs"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-3 p-0">
-                  <div className="add-project-container">
-                    <label className="bootstraplabel">Project Manager</label>
-                    <div className="responsible-person-input">
-                      <Select
-                        multi
-                        options={options1}
-                        onChange={(selectedOptions) =>
-                          handleSelect(selectedOptions, "managers")
-                        }
-                        placeholder="+Add"
-                        addPlaceholder="+Add"
-                        keepSelectedInList={true}
-                        value={managers}
-                        dropdownHandle={true}
-                        className="select-multiple-inputs"
-                      />
-                    </div>
-                  </div>
+            <div className="col-3 p-0">
+              <div className="add-project-container">
+                <label className="bootstraplabel">Team Members</label>
+                <div className="responsible-person-input">
+                  <Select
+                    multi
+                    options={options}
+                    onChange={(selectedOptions) =>
+                      handleSelect(selectedOptions, "teamMembers")
+                    }
+                    placeholder="+Add"
+                    addPlaceholder="+Add"
+                    keepSelectedInList={true}
+                    value={teamMembers}
+                    dropdownHandle={true}
+                    className="select-multiple-inputs"
+                  />
                 </div>
               </div>
             </div>
-          </div>
+            <div className="col-3 p-0">
+              <div className="add-project-container">
+                <label className="bootstraplabel">Project Manager</label>
+                <div className="responsible-person-input">
+                  <Select
+                    multi
+                    options={options1}
+                    onChange={(selectedOptions) =>
+                      handleSelect(selectedOptions, "managers")
+                    }
+                    placeholder="+Add"
+                    addPlaceholder="+Add"
+                    keepSelectedInList={true}
+                    value={managers}
+                    dropdownHandle={true}
+                    className="select-multiple-inputs"
+                  />
+                </div>
+              </div>
+            </div>
+          </Row>
+
           <div className="text-center">
             <Button type="submit" className="mt-5">
               Add Project

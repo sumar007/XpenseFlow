@@ -78,7 +78,9 @@ const SuperadminLogin = () => {
               title: data.message,
             });
             sessionStorage.setItem("token", data.token);
-            sessionStorage.setItem("role", role);
+            sessionStorage.setItem("role", "superadmin");
+            sessionStorage.setItem("role1", "superadmin");
+
             navigate("/superhome");
 
             // localStorage.setItem("role", data.role);

@@ -123,13 +123,15 @@ function EmployeePanel() {
           >
             Add Time Sheet
           </MenuItem>
+          {role === "manager" && (
+            <MenuItem
+              icon={<MdOutlineDensitySmall />}
+              onClick={() => setActive("allprojects")}
+            >
+              All Projects
+            </MenuItem>
+          )}
 
-          <MenuItem
-            icon={<MdOutlineDensitySmall />}
-            onClick={() => setActive("allprojects")}
-          >
-            All Projects
-          </MenuItem>
           {role === "manager" && (
             <MenuItem
               icon={<GrProjects />}
