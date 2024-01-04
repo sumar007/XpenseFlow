@@ -1,46 +1,52 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const TimeSheetSchema = new mongoose.Schema({
-    employeeId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee'
-      },
-      managerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Manager'
-      },
+  employeeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+  },
+  managerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Manager",
+  },
   approvalStatus: {
     type: String,
-    enum: ['pending', 'approved', 'rejected'],
-    default: 'pending',
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
   },
-  weekStartingDate: Date,
-  weekEndingDate: Date,
+  weekStartingDate: String,
+  weekEndingDate: String,
   projects: [
     {
       projectName: String,
-      tasks: [
-        {
-          taskName: String,
-          Monday: Number,
-          Tuesday: Number,
-          Wednesday: Number,
-          Thursday: Number,
-          Friday: Number,
-          Saturday: Number,
-          Sunday: Number,
-          totalHours: {
-            type: Number,
-            default: function () {
-              return this.Monday + this.Tuesday + this.Wednesday + this.Thursday + this.Friday + this.Saturday + this.Sunday;
-            }
-          }
-        }
-      ]
-    }
-  ]
+      tasks: {
+        taskName: String,
+        Monday: Number,
+        Tuesday: Number,
+        Wednesday: Number,
+        Thursday: Number,
+        Friday: Number,
+        Saturday: Number,
+        Sunday: Number,
+        totalHours: {
+          type: Number,
+          default: function () {
+            return (
+              this.Monday +
+              this.Tuesday +
+              this.Wednesday +
+              this.Thursday +
+              this.Friday +
+              this.Saturday +
+              this.Sunday
+            );
+          },
+        },
+      },
+    },
+  ],
 });
 
-const TimeSheet = mongoose.model('TimeSheet', TimeSheetSchema);
+const TimeSheet = mongoose.model("TimeSheet", TimeSheetSchema);
 
 export default TimeSheet;

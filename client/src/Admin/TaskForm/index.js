@@ -23,57 +23,103 @@ function CreateTask() {
   const [responsiblePersons, setResponsiblePersons] = useState([]);
   const [observersPersons, setObserversPersons] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const token = Cookies.get("jwtToken");
+  //     const options = {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     const api = `http://localhost:3009/api/v1/employeelist`;
+  //     try {
+  //       const response = await fetch(api, options);
+
+  //       if (!response.ok) {
+  //         throw new Error(`Request failed with status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       console.log(data.results);
+  //       setEmployees(data.results);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   const fetchProjectdata = async () => {
+  //     const token = Cookies.get("jwtToken");
+  //     const options = {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     };
+  //     const api = `http://localhost:3009/api/v1/getprojectlist`;
+  //     try {
+  //       const response = await fetch(api, options);
+
+  //       if (!response.ok) {
+  //         throw new Error(`Request failed with status: ${response.status}`);
+  //       }
+
+  //       const data = await response.json();
+  //       console.log(data.results);
+  //       setProjects(data.results);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  //   fetchProjectdata();
+  // }, []);
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get("jwtToken");
+      const token = sessionStorage.getItem("token");
       const options = {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = `http://localhost:3009/api/v1/employeelist`;
+      const api = "http://localhost:3009/api/v1/getemployees";
       try {
         const response = await fetch(api, options);
-
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
-
         const data = await response.json();
-        console.log(data.results);
-        setEmployees(data.results);
+        setEmployees(data.employees);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
-    const fetchProjectdata = async () => {
-      const token = Cookies.get("jwtToken");
+    const fetchprojects = async () => {
+      const token = sessionStorage.getItem("token");
       const options = {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-      const api = `http://localhost:3009/api/v1/getprojectlist`;
+      const api = "http://localhost:3009/api/v1/getprojectlist";
       try {
         const response = await fetch(api, options);
-
         if (!response.ok) {
           throw new Error(`Request failed with status: ${response.status}`);
         }
-
         const data = await response.json();
-        console.log(data.results);
-        setProjects(data.results);
+        setProjects(data);
+        console.log(data,"projects")
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
+    fetchprojects();
     fetchData();
-    fetchProjectdata();
   }, []);
 
   const options = employees.map((employee) => ({

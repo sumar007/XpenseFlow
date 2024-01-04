@@ -23,7 +23,7 @@ import EmployeeDetail from "../EmployeeDetail";
 
 function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [active, setActive] = useState("alltasks");
+  const [active, setActive] = useState("allprojects");
   const [projectId, setProjectId] = useState();
   const [logoImageUrl, setLogoImageUrl] = useState("");
   const [employeeId, setEmployeeId] = useState("");
@@ -31,19 +31,16 @@ function UserPanel1() {
 
   const handleLogout = () => {
     // Remove cookies here
-    Cookies.remove("jwtToken");
-    Cookies.remove("wiseid");
-    Cookies.remove("wiseemplyid");
-    Cookies.remove("role");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("token");
 
     // Navigate to login page
-    navigate("/login");
+    navigate("/adminlogin");
   };
 
-  const setUpdateProjectId = async (id) => {
-    await setProjectId(id);
-    console.log("project id", id, "gggg");
-    await setActive("projectview");
+  const setUpdateProjectId = (id) => {
+    setProjectId(id);
+    setActive("projectview");
   };
 
   const setUpdateEmployeeId = (id) => {
@@ -113,12 +110,6 @@ function UserPanel1() {
           <div className="hamburger-icon">
             <GiHamburgerMenu onClick={() => setIsCollapsed(!isCollapsed)} />
           </div>
-          <MenuItem
-            icon={<MdAssignmentAdd />}
-            onClick={() => setActive("alltasks")}
-          >
-            Add Tasks
-          </MenuItem>
 
           <MenuItem
             icon={<MdOutlineDensitySmall />}
@@ -165,7 +156,6 @@ function UserPanel1() {
       <div style={{ width: "100%" }}>
         <UserNavbar />
 
-        {active === "alltasks" && <TimeSheetForm />}
         {active === "allprojects" && (
           <ProjectsTable getProjectId={setUpdateProjectId} />
         )}

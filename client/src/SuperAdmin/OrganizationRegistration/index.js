@@ -152,13 +152,13 @@ const OrganizationForm = ({ setUpdate }) => {
               />
             </div>
             <div className="organization-form-input-container">
-              <label className="organization-form-label-name">City</label>
+              <label className="organization-form-label-name">Country</label>
               <input
                 type="text"
                 className="organization-form-input-text"
-                value={formData.city}
-                name="city"
-                placeholder="Ex: Hyderbad, Bangalore"
+                value={formData.country}
+                name="country"
+                placeholder="Ex:India"
                 onChange={handleInputChange}
                 required
               />
@@ -178,17 +178,18 @@ const OrganizationForm = ({ setUpdate }) => {
               />
             </div>
             <div className="organization-form-input-container">
-              <label className="organization-form-label-name">Country</label>
+              <label className="organization-form-label-name">City</label>
               <input
                 type="text"
                 className="organization-form-input-text"
-                value={formData.country}
-                name="country"
-                placeholder="Ex:India"
+                value={formData.city}
+                name="city"
+                placeholder="Ex: Hyderbad, Bangalore"
                 onChange={handleInputChange}
                 required
               />
             </div>
+
             <div className="organization-form-input-container">
               <label className="organization-form-label-name">Address</label>
               <input

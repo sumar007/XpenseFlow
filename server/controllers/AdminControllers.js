@@ -41,20 +41,50 @@ export const AdminLogin = async (req, res) => {
         }
       );
     }
+
+    let user;
+    user = await Organization.findOne({ companyEmail });
+
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(400).json({ message: "Incorrect password" });
+      }
+      // Create a JWT token with user payload
+      const payload = {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+      };
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: "72h" },
+        (err, token) => {
+          if (err) {
+            throw err;
+          }
+          res
+            .status(200)
+            .json({ message: "Login successful", token, role: "Admin" });
+        }
+      );
+    }
     if (!user) {
       const user1 = await Employee.findOne({ email });
       if (!user1) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      console.log(user1.password, "password");
       // if (!user.isVerified) {
       //   return res.status(400).json({
       //     message: "User not verified. Check your email for verification.",
       //   });
       // }
       const isMatch = await bcrypt.compare(password, user1.password);
-      console.log(isMatch);
+
       if (!isMatch) {
         return res.status(400).json({ message: "Incorrect password" });
       }
@@ -80,6 +110,10 @@ export const AdminLogin = async (req, res) => {
         }
       );
     }
+            .json({ message: "Login successful", token, role: user1.roleName });
+        }
+      );
+    }
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -88,7 +122,6 @@ export const AdminLogin = async (req, res) => {
 
 export const createUserRole = async (req, res) => {
   try {
-    console.log(req.Admin._id, "admin called by user role");
     const { RoleName } = req.body;
 
     const userRole = new UserRole({
@@ -111,6 +144,7 @@ export const createUserRole = async (req, res) => {
 export const getUserRolesByOrganizationId = async (req, res) => {
   try {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
+    const userRoles = await UserRole.find();
     const userRoles = await UserRole.find();
 
     res.status(200).json({ userRoles });
@@ -183,10 +217,12 @@ export const AddEmployee = async (req, res) => {
       address,
       phoneNumber,
     } = req.body;
-    console.log(roleId, "roleid");
+
     // Assuming you have the UserRole model imported
     const role = await UserRole.findOne({ _id: roleId });
     console.log(role);
+    const role = await UserRole.findOne({ _id: roleId });
+
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
@@ -227,7 +263,6 @@ export const getEmployeesByOrganizationId = async (req, res) => {
     const organizationId = req.Admin._id; // Assuming organizationId is a route parameter
 
     const employees = await Employee.find({ organizationId });
-
     res.status(200).json({ employees });
   } catch (error) {
     console.error(error);
@@ -238,7 +273,7 @@ export const getEmployeesByOrganizationId = async (req, res) => {
 export const getSpecificEmployeeDetails = CatchAsyncError(async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
+
     const employee = await Employee.findById(id);
 
     if (employee) {
@@ -256,7 +291,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
   const organizationId = req.Admin._id;
   try {
     const _id = req.params.id;
-    console.log(_id, "id called");
+
     const {
       email,
       fullName,
@@ -267,9 +302,9 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
       employeeID,
       socialMediaProfile,
     } = req.body;
-    console.log("employeupdate called", req.body);
+
     const role = await UserRole.findOne({ _id: roleId, organizationId });
-    console.log(role);
+
     if (!role) {
       return res.status(400).json({ message: "Invalid roleId" });
     }
@@ -295,7 +330,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
       },
       { new: true }
     );
-    console.log(updatedEmployee);
+
     res.json({
       success: true,
       message: "Employee details updated successfully",
@@ -314,7 +349,7 @@ export const updateEmployeeDetails = CatchAsyncError(async (req, res) => {
 export const updateStatusOfEmployee = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
-  console.log("update subscription called");
+
   try {
     const employee = await Employee.findByIdAndUpdate(
       id,
@@ -334,7 +369,7 @@ export const updateStatusOfEmployee = async (req, res) => {
 export const deleteEmployee = async (req, res) => {
   const { id } = req.params;
   const { active } = req.body;
-  console.log("update subscription called");
+
   try {
     const employee = await Employee.findByIdAndUpdate(
       id,
@@ -396,12 +431,35 @@ export const AddProject = async (req, res) => {
     });
     const savedProject = await newProject.save();
     console.log(savedProject);
+
     res.json(savedProject);
   } catch (error) {
     console.error("Error adding project:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getAllProjects = async (req, res) => {
+  try {
+    const projects = await Project.find();
+
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+//get all projects
+// export const getAllProjects = async (req, res) => {
+//   try {
+//     const projects = await Project.find();
+//     res.json(projects);
+//   } catch (error) {
+//     console.error("Error fetching projects:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// }
 
 export const getSpecificProjectDetails = async (req, res) => {
   try {

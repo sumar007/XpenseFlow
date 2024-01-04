@@ -19,18 +19,6 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 const handleDeleteClick = () => {};
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 14 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 31 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 31 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 11 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
-
 const getSelectedRowsToExport = ({ apiRef }) => {
   const selectedRowIds = selectedGridRowsSelector(apiRef);
   if (selectedRowIds.size > 0) {
@@ -100,14 +88,12 @@ function OrganizationList({ setOrganizationId }) {
         throw new Error(`Request failed with status: ${response.status}`);
       }
 
-
       await response.json();
       fetchData();
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
-
 
   const fetchData = async () => {
     try {
@@ -136,15 +122,6 @@ function OrganizationList({ setOrganizationId }) {
   }, []);
 
   const columns = [
-    {
-      field: "_id",
-      headerName: "ID",
-      minWidth: 90,
-      headerClassName: "super-app-theme--header",
-      align: "center",
-      headerAlign: "center",
-      flex: 1,
-    },
     {
       field: "organizationName",
       headerName: "Organization Name",

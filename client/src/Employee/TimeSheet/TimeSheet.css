@@ -1,0 +1,131 @@
+.time-sheet-main-container {
+  width: 100%;
+}
+.time-sheet-heading {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+  font-size: 22px;
+  margin: 5px;
+}
+
+.table-header {
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+  width: 9%;
+  background-color: #b7efee;
+}
+
+.week-nav-main-container {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  gap: 10px;
+  margin-left: 30px;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-button {
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+.table-container {
+  max-width: 100%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the table */
+  overflow-x: auto; /* Enable horizontal scroll if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.table-input {
+  width: 50%;
+}
+
+.table-select-head {
+  width: 15%;
+}
+
+.table-select {
+  width: 95%;
+}
+
+.time-sheet-hours-input {
+  text-align: center;
+}
+
+.week-change-button {
+  height: 25px;
+  width: 25px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.add-time-sheet-button {
+  background-color: transparent;
+  color: black;
+  padding: 8px 20px;
+  border: 3px #4f46e5 solid;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.time-sheet-submit-button {
+  width: max-content;
+  background-color: #4f46e5;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+  border: none;
+  border-width: 0px;
+  outline: none;
+  margin: 15px;
+}
+
+.overall-totals-cell {
+  width: 33%;
+}
+.overall-hours-input {
+  width: 9%;
+}
+
+.overall-table-container {
+  width: 100%; /* Adjust this value as needed */
+  margin: 0 auto; /* Center the table */
+  overflow-x: auto; /* Enable horizontal scroll if needed */
+  display: flex;
+  justify-content: center;
+}
+
+.tables-holding-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 60vh;
+}
+
+.overall-totals-cell {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.time-sheet-submit-button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

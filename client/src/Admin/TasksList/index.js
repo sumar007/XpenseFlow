@@ -149,7 +149,7 @@ function TasksTable() {
       },
     };
     const fetchData = async () => {
-      const api = "http://localhost:3009/api/v1/gettasks";
+      const api = "http://localhost:3009/api/v1/getprojectlist";
       try {
         const response = await fetch(api, options);
 

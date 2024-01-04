@@ -76,8 +76,9 @@ export const addTimeSheet = async (req, res) => {
 };
 
 export const getTimeSheets = async (req, res) => {
+  const employeeId = req.user._id;
+  console.log(employeeId);
   try {
-    const { employeeId } = req.params;
     // Fetch time sheets for the specific employee without populating managerId
     const employeeTimeSheets = await TimeSheet.find({ employeeId });
 
@@ -103,37 +104,26 @@ export const getTimeSheets = async (req, res) => {
   }
 };
 
-export const getUserInfo = async (req, res) => {
+export const getEmployeesByManager = async (req, res) => {
   try {
-    const userId = req.user._id;
-    console.log(userId);
-    // Assuming you have a User model defined using some ORM or database library
-    const user = await Employee.findById(userId);
-    console.log(user, "user");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    // Assuming you want to fetch additional information related to the user (e.g., organization)
-    // const organization = await Organization.findById(user.organizationId);
-    // console.log(organization, "organization");
-    // if (!organization) {
-    //   return res
-    //     .status(404)
-    //     .json({ message: "Organization not found for the user" });
-    // }
-    // const combinedDetails = {
-    //   ...user,
-    //   organizationName: organization.organizationName,
-    // };
+    const { organizationId } = req.params; // Assuming organizationId is in the request parameters
 
-    res.json({
-      success: true,
-      message: "Fetched user details",
-      data: user,
-    });
+    const employees = await Employee.find({ organizationId });
+
+    res.status(200).json({ employees });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Failed to fetch user details", error: error.message });
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//fetching organizationid
+export const getOrganizationIds = async (req, res) => {
+  try {
+    const organizationIds = await Employee.distinct("organizationId");
+    res.json(organizationIds);
+  } catch (error) {
+    console.error("Error fetching organization IDs:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -32,6 +32,9 @@ import ProtectedRoute from "./SuperAdmin/SuperAdminProtectedRoute/SuperAdminProt
 import EmployeeDetail from "./Admin/EmployeeDetail/index.js";
 import TimeSheetForm from "./Admin/AddTimeSheet/index.js";
 import UserPanel1 from "./Admin/UserPanel/index.js";
+import EmployeePanel from "./Employee/EmployeePanel/EmployeePanel.js";
+import TimeSheet from "./Employee/TimeSheet/TimeSheet.js";
+import AdminProtectedRoute from "./Admin/AdminProtectedRoute/AdminProtectedRoute.js";
 
 function App() {
   return (
@@ -56,20 +59,35 @@ function App() {
       />
 
       <Route path="/TimeSheetForm" element={<TimeSheetForm />} />
-      <Route path="/employeedetail/:id" element={<EmployeeDetail />} />
-
-      <Route path="/addrole" element={<UserRoleForm />} />
-      <Route path="/adminpanel" element={<AdminPanel />} />
-      <Route path="/adminlogin" element={<AdminLogin />} />
+      <Route
+        path="/addrole"
+        element={
+          <ProtectedRoute>
+            {" "}
+            <UserRoleForm />{" "}
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/adminpannel"
+        element={
+          <AdminProtectedRoute>
+            <AdminPanel />
+          </AdminProtectedRoute>
+        }
+      />
+      <Route
+        path="/adminlogin"
+        element={
+          <AdminProtectedRoute>
+            <AdminLogin />{" "}
+          </AdminProtectedRoute>
+        }
+      />
+      <Route path="/superadminverify" element={<SuperadminVerify />} />
+      <Route path="/timesheet" element={<TimeSheet />} />
+      <Route path="/employeepanel" element={<EmployeePanel />} />
       <Route path="/superSignup" element={<SuperadminSignup />} />
-      <Route
-        path="/subscriptionViewDetail/:id"
-        element={<SubscriptionDetailView />}
-      />
-      <Route
-        path="/organizationViewDetail/:id"
-        element={<OrganizationViewDetail />}
-      />
       <Route path="/super-forgot" element={<SuperForgotPassword />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/pricing" element={<Pricing />} />

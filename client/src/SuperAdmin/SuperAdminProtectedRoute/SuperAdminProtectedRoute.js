@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
     const role = sessionStorage.getItem("role");
     const token = sessionStorage.getItem("token");
 
-    if (token && role) {
+    if (token && role === "superadmin") {
       navigate("/superhome");
     } else {
       navigate("/superlogin");

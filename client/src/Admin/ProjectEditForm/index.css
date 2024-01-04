@@ -1,0 +1,92 @@
+.project-edit-totalContainer {
+  font-family: "Roboto";
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.project-edit-formContainer {
+  padding: 10px;
+  width: 98%;
+}
+
+.project-edit-heading {
+  font-family: "Roboto";
+  font-weight: bold;
+  color: #4254f5;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.project-edit-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 5px;
+}
+.project-edit-input {
+  border: 1px solid black !important;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.project-edit-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.project-edit-button {
+  width: 30%;
+  background-color: transparent;
+  color: black;
+  padding: 8px 20px;
+  border: 3px #4f46e5 solid;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.project-edit-button:hover {
+  border: 3px #4f46e5 solid;
+  color: white;
+  background-color: #4f46e5;
+  transition: 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+  .project-edit-button {
+    width: 70%;
+    background-color: transparent;
+    color: black;
+    padding: 8px 20px;
+    border: 3px #4f46e5 solid;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+  }
+
+  .project-edit-button:hover {
+    border: 3px #4f46e5 solid;
+    color: white;
+    background-color: #4f46e5;
+    transition: 0.3s ease-in-out;
+  }
+
+  .project-edit-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+}
