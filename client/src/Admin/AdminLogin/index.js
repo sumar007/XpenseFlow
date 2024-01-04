@@ -59,7 +59,7 @@ const AdminLogin = () => {
             sessionStorage.setItem("token", data.token);
             sessionStorage.setItem("role", data.role);
             if (data.role === "Admin") {
-              navigate("/adminpanel");
+              navigate("/adminpannel");
             }
             // else if (data.role === "manager") {
             //   navigate("/UserPanel");

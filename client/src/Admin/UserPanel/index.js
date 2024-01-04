@@ -23,7 +23,7 @@ import EmployeeDetail from "../EmployeeDetail";
 
 function UserPanel1() {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [active, setActive] = useState("alltasks");
+  const [active, setActive] = useState("allprojects");
   const [projectId, setProjectId] = useState();
   const [logoImageUrl, setLogoImageUrl] = useState("");
   const [employeeId, setEmployeeId] = useState("");
@@ -110,12 +110,6 @@ function UserPanel1() {
           <div className="hamburger-icon">
             <GiHamburgerMenu onClick={() => setIsCollapsed(!isCollapsed)} />
           </div>
-          <MenuItem
-            icon={<MdAssignmentAdd />}
-            onClick={() => setActive("alltasks")}
-          >
-            Add Tasks
-          </MenuItem>
 
           <MenuItem
             icon={<MdOutlineDensitySmall />}
@@ -162,7 +156,6 @@ function UserPanel1() {
       <div style={{ width: "100%" }}>
         <UserNavbar />
 
-        {active === "alltasks" && <TimeSheetForm />}
         {active === "allprojects" && (
           <ProjectsTable getProjectId={setUpdateProjectId} />
         )}

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Toast from "../../components/utlis/toast";
+import {
+  IoIosArrowDroprightCircle,
+  IoIosArrowDropleftCircle,
+} from "react-icons/io";
+import "./TimeSheet.css";
 
 const TimeSheet = () => {
   const days = ["Mon", "Tue", "Wed", "Thurs", "Fri", "Sat", "Sun"];
@@ -119,6 +124,17 @@ const TimeSheet = () => {
           (eachTimeSheet) =>
             formattedStartDate === eachTimeSheet.weekStartingDate
         );
+
+        if (filteredTimeSheets.length === 0) {
+          setData([
+            {
+              project: projects[0],
+              task: "",
+              hours: [0, 0, 0, 0, 0, 0, 0],
+              total: 0,
+            },
+          ]);
+        }
 
         const inputDataArray = filteredTimeSheets[0].projects;
         const convertedArray = convertArrayOfObjects(inputDataArray);
@@ -253,99 +269,222 @@ const TimeSheet = () => {
     }
   };
 
+  const overallTotals = data.reduce((acc, item) => {
+    item.hours.forEach((hour, index) => {
+      acc[index] = (acc[index] || 0) + hour;
+    });
+    return acc;
+  }, new Array(7).fill(0));
+
+  const overUnder = overallTotals.map((total, index) => {
+    // Ignore Saturday (index 5) and Sunday (in dex 6)
+    if (index === 5 || index === 6) return 0;
+    return total - 8;
+  });
+
+  const billableHours = overallTotals.map((total, index) => {
+    // Ensure to consider only weekdays for billable hours
+    if (index === 5 || index === 6) return 0;
+    return total >= 8 ? 8 : total;
+  });
+
+  // Calculate total overall, over/under, and billable hours
+  const totalOverall = overallTotals.reduce((acc, total) => acc + total, 0);
+  const totalOverUnder = overUnder.reduce((acc, diff) => acc + diff, 0);
+  const totalBillable = billableHours.reduce(
+    (acc, billable) => acc + billable,
+    0
+  );
+
+  // const handleLeaveOrHoliday = (itemIndex, dayIndex, type) => {
+  //   const updatedData = [...data];
+  //   updatedData[itemIndex].isLeaveOrHoliday[dayIndex] = true;
+  //   // Additional logic based on 'type' (leave/holiday) can be added here
+  //   setData(updatedData);
+  // };
+
   const tableSelect = {
     width: "95%",
   };
 
   return (
-    <div style={{ width: "100%" }} className="time-sheet-main-container">
-      <h4 style={{ textAlign: "center" }} className="time-sheet-heading">
-        Add Time Sheet
-      </h4>
-      <div className="week-nav">
-        <button onClick={handlePreviousWeek} className="nav-button ">
-          &lt;
+    <div className="time-sheet-main-container">
+      <h4 className="time-sheet-heading">Add Time Sheet</h4>
+      <div className="week-nav-main-container">
+        <button className="add-time-sheet-button" onClick={handleAddRow}>
+          Add Row
         </button>
-        <div>{formattedDate(startDate)}</div>
-        <button onClick={handleNextWeek} className="nav-button ">
-          &gt;
-        </button>
-      </div>
-      <div className="table-container">
-        <table style={{ width: "95%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr>
-              <th className="table-select-head ">Project</th>
-              <th className="table-select-head ">Task</th>
-              {days.map((day, index) => (
-                <th key={day} className="table-header">
-                  {day}
-                  <br />
-                  {formattedDayDate(
-                    new Date(
-                      startDate.getFullYear(),
-                      startDate.getMonth(),
-                      startDate.getDate() + index
-                    )
-                  )}
-                </th>
-              ))}
-              <th className="table-header">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index}>
-                <td>
-                  <select
-                    value={item.project}
-                    className="table-select "
-                    onChange={(e) => {
-                      const updatedData = [...data];
-                      updatedData[index].project = e.target.value;
+        <div className="week-nav">
+          <IoIosArrowDropleftCircle
+            className="week-change-button"
+            onClick={handlePreviousWeek}
+          />
 
-                      setData(updatedData);
-                    }}
-                  >
-                    {projects.map((option, optionIndex) => (
-                      <option key={optionIndex} value={option.projectName}>
-                        {option.projectName}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    value={item.task}
-                    style={tableSelect}
-                    onChange={(e) => {
-                      const updatedData = [...data];
-                      updatedData[index].task = e.target.value;
-                      setData(updatedData);
-                    }}
-                  />
-                </td>
-                {item.hours.map((hour, dayIndex) => (
-                  <td key={dayIndex}>
+          <div>{formattedDate(startDate)}</div>
+          <IoIosArrowDroprightCircle
+            className="week-change-button"
+            onClick={handleNextWeek}
+          />
+        </div>
+      </div>
+      <div className="tables-holding-container">
+        <div className="table-container">
+          <table style={{ width: "95%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr>
+                <th className="table-select-head ">Project</th>
+                <th className="table-select-head ">Task</th>
+                {days.map((day, index) => (
+                  <th key={day} className="table-header">
+                    {day}
+                    <br />
+                    {formattedDayDate(
+                      new Date(
+                        startDate.getFullYear(),
+                        startDate.getMonth(),
+                        startDate.getDate() + index
+                      )
+                    )}
+                  </th>
+                ))}
+                <th className="table-header">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index}>
+                  <td>
+                    <select
+                      value={item.project}
+                      className="table-select "
+                      onChange={(e) => {
+                        const updatedData = [...data];
+                        updatedData[index].project = e.target.value;
+
+                        setData(updatedData);
+                      }}
+                    >
+                      {projects.map((option, optionIndex) => (
+                        <option key={optionIndex} value={option.projectName}>
+                          {option.projectName}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>
                     <input
-                      type="number"
-                      value={hour}
-                      className="table-input"
-                      onChange={(e) =>
-                        handleHoursChange(index, dayIndex, e.target.value)
-                      }
+                      type="text"
+                      value={item.task}
+                      style={tableSelect}
+                      onChange={(e) => {
+                        const updatedData = [...data];
+                        updatedData[index].task = e.target.value;
+                        setData(updatedData);
+                      }}
                     />
                   </td>
+                  {/* {item.hours.map((hour, dayIndex) => (
+                  <td key={dayIndex} className="time-sheet-hours-input">
+                    {item.isLeaveOrHoliday[dayIndex] ? (
+                      <div
+                        className="leave-holiday-column"
+                        style={{ backgroundColor: "lightgray" }}
+                      >
+                        Leave/Holiday
+                      </div>
+                    ) : (
+                      <div>
+                        <input
+                          type="number"
+                          value={hour}
+                          className="table-input"
+                          onChange={(e) =>
+                            handleHoursChange(index, dayIndex, e.target.value)
+                          }
+                        />
+                        <div>
+                          <button
+                            onClick={() =>
+                              handleLeaveOrHoliday(index, dayIndex, "leave")
+                            }
+                            disabled={item.isLeaveOrHoliday[dayIndex]}
+                          >
+                            Leave
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleLeaveOrHoliday(index, dayIndex, "holiday")
+                            }
+                            disabled={item.isLeaveOrHoliday[dayIndex]}
+                          >
+                            Holiday
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </td>
+                ))} */}
+                  {item.hours.map((hour, dayIndex) => (
+                    <td key={dayIndex} className="time-sheet-hours-input">
+                      <input
+                        type="number"
+                        value={hour}
+                        className="table-input"
+                        onChange={(e) =>
+                          handleHoursChange(index, dayIndex, e.target.value)
+                        }
+                      />
+                    </td>
+                  ))}
+                  <td className="time-sheet-hours-input">{item.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="overall-table-container">
+          <table style={{ width: "95%", borderCollapse: "collapse" }}>
+            <tbody>
+              <tr>
+                <td className="overall-totals-cell">Overall Totals</td>
+                {overallTotals.map((total, index) => (
+                  <td key={index} className="overall-hours-input">
+                    {total}
+                  </td>
                 ))}
-                <td>{item.total}</td>
+                <td className="overall-hours-input">{totalOverall}</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              <tr>
+                <td className="overall-totals-cell">Over/ Under</td>
+                {overUnder.map((difference, index) => (
+                  <td key={index} className="overall-hours-input">
+                    {index === 5 || index === 6 ? "-" : difference}
+                  </td>
+                ))}
+                <td className="overall-hours-input">{totalOverUnder}</td>
+              </tr>
+              <tr>
+                <td className="overall-totals-cell">Billable Hours</td>
+                {billableHours.map((billable, index) => (
+                  <td key={index} className="overall-hours-inputt">
+                    {index === 5 || index === 6 ? "-" : billable}
+                  </td>
+                ))}
+                <td className="overall-hours-input">{totalBillable}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <button onClick={handleAddRow}>Add Row</button>
-      <button onClick={() => handleSubmit()}>Submit</button>
+      <div className="time-sheet-submit-button-container">
+        <button
+          className="time-sheet-submit-button"
+          onClick={() => handleSubmit()}
+        >
+          Submit Time Sheets
+        </button>
+      </div>
     </div>
   );
 };

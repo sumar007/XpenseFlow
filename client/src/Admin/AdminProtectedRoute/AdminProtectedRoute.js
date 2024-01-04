@@ -1,24 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const ProtectedRoute = ({ children }) => {
+const AdminProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const role = sessionStorage.getItem("role");
     const token = sessionStorage.getItem("token");
 
-    if (token && role === "superadmin") {
-      navigate("/superhome");
+    if (token && role === "Admin") {
+      navigate("/adminpannel");
     } else {
-      navigate("/superlogin");
+      navigate("/adminlogin");
     }
   }, [navigate]);
 
   return children;
 };
 
-export default ProtectedRoute;
+export default AdminProtectedRoute;
 
 // Check if the route is not found and redirect to "/notfound"
 // useEffect(() => {

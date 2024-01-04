@@ -141,6 +141,83 @@ function AddEmployeeForm() {
           <Row>
             <Form.Group
               as={Col}
+              controlId="validationCustom09"
+              md="4"
+              sm="6"
+              xs="12"
+            >
+              <label
+                className="employee-add-label"
+                htmlFor="validationCustom09"
+              >
+                Full Name
+              </label>
+              <Form.Control
+                type="text"
+                name="fullName"
+                onChange={change}
+                placeholder="Enter Your Full Name"
+                required
+                className="employee-add-input"
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid name.
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                Employee ID
+              </label>
+              <Form.Control
+                type="text"
+                name="employeeID"
+                onChange={change}
+                placeholder="Enter Your Employee Id"
+                className="employee-add-input"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid Id
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group
+              as={Col}
+              md="4"
+              sm="6"
+              xs="12"
+              controlId="validationCustom08"
+            >
+              <label
+                htmlFor="validationCustom08"
+                className="employee-add-label"
+              >
+                Phone Number
+              </label>
+              <Form.Control
+                type="number"
+                name="phoneNumber"
+                onChange={change}
+                placeholder="Enter your phone number"
+                className="employee-add-input"
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please provide a valid Number.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Row className="mb-3">
+            <Form.Group
+              as={Col}
               md="4"
               sm="6"
               xs="12"
@@ -168,63 +245,13 @@ function AddEmployeeForm() {
               md="4"
               sm="6"
               xs="12"
-              controlId="validationCustom03"
-            >
-              <label
-                htmlFor="validationCustom03"
-                className="employee-add-label"
-              >
-                Password
-              </label>
-              <Form.Control
-                required
-                type="password"
-                name="password"
-                onChange={change}
-                placeholder="Enter Your Password"
-                className="employee-add-input"
-              />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group
-              as={Col}
-              controlId="validationCustom09"
-              md="4"
-              sm="6"
-              xs="12"
-            >
-              <label
-                className="employee-add-label"
-                htmlFor="validationCustom09"
-              >
-                FullName
-              </label>
-              <Form.Control
-                type="text"
-                name="fullName"
-                onChange={change}
-                placeholder="Enter Your Full Name"
-                required
-                className="employee-add-input"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid name.
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          <Row className="mb-3">
-            <Form.Group
-              as={Col}
-              md="4"
-              sm="6"
-              xs="12"
               controlId="validationCustom05"
             >
               <label
                 htmlFor="validationCustom05"
                 className="employee-add-label"
               >
-                JoinDate
+                Join Date
               </label>
               <Form.Control
                 type="date"
@@ -277,7 +304,7 @@ function AddEmployeeForm() {
                 htmlFor="validationCustom08"
                 className="employee-add-label"
               >
-                SocialMediaProfile
+                Social Media Profile
               </label>
               <Form.Control
                 type="text"
@@ -289,32 +316,6 @@ function AddEmployeeForm() {
               />
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Link.
-              </Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group
-              as={Col}
-              md="4"
-              sm="6"
-              xs="12"
-              controlId="validationCustom08"
-            >
-              <label
-                htmlFor="validationCustom08"
-                className="employee-add-label"
-              >
-                EmployeeID
-              </label>
-              <Form.Control
-                type="text"
-                name="employeeID"
-                onChange={change}
-                placeholder="Enter Your Employee Id"
-                className="employee-add-input"
-                required
-              />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid Id
               </Form.Control.Feedback>
             </Form.Group>
 
@@ -349,25 +350,23 @@ function AddEmployeeForm() {
               md="4"
               sm="6"
               xs="12"
-              controlId="validationCustom08"
+              controlId="validationCustom03"
             >
               <label
-                htmlFor="validationCustom08"
+                htmlFor="validationCustom03"
                 className="employee-add-label"
               >
-                PhoneNumber
+                Password
               </label>
               <Form.Control
-                type="number"
-                name="phoneNumber"
-                onChange={change}
-                placeholder="Enter your phone number"
-                className="employee-add-input"
                 required
+                type="password"
+                name="password"
+                onChange={change}
+                placeholder="Enter Your Password"
+                className="employee-add-input"
               />
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid Number.
-              </Form.Control.Feedback>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group
@@ -381,7 +380,7 @@ function AddEmployeeForm() {
                 htmlFor="validationCustom08"
                 className="employee-add-label"
               >
-                ProfilePic
+                Profile Pic
               </label>
               <Form.Control
                 type="file"

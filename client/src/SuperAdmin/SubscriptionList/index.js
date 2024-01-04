@@ -123,15 +123,6 @@ function SubscriptionList({ setSubscriptionDetail }) {
 
   const columns = [
     {
-      field: "_id",
-      headerName: "ID",
-      minWidth: 90,
-      headerClassName: "super-app-theme--header",
-      align: "center",
-      headerAlign: "center",
-      flex: 1,
-    },
-    {
       field: "subscriptionType",
       headerName: "Subscription Type",
       headerAlign: "center",
@@ -141,8 +132,17 @@ function SubscriptionList({ setSubscriptionDetail }) {
       flex: 1,
     },
     {
+      field: "originalprice",
+      headerName: "Original Price",
+      headerClassName: "super-app-theme--header",
+      minWidth: 150,
+      align: "center",
+      headerAlign: "center",
+      flex: 1,
+    },
+    {
       field: "mrpprice",
-      headerName: "MRP price",
+      headerName: "MRP Price",
       headerClassName: "super-app-theme--header",
       minWidth: 150,
       align: "center",

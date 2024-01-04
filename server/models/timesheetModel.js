@@ -19,32 +19,30 @@ const TimeSheetSchema = new mongoose.Schema({
   projects: [
     {
       projectName: String,
-      tasks: 
-        {
-          taskName: String,
-          Monday: Number,
-          Tuesday: Number,
-          Wednesday: Number,
-          Thursday: Number,
-          Friday: Number,
-          Saturday: Number,
-          Sunday: Number,
-          totalHours: {
-            type: Number,
-            default: function () {
-              return (
-                this.Monday +
-                this.Tuesday +
-                this.Wednesday +
-                this.Thursday +
-                this.Friday +
-                this.Saturday +
-                this.Sunday
-              );
-            },
+      tasks: {
+        taskName: String,
+        Monday: Number,
+        Tuesday: Number,
+        Wednesday: Number,
+        Thursday: Number,
+        Friday: Number,
+        Saturday: Number,
+        Sunday: Number,
+        totalHours: {
+          type: Number,
+          default: function () {
+            return (
+              this.Monday +
+              this.Tuesday +
+              this.Wednesday +
+              this.Thursday +
+              this.Friday +
+              this.Saturday +
+              this.Sunday
+            );
           },
         },
-      ],
+      },
     },
   ],
 });
